@@ -47,12 +47,60 @@ const Main = () => {
     <div className={styles.block}>
       <h1>Наши преимущества</h1>
       <div className={styles.description}>
-      Все нейросети в проекте AIO будут работать в связке друг с другом, что позволит пользователям получать полный и всесторонний набор услуг. Например, пользователь может общаться с  чат-ботом для получения советов по инвестированию и сразу же совершать необходимые операции в AIO кошельке. Таким образом, проект AIO обеспечивает пользователям удобный  и эффективный способ управления своими финансами.
+      Все нейросети в проекте AIO будут работать в связке друг с другом, что позволит пользователям получать полный и всесторонний набор услуг. Например, пользователь может общаться с чат-ботом для получения советов по инвестированию и сразу же совершать необходимые операции в AIO кошельке. Таким образом, проект AIO обеспечивает пользователям удобный и эффективный способ управления своими финансами.
       </div>
       <div className={styles.social}>
         <button className={styles.telegram}><img src={telegram} alt="tg" /></button>
         <button className={styles.twitter}><img src={twitter} alt="tw" /></button>
       </div>
+    </div>
+    </section>
+    <section className={styles.section__three}>
+    <div className={styles.block}>
+      <h1>Разработки</h1>
+      <div className={styles.developments}>
+      <div className={styles.development}>
+        <div className={styles.content}>
+          <div className={styles.describe}>
+        <h1>AIO-Chat</h1>
+        <div className={styles.about}>
+        Чат-бот использует нейронные сети для обработки естественного языка и предоставления точных ответов на различные вопросы пользователей. 
+        </div>
+        </div>
+        <button className={styles.to}>AIO-Chat</button>
+        </div>
+        <div className={styles.ellipse}></div>
+      </div>
+      <div className={styles.development}>
+      <div className={styles.content}>
+      <div className={styles.describe}>
+        <h1>AIO-Wallet</h1>
+        <div className={styles.about}>
+        Нейросеть для автоматической торговли криптовалютами, которая использует алгоритмы машинного обучения для анализа рынка криптовалют, а также для принятия решений о покупке и продаже криптовалютных активов
+        </div>
+        </div>
+        <button className={styles.to}>AIO-Wallet</button>
+        </div>
+        <div className={styles.ellipse}></div>
+      </div>
+      <div className={styles.development}>
+      <div className={styles.content}>
+      <div className={styles.describe}>
+        <h1>AIO-Invest</h1>
+        <div className={styles.about}>
+        Искусственный интеллект, который используется для помощи в инвестировании в криптовалюты путем анализа данных, обработки информации и выявления трендов на рынке
+        </div>
+        </div>
+        <button className={styles.to}>AIO-Invest</button>
+        </div>
+        <div className={styles.ellipse}></div>
+      </div>
+      </div>
+    </div>
+    </section>
+    <section className={styles.section__four}>
+    <div className={styles.block}>
+      <h1>Дорожная карта</h1>
     </div>
     </section>
     <img className={styles.arrow} src={arrow} alt="" onClick={Scroll}/>

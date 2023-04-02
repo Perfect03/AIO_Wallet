@@ -1,10 +1,18 @@
 import styles from './Main.module.scss';
 import logo from '../../assets/logo__main.svg';
+import arrow from '../../assets/arrow__down.svg';
+import telegram from '../../assets/telegram.svg';
+import twitter from '../../assets/twitter.svg'
 import React from 'react';
 
 const Main = () => {
+  const Scroll = () => {
+    window.scrollBy(0, window.innerHeight);
+  }
   return (
   <main>
+    <section className={styles.section__one}>
+      <div className={styles.ellipse}></div>
     <div className={styles.content}>
       <div className={styles.logo}>
         <div className={styles.line1}>
@@ -33,6 +41,21 @@ const Main = () => {
         Whitepaper</div></button>
       </div>
     </div>
+    <div className={styles.ellipse}></div>
+    </section>
+    <section className={styles.section__two}>
+    <div className={styles.block}>
+      <h1>Наши преимущества</h1>
+      <div className={styles.description}>
+      Все нейросети в проекте AIO будут работать в связке друг с другом, что позволит пользователям получать полный и всесторонний набор услуг. Например, пользователь может общаться с  чат-ботом для получения советов по инвестированию и сразу же совершать необходимые операции в AIO кошельке. Таким образом, проект AIO обеспечивает пользователям удобный  и эффективный способ управления своими финансами.
+      </div>
+      <div className={styles.social}>
+        <button className={styles.telegram}><img src={telegram} alt="tg" /></button>
+        <button className={styles.twitter}><img src={twitter} alt="tw" /></button>
+      </div>
+    </div>
+    </section>
+    <img className={styles.arrow} src={arrow} alt="" onClick={Scroll}/>
   </main>
   );
 };

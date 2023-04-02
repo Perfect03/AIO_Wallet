@@ -6,11 +6,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-*{
+header,main,footer {
+  background: #0F0C17;
+}
+
+* {
   margin:0;
   border:0;
   box-sizing: border-box;
-  background: #0F0C17;
 }
 *,*:before,*:after{
 -moz-box-sizing: border-box;

@@ -2,11 +2,37 @@
     color: white;
 }
 
-main {
+.arrow {
+    position: absolute;
+    bottom: 0;
+    left: calc(50% - 16px);
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.section__one {
     min-height: calc(100vh - 80px);
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    contain: layout;
+    .ellipse {
+        width: calc(100vh - 80px);
+        height: calc(100vh - 80px);
+        shape-outside: circle();
+        border-radius: 50%;
+        background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+        opacity: 0.55;
+        filter: blur(120px);
+        transform: rotate(-180deg);
+        &:first-child {
+            margin-left: calc(240px - 100vh);
+        }
+        &:last-child {
+            margin-right: calc(240px - 100vh);
+        }
+    }
     .content {
         margin: 0 auto;
         margin-bottom: 40px;
@@ -92,6 +118,49 @@ main {
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
                 }
+            }
+        }
+    }
+}
+
+.section__two {
+    padding-top: 120px;
+    padding-bottom: 150px;
+    .block {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        h1 {
+            font-weight: 500;
+            font-size: 36px;
+            line-height: 43px;
+            margin-bottom: 32px;
+        }
+        .description {
+            max-width: 883px;
+            color: #7A7B7C;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 160%;
+            text-align: center;
+        }
+        .social {
+            display: flex;
+            gap: 24px;
+            margin-top: 42px;
+            .telegram {
+                width: 52px;
+                height: 52px;
+                border-radius: 50%;
+                background: white;
+            }
+            .twitter {
+                width: 52px;
+                height: 52px;
+                border-radius: 50%;
+                background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+                box-shadow: 0px 0px 32px -2px rgba(162, 88, 212, 0.55);
             }
         }
     }

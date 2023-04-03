@@ -9,10 +9,10 @@ function App() {
   return (
     <>
       <Header />
-        <Routes>
-          <Route path="/" element={<Main/> }/>
-        </Routes>
-        <Footer />
+      <Routes>
+        <Route path="/" element={<Main />} />
+      </Routes>
+      <Footer />
     </>
   );
 }

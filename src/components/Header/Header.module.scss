@@ -1,9 +1,10 @@
 header {
     height: 80px;
+    top: -80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    transition: .25s cubic-bezier(0.645, 0.045, 0.355, 1);
     .container {
         display: flex;
         min-width: 1364px;
@@ -66,6 +67,13 @@ header {
                 line-height: 18px;
             }
         }
+    }
+    &.sticky {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: #0F0C17;
+        z-index: 5;
     }
 }
 

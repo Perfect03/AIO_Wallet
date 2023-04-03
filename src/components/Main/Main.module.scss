@@ -241,3 +241,19 @@
     }
     padding-bottom: 150px;
 }
+
+.section__four {
+    .block {
+        max-width: 1223px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 auto;
+        h1 {
+            font-weight: 500;
+            font-size: 36px;
+            line-height: 43px;
+            margin-bottom: 32px;
+        }
+    }
+}

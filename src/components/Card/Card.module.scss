@@ -1,0 +1,40 @@
+.card__container {
+    max-width: 100%;
+    .item {
+        .number {
+            font-weight: 500;
+            font-size: 36px;
+            line-height: 43px;
+        }
+        .border {
+            margin-top: 28px;
+            margin-bottom: 50px;
+            height: 2px;
+            background: white;
+            &.active {
+                background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+            }
+        }
+        .title {
+            font-weight: 700;
+            font-size: 28px;
+            line-height: 33px;
+            margin-bottom: 40px;
+        }
+        .list {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 17px;
+            margin: 0;
+            padding: 0;
+            &:not(.active) {
+                li {
+                    color: #7A7B7C;
+                }
+            }
+            li {
+                margin-top: 18px;
+            }
+        }
+    }
+}

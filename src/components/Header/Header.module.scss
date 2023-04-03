@@ -16,15 +16,9 @@ header {
             font-weight: 500;
             font-size: 15px;
             line-height: 18px;
-            color: #7A7B7C;
             li {
                 display: inline-block;
                 position: relative;
-                transition: color 0.3s;
-                &:hover {
-                    cursor: pointer;
-                    color: white;
-                }
                 &:after {
                     background-color: white;
                     display: block;
@@ -34,6 +28,17 @@ header {
                     -webkit-transition: width .3s ease-in-out;
                     -moz--transition: width .3s ease-in-out;
                     transition: width .3s ease-in-out;
+                }
+                a {
+                    color: #7A7B7C;
+                    transition: color 0.3s;
+                    &.active {
+                        color: white;
+                    }
+                    &:hover {
+                        cursor: pointer;
+                        color: white;
+                    }
                 }
             }
             li:hover:after, &:focus:after  {

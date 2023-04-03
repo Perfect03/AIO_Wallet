@@ -4,6 +4,7 @@ import arrow from '../../assets/arrow__down.svg';
 import telegram from '../../assets/telegram.svg';
 import twitter from '../../assets/twitter.svg'
 import React from 'react';
+import Card from '../Card/Card';
 
 const Main = () => {
   const Scroll = () => {
@@ -101,6 +102,7 @@ const Main = () => {
     <section className={styles.section__four}>
     <div className={styles.block}>
       <h1>Дорожная карта</h1>
+      <Card></Card>
     </div>
     </section>
     <img className={styles.arrow} src={arrow} alt="" onClick={Scroll}/>

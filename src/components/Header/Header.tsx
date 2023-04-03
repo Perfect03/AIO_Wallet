@@ -1,6 +1,7 @@
 import styles from './Header.module.scss';
 import logo from '../../assets/logo__header.svg';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -8,12 +9,12 @@ const Header = () => {
     <div className={styles.container}>
     <img src={logo} alt="AIO" />
     <ul>
-      <li>Главная</li>
-      <li>Наши преимущества</li>
-      <li>Нейросети</li>
-      <li>Дорожная карта</li>
-      <li>Токеномика</li>
-      <li>Распределение</li>
+      <li><Link to ="/" className={styles.active}>Главная</Link></li>
+      <li><Link to ="/">Наши преимущества</Link></li>
+      <li><Link to ="/">Нейросети</Link></li>
+      <li><Link to ="/">Дорожная карта</Link></li>
+      <li><Link to ="/">Токеномика</Link></li>
+      <li><Link to ="/">Распределение</Link></li>
     </ul>
     <div className={styles.right}>
     <button className={styles.button}>AIO-Wallet</button>

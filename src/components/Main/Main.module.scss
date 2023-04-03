@@ -172,71 +172,13 @@
         flex-direction: column;
         align-items: center;
         gap: 52px;
+        max-width: 1364px;
+        margin: 0 auto;
         h1 {
             font-weight: 500;
             font-size: 36px;
             line-height: 43px;
             margin-bottom: 32px;
-        }
-        .developments {
-            display: flex;
-            gap: 35px;
-            .development {
-                position: relative;
-                overflow: hidden;
-                display: flex;
-                isolation: isolate;
-                .content {
-                    background: rgba(29, 25, 37, 0.75);
-                    backdrop-filter: blur(11px);
-                    border-radius: 6px;
-                    padding: 24px 32px;
-                    height: 279px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    isolation: isolate;
-                    h1 {
-                        font-weight: 500;
-                        font-size: 24px;
-                        line-height: 28px;
-                        background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-                        background-clip: text;
-                        text-fill-color: transparent;
-                        margin-bottom: 24px;
-                    }
-                    .about {
-                        font-weight: 400;
-                        font-size: 13px;
-                        line-height: 160%;
-                        width: 321px;
-                    }
-                    .to {
-                        padding: 12px 28px;
-                        background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
-                        box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
-                        border-radius: 4px;
-                        font-weight: 500;
-                        font-size: 15px;
-                        line-height: 18px;
-                        color: white;
-                        align-self: start;
-                    }
-                }
-                .ellipse {
-                    width: 600px;
-                    height: 600px;
-                    position: absolute;
-                    background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
-                    opacity: 0.12;
-                    filter: blur(120px);
-                    transform: rotate(-180deg);
-                    left: 132px;
-                    top: -161px;
-                }
-            }
         }
     }
     padding-bottom: 150px;
@@ -244,7 +186,7 @@
 
 .section__four {
     .block {
-        max-width: 1223px;
+        max-width: 1364px;
         display: flex;
         flex-direction: column;
         align-items: center;

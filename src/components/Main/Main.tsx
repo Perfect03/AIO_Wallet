@@ -6,17 +6,16 @@ import telegram from '../../assets/telegram.svg';
 import twitter from '../../assets/twitter.svg';
 import React from 'react';
 import Card from '../Card/Card';
+import { useTranslation } from 'react-i18next';
+import { useScrollTo } from 'react-use-window-scroll';
+import Developments from '../Developments/Developments';
 
 const Main = () => {
-  const Scroll = () => {
-    window.scrollBy({
-      top: window.innerHeight,
-      behavior: 'smooth',
-    });
-  };
+  const { t } = useTranslation();
+  const Scroll = useScrollTo();
   return (
     <main>
-      <section className={styles.section__one}>
+      <section id="section1" className={styles.section__one}>
         <div className={styles.ellipse}></div>
         <div className={styles.content}>
           <div className={styles.logo}>
@@ -31,12 +30,9 @@ const Main = () => {
               <div className={styles.in}>In</div>
             </div>
           </div>
-          <div className={styles.about}>
-            Инновационный крипто-проект, представляющий из себя экосистему, которая объединяет в
-            себе сразу несколько нейросетей
-          </div>
+          <div className={styles.about}>{t('Innovative crypto-project')}</div>
           <div className={styles.buttons}>
-            <button className={styles.join}>Присоединиться</button>
+            <button className={styles.join}>{t('Join')}</button>
             <button className={styles.whitepaper}>
               <div className={styles.whitepaper__text}>Whitepaper</div>
             </button>
@@ -44,16 +40,11 @@ const Main = () => {
         </div>
         <div className={styles.ellipse}></div>
       </section>
-      <section className={styles.section__two}>
+
+      <section id="section2" className={styles.section__two}>
         <div className={styles.block}>
-          <h1>Наши преимущества</h1>
-          <div className={styles.description}>
-            Все нейросети в проекте AIO будут работать в связке друг с другом, что позволит
-            пользователям получать полный и всесторонний набор услуг. Например, пользователь может
-            общаться с чат-ботом для получения советов по инвестированию и сразу же совершать
-            необходимые операции в AIO кошельке. Таким образом, проект AIO обеспечивает
-            пользователям удобный и эффективный способ управления своими финансами.
-          </div>
+          <h1>{t('Our advantages')}</h1>
+          <div className={styles.description}>{t('All neurals')}</div>
           <div className={styles.social}>
             <button className={styles.telegram}>
               <img src={telegram} alt="tg" />
@@ -64,63 +55,24 @@ const Main = () => {
           </div>
         </div>
       </section>
-      <section className={styles.section__three}>
+
+      <section id="section3" className={styles.section__three}>
         <div className={styles.block}>
-          <h1>Разработки</h1>
-          <div className={styles.developments}>
-            <div className={styles.development}>
-              <div className={styles.content}>
-                <div className={styles.describe}>
-                  <h1>AIO-Chat</h1>
-                  <div className={styles.about}>
-                    Чат-бот использует нейронные сети для обработки естественного языка и
-                    предоставления точных ответов на различные вопросы пользователей.
-                  </div>
-                </div>
-                <button className={styles.to}>AIO-Chat</button>
-              </div>
-              <div className={styles.ellipse}></div>
-            </div>
-            <div className={styles.development}>
-              <div className={styles.content}>
-                <div className={styles.describe}>
-                  <h1>AIO-Wallet</h1>
-                  <div className={styles.about}>
-                    Нейросеть для автоматической торговли криптовалютами, которая использует
-                    алгоритмы машинного обучения для анализа рынка криптовалют, а также для принятия
-                    решений о покупке и продаже криптовалютных активов
-                  </div>
-                </div>
-                <button className={styles.to}>AIO-Wallet</button>
-              </div>
-              <div className={styles.ellipse}></div>
-            </div>
-            <div className={styles.development}>
-              <div className={styles.content}>
-                <div className={styles.describe}>
-                  <h1>AIO-Invest</h1>
-                  <div className={styles.about}>
-                    Искусственный интеллект, который используется для помощи в инвестировании в
-                    криптовалюты путем анализа данных, обработки информации и выявления трендов на
-                    рынке
-                  </div>
-                </div>
-                <button className={styles.to}>AIO-Invest</button>
-              </div>
-              <div className={styles.ellipse}></div>
-            </div>
-          </div>
+          <h1>{t('Developments')}</h1>
+          <Developments></Developments>
         </div>
       </section>
-      <section className={styles.section__four}>
+
+      <section id="section4" className={styles.section__four}>
         <div className={styles.block}>
-          <h1>Дорожная карта</h1>
+          <h1>{t('Roadmap')}</h1>
           <Card></Card>
         </div>
       </section>
-      <section className={styles.section__five}>
+
+      <section id="section5" className={styles.section__five}>
         <div className={styles.block}>
-          <h1>Токеномика и распределение</h1>
+          <h1>{t('Tok&Dist')}</h1>
           <div className={styles.statistics}>
             <img src={logoTokenomics} alt="AIO" />
             <ul>
@@ -141,7 +93,7 @@ const Main = () => {
                 <span className={styles.value}>Binance Smart Chain (BSC)</span>
               </li>
             </ul>
-            <button className={styles.join}>Присоединиться</button>
+            <button className={styles.join}>{t('Join')}</button>
           </div>
           <div className={styles.numbers}>
             <div className={styles.parametr}>
@@ -163,7 +115,12 @@ const Main = () => {
           </div>
         </div>
       </section>
-      <img className={styles.arrow} src={arrow} alt="" onClick={Scroll} />
+      <img
+        className={styles.arrow}
+        src={arrow}
+        alt=""
+        onClick={() => Scroll({ top: window.innerHeight, behavior: 'smooth' })}
+      />
     </main>
   );
 };

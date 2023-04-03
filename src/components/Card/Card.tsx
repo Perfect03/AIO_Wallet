@@ -2,78 +2,90 @@ import styles from './Card.module.scss';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
+import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 
 const Card = () => {
+  const { t } = useTranslation();
+
   const settings = {
     className: styles.active,
     dots: false,
     infinite: false,
-    speed: 1,
+    speed: 300,
     slidesToShow: 4,
-    slidesToScroll: 0.001, // если будет >4 фаз - изменить это значение на 0.25
+    slidesToScroll: 1,
     initialSlide: 0,
-    afterChange: (index: number) => {
-      setTimeout(() => {
-        setPhase(index * 1000);
-      });
-    },
   };
-  const [phase, setPhase] = useState(0);
+  const [phase, setPhase] = useState(1); // УКАЗАНИЕ ТЕКУЩЕЙ ФАЗЫ, НУМЕРАЦИЯ С НУЛЯ
   return (
     <div className={styles.card__container}>
       <Slider {...settings}>
         <div className={styles.item}>
           <h1 className={styles.number}>01</h1>
           <div className={`${styles.border} ${phase === 0 ? styles.active : ''}`}></div>
-          <div className={styles.title}>Фаза I</div>
+          <div className={styles.title}>{t('Phase')} I</div>
           <ul className={`${styles.list} ${phase === 0 ? styles.active : ''}`}>
-            <li>Создание первоначальной концепции</li>
-            <li>Разработка алгоритма AIO-Chat / AIO-Wallet</li>
-            <li>Тестирование AIO-Chat / AIO-Wallet</li>
-            <li>Запуск AIO-Chat в виде Telegram бота</li>
-            <li>Создание социальных сетей</li>
-            <li>Разработка веб-сайта</li>
-            <li>Запуск масштабного конкурса для ранних участников AIO</li>
+            <li>{t('Phase1_1')}</li>
+            <li>{t('Phase1_2')}</li>
+            <li>{t('Phase1_3')}</li>
+            <li>{t('Phase1_4')}</li>
+            <li>{t('Phase1_5')}</li>
+            <li>{t('Phase1_6')}</li>
+            <li>{t('Phase1_7')}</li>
+            <li>{t('Phase1_8')}</li>
           </ul>
         </div>
         <div className={styles.item}>
           <h1 className={styles.number}>02</h1>
           <div className={`${styles.border} ${phase === 1 ? styles.active : ''}`}></div>
-          <div className={styles.title}>Фаза II</div>
+          <div className={styles.title}>{t('Phase')} II</div>
           <ul className={`${styles.list} ${phase === 1 ? styles.active : ''}`}>
-            <li>Запуск AIO-Wallet в сети BSC в виде DAPP</li>
-            <li>Запуск амбассадор программ</li>
-            <li>Разработка алгоритма AIO-Invest</li>
-            <li>Тестирование AIO-Invest</li>
-            <li>Запуск AIO-Invest Beta в виде Telegram бота</li>
-            <li>Вторая волна рекламы</li>
-            <li>Анонс пресейла токена AIO</li>
+            <li>{t('Phase2_1')}</li>
+            <li>{t('Phase2_2')}</li>
+            <li>{t('Phase2_3')}</li>
+            <li>{t('Phase2_4')}</li>
+            <li>{t('Phase2_5')}</li>
+            <li>{t('Phase2_6')}</li>
+            <li>{t('Phase2_7')}</li>
           </ul>
         </div>
         <div className={styles.item}>
           <h1 className={styles.number}>03</h1>
           <div className={`${styles.border} ${phase === 2 ? styles.active : ''}`}></div>
-          <div className={styles.title}>Фаза III</div>
+          <div className={styles.title}>{t('Phase')} III</div>
           <ul className={`${styles.list} ${phase === 2 ? styles.active : ''}`}>
-            <li>
-              Добавление поддержки EVM сетей <br /> в AIO-Wallet
-            </li>
-            <li>Старт пресейла токена AIO</li>
-            <li>Третья волна рекламы</li>
-            <li>Добавление AIO-Chat в DAPP</li>
+            <li>{t('Phase3_1')}</li>
+            <li>{t('Phase3_2')}</li>
+            <li>{t('Phase3_3')}</li>
+            <li>{t('Phase3_4')}</li>
           </ul>
         </div>
         <div className={styles.item}>
           <h1 className={styles.number}>04</h1>
           <div className={`${styles.border} ${phase === 3 ? styles.active : ''}`}></div>
-          <div className={styles.title}>Фаза IV</div>
+          <div className={styles.title}>{t('Phase')} IV</div>
           <ul className={`${styles.list} ${phase === 3 ? styles.active : ''}`}>
-            <li>Запуск токена AIO</li>
-            <li>Листинг токена AIO на DEX биржах</li>
-            <li>Создание AIO DAO</li>
-            <li>Четвертая волна рекламы</li>
-            <li>Создание расширения AIO-Wallet</li>
+            <li>{t('Phase4_1')}</li>
+            <li>{t('Phase4_2')}</li>
+            <li>{t('Phase4_3')}</li>
+            <li>{t('Phase4_4')}</li>
+            <li>{t('Phase4_5')}</li>
+          </ul>
+        </div>
+        <div className={styles.item}>
+          <h1 className={styles.number}>05</h1>
+          <div className={`${styles.border} ${phase === 3 ? styles.active : ''}`}></div>
+          <div className={styles.title}>{t('Phase')} V</div>
+          <ul className={`${styles.list} ${phase === 3 ? styles.active : ''}`}>
+            <li>{t('Phase5_1')}</li>
+            <li>{t('Phase5_2')}</li>
+            <li>{t('Phase5_3')}</li>
+            <li>{t('Phase5_4')}</li>
+            <li>{t('Phase5_5')}</li>
+            <li>{t('Phase5_6')}</li>
+            <li>{t('Phase5_7')}</li>
+            <li>{t('Phase5_8')}</li>
           </ul>
         </div>
       </Slider>

@@ -1,15 +1,29 @@
 import styles from './Header.module.scss';
 import logo from '../../assets/logo__header.svg';
 import React from 'react';
+import useLocalStorage from '../../hooks/use-localStorage';
+import i18n from '../../i18n';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Header = () => {
-  const [scroll, setScroll] = React.useState(0);
+  const [language, setLanguage] = useLocalStorage('language', 'en');
+  const handleLenguageChange = (lang: string) => {
+    if (lang === 'ru') {
+      i18n.changeLanguage('ru');
+      setLanguage('ru');
+    } else if (lang === 'en') {
+      i18n.changeLanguage('en');
+      setLanguage('en');
+    }
+  };
 
+  const { t } = useTranslation();
+
+  const [scroll, setScroll] = React.useState(0);
   const handleScroll = () => {
     setScroll(window.scrollY);
   };
-
   React.useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -20,32 +34,40 @@ const Header = () => {
         <img src={logo} alt="AIO" />
         <ul>
           <li>
-            <Link to="/" className={styles.active}>
-              Главная
-            </Link>
+            <a href="#section1">{t('Main')}</a>
           </li>
           <li>
-            <Link to="/">Наши преимущества</Link>
+            <a href="#section2">{t('Our advantages')}</a>
           </li>
           <li>
-            <Link to="/">Нейросети</Link>
+            <a href="#section3">{t('Neurals')}</a>
           </li>
           <li>
-            <Link to="/">Дорожная карта</Link>
+            <a href="#section4">{t('Roadmap')}</a>
           </li>
           <li>
-            <Link to="/">Токеномика</Link>
+            <a href="#section5">{t('Tokenomics')}</a>
           </li>
           <li>
-            <Link to="/">Распределение</Link>
+            <a href="#section5">{t('Distribution')}</a>
           </li>
         </ul>
         <div className={styles.right}>
           <button className={styles.button}>AIO-Wallet</button>
           <div className={styles.langs}>
-            <span>RU</span>
+            <span
+              className={`${styles.lang} ${language === 'ru' ? styles.active : ''}`}
+              onClick={() => handleLenguageChange('ru')}
+            >
+              RU
+            </span>
             <span> / </span>
-            <span>EN</span>
+            <span
+              className={`${styles.lang} ${language === 'en' ? styles.active : ''}`}
+              onClick={() => handleLenguageChange('en')}
+            >
+              EN
+            </span>
           </div>
         </div>
       </div>

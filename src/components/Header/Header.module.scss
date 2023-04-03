@@ -4,7 +4,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: .25s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: .35s cubic-bezier(0.645, 0.045, 0.355, 1);
     .container {
         display: flex;
         min-width: 1364px;
@@ -13,7 +13,7 @@ header {
         ul {
             display: flex;
             justify-content: space-between;
-            min-width: 752px;
+            gap: 24px;
             font-weight: 500;
             font-size: 15px;
             line-height: 18px;
@@ -61,10 +61,19 @@ header {
                 color: white;
             }
             .langs {
-                color: white;
                 font-weight: 500;
                 font-size: 15px;
                 line-height: 18px;
+                .lang {
+                    color: #7A7B7C;
+                    cursor: pointer;
+                    &:hover {
+                        color: white;
+                    }
+                    &.active {
+                        color: white;
+                    }
+                }
             }
         }
     }

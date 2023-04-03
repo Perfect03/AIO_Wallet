@@ -19,16 +19,6 @@ footer {
             li {
                 display: inline-block;
                 position: relative;
-                &:after {
-                    background-color: white;
-                    display: block;
-                    content: "";
-                    height: 1.5px;
-                    width: 0%;
-                    -webkit-transition: width .3s ease-in-out;
-                    -moz--transition: width .3s ease-in-out;
-                    transition: width .3s ease-in-out;
-                }
                 a {
                     color: #7A7B7C;
                     transition: color 0.3s;
@@ -40,9 +30,6 @@ footer {
                         color: white;
                     }
                 }
-            }
-            li:hover:after, &:focus:after  {
-                width: 100%;
             }
         }
         .button {

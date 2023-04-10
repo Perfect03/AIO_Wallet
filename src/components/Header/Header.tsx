@@ -8,11 +8,11 @@ import { useTranslation } from 'react-i18next';
 import Navbar from '../Navbar/Navbar';
 
 interface IProps {
-  stat: boolean,
-  setStat: React.Dispatch<React.SetStateAction<boolean>>
+  stat: boolean;
+  setStat: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Header = ({stat, setStat}: IProps) => {
+const Header = ({ stat, setStat }: IProps) => {
   const [language, setLanguage] = useLocalStorage('language', 'en');
   const handleLenguageChange = (lang: string) => {
     if (lang === 'ru') {
@@ -23,7 +23,6 @@ const Header = ({stat, setStat}: IProps) => {
       setLanguage('en');
     }
   };
-
 
   const { t } = useTranslation();
 
@@ -77,10 +76,10 @@ const Header = ({stat, setStat}: IProps) => {
             </span>
           </div>
           <nav>
-      <div className={styles.burgerBtn} onClick={() => setStat(!stat)}>
-        <span></span>
-      </div>
-    </nav>
+            <div className={styles.burgerBtn} onClick={() => setStat(!stat)}>
+              <span></span>
+            </div>
+          </nav>
         </div>
       </div>
     </header>

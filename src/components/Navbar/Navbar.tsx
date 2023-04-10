@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next';
 import styles from './Navbar.module.scss';
 
 interface IProps {
-    status: boolean,
-    setStatus: React.Dispatch<React.SetStateAction<boolean>>
-  }
+  status: boolean;
+  setStatus: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const Navbar = ({status, setStatus}: IProps) => {
+const Navbar = ({ status, setStatus }: IProps) => {
   const [burger_class, setBurgerClass] = useState('unclicked');
   const [menu_class, setMenuClass] = useState('hidden');
   const [isMenuClicked, setMenuCllicked] = useState(false);
@@ -24,12 +24,12 @@ const Navbar = ({status, setStatus}: IProps) => {
     setMenuCllicked(isMenuClicked);
   };
   const { t } = useTranslation();
-  
+
   return (
     <div className={`${styles.menu} ${status ? styles.active : ''}`}>
-        <div className={styles.menuContent} onClick={e => e.stopPropagation()}>
-            <ul>
-            <li>
+      <div className={styles.menuContent} onClick={(e) => e.stopPropagation()}>
+        <ul>
+          <li>
             <a href="#section1">{t('Main')}</a>
           </li>
           <li>
@@ -47,8 +47,8 @@ const Navbar = ({status, setStatus}: IProps) => {
           <li>
             <a href="#section5">{t('Distribution')}</a>
           </li>
-            </ul>
-        </div>
+        </ul>
+      </div>
     </div>
   );
 };

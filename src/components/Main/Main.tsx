@@ -12,16 +12,20 @@ import Developments from '../Developments/Developments';
 import Navbar from '../Navbar/Navbar';
 import useLocalStorage from '../../hooks/use-localStorage';
 interface IProps {
-  stat: boolean,
-  setStat: React.Dispatch<React.SetStateAction<boolean>>
+  stat: boolean;
+  setStat: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Main = ({stat, setStat}: IProps) => {
+const Main = ({ stat, setStat }: IProps) => {
   const { t } = useTranslation();
   const Scroll = useScrollTo();
   const [language, setLanguage] = useLocalStorage('language', 'en');
   return (
-    <main onClick={() => {setStat(false)}}>
+    <main
+      onClick={() => {
+        setStat(false);
+      }}
+    >
       <section id="section1" className={styles.section__one}>
         <div className={styles.ellipse}></div>
         <div className={styles.content}>
@@ -53,10 +57,24 @@ const Main = ({stat, setStat}: IProps) => {
           <h1>{t('Our advantages')}</h1>
           <div className={styles.description}>{t('All neurals')}</div>
           <div className={styles.social}>
-            <button className={styles.telegram} onClick={(event) => {event.preventDefault(); language === 'ru' ? window.open('https://t.me/AIO_OFFICIAL_CIS') : window.open('https://t.me/AIO_OFFICIAL_EN');}}>
+            <button
+              className={styles.telegram}
+              onClick={(event) => {
+                event.preventDefault();
+                language === 'ru'
+                  ? window.open('https://t.me/AIO_OFFICIAL_CIS')
+                  : window.open('https://t.me/AIO_OFFICIAL_EN');
+              }}
+            >
               <img src={telegram} alt="tg" />
             </button>
-            <button className={styles.twitter} onClick={(event) => {event.preventDefault(); window.open("https://twitter.com/AIO_ECOSYSTEM");}}>
+            <button
+              className={styles.twitter}
+              onClick={(event) => {
+                event.preventDefault();
+                window.open('https://twitter.com/AIO_ECOSYSTEM');
+              }}
+            >
               <img src={twitter} alt="tw" />
             </button>
           </div>
@@ -237,7 +255,7 @@ const Main = ({stat, setStat}: IProps) => {
         alt=""
         onClick={() => Scroll({ top: window.innerHeight, behavior: 'smooth' })}
       />
-     <Navbar status={stat} setStatus={setStat}></Navbar>
+      <Navbar status={stat} setStatus={setStat}></Navbar>
     </main>
   );
 };

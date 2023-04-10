@@ -1,3 +1,21 @@
+@mixin _1380 {
+    @media (max-width: 1380px){
+        @content;
+    }
+}
+
+@mixin _1300 {
+    @media (max-width: 1300px){
+        @content;
+    }
+}
+
+@mixin _1130 {
+    @media (max-width: 1130px){
+        @content;
+    }
+}
+
 footer {
     height: 80px;
     display: flex;
@@ -6,7 +24,8 @@ footer {
     position: relative;
     .container {
         display: flex;
-        min-width: 1364px;
+        min-width: 100%;
+        padding: 0 108px;
         align-items: center;
         justify-content: space-between;
         ul {
@@ -31,6 +50,12 @@ footer {
                     }
                 }
             }
+            @include _1380 {
+                padding-inline-start:0;
+            }
+            @include _1130 {
+                display: none;
+            }
         }
         .button {
             padding: 12px 28px;
@@ -41,6 +66,13 @@ footer {
             font-size: 15px;
             line-height: 18px;
             color: white;
+        }
+        @include _1380 {
+            padding: 0 55px;
+        }
+        
+        @include _1300 {
+            padding: 0 16px;
         }
     }
 }

@@ -16,6 +16,29 @@ const Developments = () => {
     slidesToShow: 3,
     slidesToScroll: 1,
     initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1350,
+        settings: {
+          slidesToShow: 2.5,
+          slidesToScroll: 1.5,
+        },
+      },
+      {
+        breakpoint: 1130,
+        settings: {
+          slidesToShow: 2.25,
+          slidesToScroll: 1.75,
+        },
+      },
+      {
+        breakpoint: 1000,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1.25,
+        },
+      },
+    ],
   };
   return (
     <div className={styles.developments}>

@@ -1,3 +1,21 @@
+@mixin _1450 {
+    @media (max-width: 1450px){
+        @content;
+    }
+}
+
+@mixin _1130 {
+    @media (max-width: 1130px){
+        @content;
+    }
+}
+
+@mixin _900 {
+    @media (max-width: 900px){
+        @content;
+    }
+}
+
 .developments {
     max-width: 100%;
     .developmentWrapper {
@@ -58,5 +76,11 @@
         top: -161px;
     }
 }
+}
+@include _1450 {
+    max-width: 90%;
+}
+@include _900 {
+    display: none;
 }
 }

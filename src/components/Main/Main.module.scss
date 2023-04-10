@@ -1,3 +1,45 @@
+@mixin _1160 {
+    @media (max-width: 1160px){
+        @content;
+    }
+}
+
+@mixin _950 {
+    @media (max-width: 950px){
+        @content;
+    }
+}
+
+@mixin __900 {
+    @media (min-width: 901px){
+        @content;
+    }
+}
+
+@mixin _750 {
+    @media (min-width: 750px){
+        @content;
+    }
+}
+
+@mixin _580 {
+    @media (max-width: 580px){
+        @content;
+    }
+}
+
+@mixin _450 {
+    @media (max-width: 420px){
+        @content;
+    }
+}
+
+@mixin _420 {
+    @media (max-width: 420px){
+        @content;
+    }
+}
+
 * {
     color: white;
 }
@@ -17,6 +59,9 @@
     justify-content: space-between;
     align-items: center;
     contain: layout;
+    @include _580 {
+        padding: 0 22px;
+    }
     .ellipse {
         width: calc(100vh - 80px);
         height: calc(100vh - 80px);
@@ -126,6 +171,10 @@
 .section__two {
     padding-top: 120px;
     padding-bottom: 150px;
+    @include _950 {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
     .block {
         display: flex;
         flex-direction: column;
@@ -136,6 +185,11 @@
             font-size: 36px;
             line-height: 43px;
             margin-bottom: 32px;
+            text-align: center;
+            @include _750 {
+                font-size: 28px;
+                line-height: 33px;
+            }
         }
         .description {
             max-width: 883px;
@@ -179,6 +233,85 @@
             font-size: 36px;
             line-height: 43px;
             margin-bottom: 32px;
+            text-align: center;
+            @include _750 {
+                font-size: 28px;
+                line-height: 33px;
+            }
+        }
+        .developments {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            .developmentWrapper {
+.development {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    max-width: 385px;
+    margin: 0 auto;
+    .content {
+        background: rgba(29, 25, 37, 0.75);
+        backdrop-filter: blur(11px);
+        border-radius: 6px;
+        padding: 24px 32px;
+        height: 279px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        isolation: isolate;
+        h1 {
+            font-weight: 500;
+            font-size: 24px;
+            line-height: 28px;
+            background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            margin-bottom: 24px;
+        }
+        .about {
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 160%;
+            width: 321px;
+            @include _420 {
+                width: 240px;
+            }
+        }
+        .to {
+            padding: 12px 28px;
+            background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+            box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 15px;
+            line-height: 18px;
+            color: white;
+            align-self: start;
+        }
+    }
+    .ellipse {
+        width: 600px;
+        height: 600px;
+        position: absolute;
+        background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+        opacity: 0.12;
+        filter: blur(120px);
+        transform: rotate(-180deg);
+        left: 132px;
+        top: -161px;
+        
+    }
+    @include _420 {
+        max-width: 300px;
+    }
+}
+}
+@include __900 {
+    display: none;
+}
         }
     }
     padding-bottom: 150px;
@@ -196,7 +329,68 @@
             font-size: 36px;
             line-height: 43px;
             margin-bottom: 32px;
+            text-align: center;
+            @include _750 {
+                font-size: 28px;
+                line-height: 33px;
+            }
         }
+        .items {
+            display: flex;
+            flex-direction: column;
+            gap: 64px;
+            margin-top: 40px;
+            .item {
+                .number {
+                    font-weight: 500;
+                    font-size: 36px;
+                    line-height: 43px;
+                }
+                .border {
+                    margin-top: 28px;
+                    margin-bottom: 50px;
+                    height: 2px;
+                    background: white;
+                    &.active {
+                        background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+                    }
+                }
+                .title {
+                    font-weight: 700;
+font-size: 28px;
+line-height: 33px;
+background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-fill-color: transparent;
+                }
+                .list {
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 17px;
+                    margin: 0;
+                    padding: 0;
+                    &:not(.active) {
+                        li {
+                            color: white;
+                        }
+                    }
+                    li {
+                        margin-top: 18px;
+                    }
+                }
+            }
+            @include __900 {
+                display: none;
+            }
+            @include _450 {
+                max-width: 280px;
+            }
+        }
+    }
+    @include _450 {
+        padding: 0 20px;
     }
 }
 
@@ -211,6 +405,11 @@
             font-size: 36px;
             line-height: 43px;
             margin-bottom: 32px;
+            text-align: center;
+            @include _750 {
+                font-size: 28px;
+                line-height: 33px;
+            }
         }
         .statistics {
             padding: 28px 36px;
@@ -245,6 +444,9 @@
                 width: 100%;
                 padding: 12px;
             }
+            @include _450 {
+                max-width: 280px;
+            }
         }
         .numbers {
             margin-top: 86px;
@@ -260,12 +462,26 @@
                     font-size: 24px;
                     line-height: 28px;
                     color: #7A7B7C;
+                    @include _1160 {
+                        font-size: 20px;
+                        line-height: 24px;
+                    }
                 }
                 .value {
                     font-weight: 500;
                     font-size: 96.1644px;
                     line-height: 114px;
+                    @include _1160 {
+                        font-size: 64px;
+                        line-height: 76px;
+                    }
                 }
+            }
+            @include _1160 {
+                flex-wrap: wrap;
+                gap: 51px;
+                min-width: 0px;
+                width: 320px;
             }
         }
     }

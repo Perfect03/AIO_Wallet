@@ -1,3 +1,15 @@
+@mixin _1455 {
+    @media (max-width: 1455px){
+        @content;
+    }
+}
+
+@mixin _900 {
+    @media (max-width: 900px){
+        @content;
+    }
+}
+
 .card__container {
     max-width: 100%;
     .item {
@@ -36,5 +48,11 @@
                 margin-top: 18px;
             }
         }
+    }
+    @include _1455 {
+        max-width: 90%;
+    }
+    @include _900 {
+        display: none;
     }
 }

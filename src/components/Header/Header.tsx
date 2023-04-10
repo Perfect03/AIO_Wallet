@@ -5,8 +5,14 @@ import useLocalStorage from '../../hooks/use-localStorage';
 import i18n from '../../i18n';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import Navbar from '../Navbar/Navbar';
 
-const Header = () => {
+interface IProps {
+  stat: boolean,
+  setStat: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const Header = ({stat, setStat}: IProps) => {
   const [language, setLanguage] = useLocalStorage('language', 'en');
   const handleLenguageChange = (lang: string) => {
     if (lang === 'ru') {
@@ -17,6 +23,7 @@ const Header = () => {
       setLanguage('en');
     }
   };
+
 
   const { t } = useTranslation();
 
@@ -61,7 +68,7 @@ const Header = () => {
             >
               RU
             </span>
-            <span> / </span>
+            <span className={styles.between}> / </span>
             <span
               className={`${styles.lang} ${language === 'en' ? styles.active : ''}`}
               onClick={() => handleLenguageChange('en')}
@@ -69,6 +76,11 @@ const Header = () => {
               EN
             </span>
           </div>
+          <nav>
+      <div className={styles.burgerBtn} onClick={() => setStat(!stat)}>
+        <span></span>
+      </div>
+    </nav>
         </div>
       </div>
     </header>

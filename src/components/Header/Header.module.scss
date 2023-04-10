@@ -1,3 +1,33 @@
+@mixin _1380 {
+    @media (max-width: 1380px){
+        @content;
+    }
+}
+
+@mixin _1300 {
+    @media (max-width: 1300px){
+        @content;
+    }
+}
+
+@mixin _1130 {
+    @media (max-width: 1130px){
+        @content;
+    }
+}
+
+@mixin _1000 {
+    @media (max-width: 1000px){
+        @content;
+    }
+}
+
+@mixin _950 {
+    @media (max-width: 950px){
+        @content;
+    }
+}
+
 header {
     height: 80px;
     top: -80px;
@@ -7,7 +37,8 @@ header {
     transition: .35s cubic-bezier(0.645, 0.045, 0.355, 1);
     .container {
         display: flex;
-        min-width: 1364px;
+        min-width: 100%;
+        padding: 0 107px;
         align-items: center;
         justify-content: space-between;
         ul {
@@ -45,6 +76,13 @@ header {
             li:hover:after, &:focus:after  {
                 width: 100%;
             }
+            @include _1380 {
+                padding-inline-start:0;
+            }
+            
+            @include _950 {
+                display: none;
+            }
         }
         .right {
             display: flex;
@@ -59,6 +97,9 @@ header {
                 font-size: 15px;
                 line-height: 18px;
                 color: white;
+                @include _1130 {
+                    display: none;
+                }
             }
             .langs {
                 font-weight: 500;
@@ -74,7 +115,77 @@ header {
                         color: white;
                     }
                 }
+                .between {
+                    @include _1000 {
+                        display: none;
+                    }
+                }
+                @include _1000 {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 15px;
+                }
             }
+            nav {
+                height: 50px;
+                width: 100%;
+                align-items: center;
+                display: none;
+                .burgerBtn {
+                    width: 24px;
+                    height: 20px;
+                    margin-right: 20px;
+                    position: relative;
+                    cursor: pointer;
+                    &:before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        width: 24px;
+                        border: 1px solid white;
+                        border-radius: 2px;
+                        display: none;
+                        @include _950 {
+                            display: block;
+                        }
+                    }
+                    span {
+                        content: '';
+                        position: absolute;
+                        top: 9px;
+                        width: 24px;
+                        border: 1px solid white;
+                        border-radius: 2px;
+                        display: none;
+                        @include _950 {
+                            display: flex;
+                        }
+                    }
+                    &:after {
+                        content: '';
+                        position: absolute;
+                        bottom: 0;
+                        width: 24px;
+                        border: 1px solid white;
+                        border-radius: 2px;
+                        display: none;
+                        @include _950 {
+                            display: flex;
+                        }
+                    }
+                }  
+                
+                @include _950 {
+                    display: flex;
+                }
+            }
+        }
+        @include _1380 {
+            padding: 0 55px;
+        }
+
+        @include _1300 {
+            padding: 0 16px;
         }
     }
     &.sticky {

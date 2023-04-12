@@ -6,20 +6,20 @@ import twitter from '../../assets/twitter.svg';
 import React, { useEffect } from 'react';
 import Card from '../Card/Card';
 import { useTranslation } from 'react-i18next';
-import { useScrollTo } from 'react-use-window-scroll';
 import Developments from '../Developments/Developments';
 import Navbar from '../Navbar/Navbar';
 import useLocalStorage from '../../hooks/use-localStorage';
+import { toast } from 'react-toastify';
+import { Link, animateScroll as scroll } from 'react-scroll';
+
 interface IProps {
   stat: boolean;
   setStat: React.Dispatch<React.SetStateAction<boolean>>;
+  lang: string;
 }
 
-const Main = ({ stat, setStat }: IProps) => {
+const Main = ({ stat, setStat, lang }: IProps) => {
   const { t } = useTranslation();
-  const Scroll = useScrollTo();
-  const [language, setLanguage] = useLocalStorage('language', 'en');
-
   return (
     <main
       onClick={() => {
@@ -32,6 +32,7 @@ const Main = ({ stat, setStat }: IProps) => {
           <div className={styles.logo}>
             <div className={styles.line1}>
               <div className={styles.all}>All</div>
+              <div className={styles.one}>One</div>
             </div>
             <div className={styles.line2}>
               <img src={logo} alt="AIO" />
@@ -47,7 +48,7 @@ const Main = ({ stat, setStat }: IProps) => {
               className={styles.join}
               onClick={(event) => {
                 event.preventDefault();
-                window.open(`https://t.me/AIO_OFFICIAL_${language === 'ru' ? 'CIS' : 'EN'}`);
+                window.open(`https://t.me/AIO_OFFICIAL_${lang === 'ru' ? 'CIS' : 'EN'}`);
               }}
             >
               {t('Join')}
@@ -56,7 +57,7 @@ const Main = ({ stat, setStat }: IProps) => {
               className={styles.whitepaper}
               onClick={(event) => {
                 event.preventDefault();
-                window.open(`https://docs${language === 'ru' ? 'cis' : 'eng'}.aio-ecosystem.xyz`);
+                window.open(`https://${lang === 'ru' ? 'cis' : 'en'}.aio-docs.xyz/`);
               }}
             >
               <div className={styles.whitepaper__text}>Whitepaper</div>
@@ -75,7 +76,7 @@ const Main = ({ stat, setStat }: IProps) => {
               className={styles.telegram}
               onClick={(event) => {
                 event.preventDefault();
-                window.open(`https://t.me/AIO_OFFICIAL_${language === 'ru' ? 'CIS' : 'EN'}`);
+                window.open(`https://t.me/AIO_OFFICIAL_${lang === 'ru' ? 'CIS' : 'EN'}`);
               }}
             >
               <svg
@@ -97,6 +98,7 @@ const Main = ({ stat, setStat }: IProps) => {
               className={styles.twitter}
               onClick={(event) => {
                 event.preventDefault();
+
                 window.open('https://twitter.com/AIO_ECOSYSTEM');
               }}
             >
@@ -136,7 +138,17 @@ const Main = ({ stat, setStat }: IProps) => {
                     <h1>AIO-Chat</h1>
                     <div className={styles.about}>{t('AIO-Chat')}</div>
                   </div>
-                  <button className={styles.to}>AIO-Chat</button>
+                  <button
+                    className={styles.to}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      lang == 'ru'
+                        ? window.open('https://forms.gle/5uTAuXWaKX8x6PWt8')
+                        : window.open('https://forms.gle/HwWjGgHXbVrtrsLT7');
+                    }}
+                  >
+                    AIO-Chat
+                  </button>
                 </div>
                 <div className={styles.ellipse}></div>
               </div>
@@ -148,7 +160,33 @@ const Main = ({ stat, setStat }: IProps) => {
                     <h1>AIO-Wallet</h1>
                     <div className={styles.about}>{t('AIO-Wallet')}</div>
                   </div>
-                  <button className={styles.to}>AIO-Wallet</button>
+                  <button
+                    className={styles.to}
+                    onClick={() => {
+                      toast['info'](t('In development'));
+                    }}
+                  >
+                    AIO-Wallet
+                  </button>
+                </div>
+                <div className={styles.ellipse}></div>
+              </div>
+            </div>
+            <div className={styles.developmentWrapper}>
+              <div className={styles.development}>
+                <div className={styles.content}>
+                  <div className={styles.describe}>
+                    <h1>AIO-Swap</h1>
+                    <div className={styles.about}>{t('AIO-Swap')}</div>
+                  </div>
+                  <button
+                    className={styles.to}
+                    onClick={() => {
+                      toast['info'](t('In development'));
+                    }}
+                  >
+                    AIO-Swap
+                  </button>
                 </div>
                 <div className={styles.ellipse}></div>
               </div>
@@ -160,7 +198,14 @@ const Main = ({ stat, setStat }: IProps) => {
                     <h1>AIO-Invest</h1>
                     <div className={styles.about}>{t('AIO-Invest')}</div>
                   </div>
-                  <button className={styles.to}>AIO-Invest</button>
+                  <button
+                    className={styles.to}
+                    onClick={() => {
+                      toast['info'](t('In development'));
+                    }}
+                  >
+                    AIO-Invest
+                  </button>
                 </div>
                 <div className={styles.ellipse}></div>
               </div>
@@ -172,7 +217,14 @@ const Main = ({ stat, setStat }: IProps) => {
                     <h1>AIO-Trade</h1>
                     <div className={styles.about}>{t('AIO-Trade')}</div>
                   </div>
-                  <button className={styles.to}>AIO-Trade</button>
+                  <button
+                    className={styles.to}
+                    onClick={() => {
+                      toast['info'](t('In development'));
+                    }}
+                  >
+                    AIO-Trade
+                  </button>
                 </div>
                 <div className={styles.ellipse}></div>
               </div>
@@ -271,7 +323,15 @@ const Main = ({ stat, setStat }: IProps) => {
                 <span className={styles.value}>Binance Smart Chain (BSC)</span>
               </li>
             </ul>
-            <button className={styles.join}>{t('Join')}</button>
+            <button
+              className={styles.join}
+              onClick={(event) => {
+                event.preventDefault();
+                window.open(`https://t.me/AIO_OFFICIAL_${lang === 'ru' ? 'CIS' : 'EN'}`);
+              }}
+            >
+              {t('Join')}
+            </button>
           </div>
           <div className={styles.numbers}>
             <div className={styles.parametr}>
@@ -293,12 +353,9 @@ const Main = ({ stat, setStat }: IProps) => {
           </div>
         </div>
       </section>
-      <img
-        className={styles.arrow}
-        src={arrow}
-        alt=""
-        onClick={() => Scroll({ top: window.innerHeight, behavior: 'smooth' })}
-      />
+      <Link to="section2" smooth={true}>
+        <img className={styles.arrow} src={arrow} alt="" />
+      </Link>
       <Navbar status={stat} setStatus={setStat}></Navbar>
     </main>
   );

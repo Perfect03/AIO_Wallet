@@ -10,6 +10,12 @@
     }
 }
 
+@mixin _900 {
+    @media (max-width: 901px){
+        @content;
+    }
+}
+
 @mixin __900 {
     @media (min-width: 901px){
         @content;
@@ -36,6 +42,12 @@
 
 @mixin _420 {
     @media (max-width: 420px){
+        @content;
+    }
+}
+
+@mixin _390 {
+    @media (max-width: 390px){
         @content;
     }
 }
@@ -87,9 +99,12 @@
         flex-direction: column;
         justify-content: space-between;
         .logo {
-            width: 303px;
+            width: 270px;
             margin: 0 auto;
             .line1 {
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
                 .all {
                     height: 33px;
                     width: 33px;
@@ -100,9 +115,6 @@
                     align-items: center;
                     margin-left: 2px;
                 }
-            }
-            .line2 {
-                display: flex;
                 .one {
                     width: 46px;
                     height: 33px;
@@ -111,8 +123,26 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    @include _750 {
+                        display: none;
+                    }
+                }
+            }
+            .line2 {
+                display: flex;
+                .one {
+                    width: 46px;
+                    height: 33px;
+                    background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+                    border-radius: 1.11111e+06px;
+                    display: none;
+                    justify-content: center;
+                    align-items: center;
                     margin-top: 12px;
                     margin-left: 5px;
+                    @include _750 {
+                        display: flex;
+                    }
                 }
             }
             .line3 {
@@ -128,12 +158,19 @@
                     margin-top: 10px; 
                 }
             }
+            @include _750 {
+                width: 303px;
+            }
         }
         .about {
             text-align: center;
             font-weight: 400;
             font-size: 16px;
             line-height: 150%;
+            @include _390 {
+                max-width: 88%;
+                margin: 0 auto;
+            }
         }
         .buttons {
             display: flex;
@@ -323,6 +360,13 @@
             line-height: 18px;
             color: white;
             align-self: start;
+        }
+        @include _900 {
+            height: 311px;
+        }
+
+        @include _420 {
+            height: 390px;
         }
     }
     .ellipse {

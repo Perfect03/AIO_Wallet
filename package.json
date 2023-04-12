@@ -51,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-scroll": "^1.8.6",
     "@types/react-scrollable-anchor": "^0.6.1",
     "@types/react-slick": "^0.23.10",
     "eslint-config-prettier": "^8.5.0",

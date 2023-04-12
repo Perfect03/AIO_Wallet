@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link, animateScroll as scroll } from 'react-scroll';
 import styles from './Navbar.module.scss';
 
 interface IProps {
@@ -20,7 +21,6 @@ const Navbar = ({ status, setStatus }: IProps) => {
       setBurgerClass('unclicked');
       setMenuClass('hidden');
     }
-    console.log(3);
     setMenuCllicked(isMenuClicked);
   };
   const { t } = useTranslation();
@@ -30,22 +30,75 @@ const Navbar = ({ status, setStatus }: IProps) => {
       <div className={styles.menuContent} onClick={(e) => e.stopPropagation()}>
         <ul>
           <li>
-            <a href="#section1">{t('Main')}</a>
+            <Link
+              to="section1"
+              smooth={true}
+              onClick={() => {
+                setStatus(false);
+              }}
+            >
+              {t('Main')}
+            </Link>
           </li>
           <li>
-            <a href="#section2">{t('Our advantages')}</a>
+            <Link
+              to="section2"
+              smooth={true}
+              offset={-1}
+              onClick={() => {
+                setStatus(false);
+              }}
+            >
+              {t('Our advantages')}
+            </Link>
           </li>
           <li>
-            <a href="#section3">{t('Neurals')}</a>
+            <Link
+              to="section3"
+              smooth={true}
+              offset={-85}
+              onClick={() => {
+                setStatus(false);
+              }}
+            >
+              {t('Neurals')}
+            </Link>
           </li>
           <li>
-            <a href="#section4">{t('Roadmap')}</a>
+            <Link
+              to="section4"
+              smooth={true}
+              offset={-85}
+              onClick={() => {
+                setStatus(false);
+              }}
+            >
+              {t('Roadmap')}
+            </Link>
           </li>
           <li>
-            <a href="#section5">{t('Tokenomics')}</a>
+            <Link
+              to="section5"
+              smooth={true}
+              offset={-85}
+              onClick={() => {
+                setStatus(false);
+              }}
+            >
+              {t('Tokenomics')}
+            </Link>
           </li>
           <li>
-            <a href="#section5">{t('Distribution')}</a>
+            <Link
+              to="section5"
+              smooth={true}
+              offset={-85}
+              onClick={() => {
+                setStatus(false);
+              }}
+            >
+              {t('Distribution')}
+            </Link>
           </li>
         </ul>
       </div>

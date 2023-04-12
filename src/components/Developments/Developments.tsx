@@ -4,7 +4,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import useLocalStorage from '../../hooks/use-localStorage';
 
 const Developments = () => {

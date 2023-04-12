@@ -177,6 +177,20 @@ header {
                             display: flex;
                         }
                     }
+                    &.burgerActive {
+                        &:before {
+                            transform: rotate(-45deg) translate(-6px, 7px);
+                            transition: ease-out 0.5s;
+                        }
+                        span {
+                            transform: rotate(-45deg);
+                            transition: ease-out 0.5s;
+                        }
+                        &:after {
+                            transform: rotate(45deg) translate(-6px, -7px);
+                            transition: ease-out 0.5s;
+                        }
+                    }
                 }  
                 
                 @include _950 {
@@ -199,5 +213,7 @@ header {
         background: #0F0C17;
         z-index: 5;
     }
+    .toastify {
+        top: 77px;
+    }
 }
-

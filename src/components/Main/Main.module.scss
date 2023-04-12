@@ -144,6 +144,10 @@
                 background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
                 box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
                 border-radius: 4px;
+                &:hover {
+                    background: linear-gradient(90deg, #D75596 0%, #3838CD 100%);
+                    box-shadow: 0;
+                }
             }
             .whitepaper {
                 padding: 12px 28px;
@@ -159,6 +163,12 @@
                 .whitepaper__text {
                     margin: auto;
                     background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+                    background-clip: text;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+                &:hover .whitepaper__text {
+                    background: white;
                     background-clip: text;
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
@@ -208,13 +218,36 @@
                 height: 52px;
                 border-radius: 50%;
                 background: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: all 0.2s;
+                &:hover {
+                    background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+                    box-shadow: 0px 0px 32px -2px rgba(162, 88, 212, 0.55);
+                    svg path {
+                        fill: white;
+                        transition: fill 0.2s;
+                    }
+                }
             }
             .twitter {
                 width: 52px;
                 height: 52px;
                 border-radius: 50%;
-                background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
-                box-shadow: 0px 0px 32px -2px rgba(162, 88, 212, 0.55);
+                background: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: all 0.2s;
+                &:hover {
+                    background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+                    box-shadow: 0px 0px 32px -2px rgba(162, 88, 212, 0.55);
+                    svg path {
+                        fill: white;
+                        transition: fill 0.2s;
+                    }
+                }
             }
         }
     }
@@ -371,6 +404,7 @@ text-fill-color: transparent;
                     line-height: 17px;
                     margin: 0;
                     padding: 0;
+
                     &:not(.active) {
                         li {
                             color: white;
@@ -443,6 +477,10 @@ text-fill-color: transparent;
                 border-radius: 4px;
                 width: 100%;
                 padding: 12px;
+                &:hover {
+                    background: linear-gradient(90deg, #D75596 0%, #3838CD 100%);
+                    box-shadow: 0;
+                }
             }
             @include _450 {
                 max-width: 280px;

@@ -4,9 +4,12 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import useLocalStorage from '../../hooks/use-localStorage';
 
 const Developments = () => {
   const { t } = useTranslation();
+  const [language, setLanguage] = useLocalStorage('language', 'en');
 
   const settings = {
     className: styles.active,
@@ -14,28 +17,28 @@ const Developments = () => {
     infinite: false,
     speed: 300,
     slidesToShow: 3,
-    slidesToScroll: 1,
+    slidesToScroll: 2,
     initialSlide: 0,
     responsive: [
       {
         breakpoint: 1350,
         settings: {
           slidesToShow: 2.5,
-          slidesToScroll: 1.5,
+          slidesToScroll: 1.75,
         },
       },
       {
         breakpoint: 1130,
         settings: {
           slidesToShow: 2.25,
-          slidesToScroll: 1.75,
+          slidesToScroll: 1.375,
         },
       },
       {
         breakpoint: 1000,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 1.25,
+          slidesToScroll: 1.5,
         },
       },
     ],
@@ -50,7 +53,17 @@ const Developments = () => {
                 <h1>AIO-Chat</h1>
                 <div className={styles.about}>{t('AIO-Chat')}</div>
               </div>
-              <button className={styles.to}>AIO-Chat</button>
+              <button
+                className={styles.to}
+                onClick={(event) => {
+                  event.preventDefault();
+                  language == 'ru'
+                    ? window.open('https://forms.gle/5uTAuXWaKX8x6PWt8')
+                    : window.open('https://forms.gle/HwWjGgHXbVrtrsLT7');
+                }}
+              >
+                AIO-Chat
+              </button>
             </div>
             <div className={styles.ellipse}></div>
           </div>
@@ -62,7 +75,33 @@ const Developments = () => {
                 <h1>AIO-Wallet</h1>
                 <div className={styles.about}>{t('AIO-Wallet')}</div>
               </div>
-              <button className={styles.to}>AIO-Wallet</button>
+              <button
+                className={styles.to}
+                onClick={() => {
+                  toast['info'](t('In development'));
+                }}
+              >
+                AIO-Wallet
+              </button>
+            </div>
+            <div className={styles.ellipse}></div>
+          </div>
+        </div>
+        <div className={styles.developmentWrapper}>
+          <div className={styles.development}>
+            <div className={styles.content}>
+              <div className={styles.describe}>
+                <h1>AIO-Swap</h1>
+                <div className={styles.about}>{t('AIO-Swap')}</div>
+              </div>
+              <button
+                className={styles.to}
+                onClick={() => {
+                  toast['info'](t('In development'));
+                }}
+              >
+                AIO-Swap
+              </button>
             </div>
             <div className={styles.ellipse}></div>
           </div>
@@ -74,7 +113,14 @@ const Developments = () => {
                 <h1>AIO-Invest</h1>
                 <div className={styles.about}>{t('AIO-Invest')}</div>
               </div>
-              <button className={styles.to}>AIO-Invest</button>
+              <button
+                className={styles.to}
+                onClick={() => {
+                  toast['info'](t('In development'));
+                }}
+              >
+                AIO-Invest
+              </button>
             </div>
             <div className={styles.ellipse}></div>
           </div>
@@ -86,7 +132,14 @@ const Developments = () => {
                 <h1>AIO-Trade</h1>
                 <div className={styles.about}>{t('AIO-Trade')}</div>
               </div>
-              <button className={styles.to}>AIO-Trade</button>
+              <button
+                className={styles.to}
+                onClick={() => {
+                  toast['info'](t('In development'));
+                }}
+              >
+                AIO-Trade
+              </button>
             </div>
             <div className={styles.ellipse}></div>
           </div>

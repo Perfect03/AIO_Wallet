@@ -48,6 +48,7 @@ const Card = () => {
             <li>{t('Phase2_5')}</li>
             <li>{t('Phase2_6')}</li>
             <li>{t('Phase2_7')}</li>
+            <li>{t('Phase2_8')}</li>
           </ul>
         </div>
         <div className={styles.item}>

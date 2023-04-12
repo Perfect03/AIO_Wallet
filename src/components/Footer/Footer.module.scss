@@ -66,6 +66,10 @@ footer {
             font-size: 15px;
             line-height: 18px;
             color: white;
+            &:hover {
+                background: linear-gradient(90deg, #D75596 0%, #3838CD 100%);
+                box-shadow: 0;
+            }
         }
         @include _1380 {
             padding: 0 55px;

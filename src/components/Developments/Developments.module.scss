@@ -30,7 +30,7 @@
         backdrop-filter: blur(11px);
         border-radius: 6px;
         padding: 24px 32px;
-        height: 279px;
+        height: 309px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -62,6 +62,10 @@
             line-height: 18px;
             color: white;
             align-self: start;
+            &:hover {
+                background: linear-gradient(90deg, #D75596 0%, #3838CD 100%);
+                box-shadow: 0;
+            }
         }
     }
     .ellipse {

@@ -335,8 +335,8 @@ const Main = ({ stat, setStat, lang }: IProps) => {
           </div>
           <div className={styles.numbers}>
             <div className={styles.parametr}>
-              <span className={styles.key}>Presale</span>
-              <span className={styles.value}>55%</span>
+              <span className={styles.key}>Token Sale</span>
+              <span className={styles.value}>35%</span>
             </div>
             <div className={styles.parametr}>
               <span className={styles.key}>Liquidity</span>
@@ -349,6 +349,14 @@ const Main = ({ stat, setStat, lang }: IProps) => {
             <div className={styles.parametr}>
               <span className={styles.key}>Team</span>
               <span className={styles.value}>10%</span>
+            </div>
+            <div className={styles.parametr}>
+              <span className={styles.key}>Development</span>
+              <span className={styles.value}>7,5%</span>
+            </div>
+            <div className={styles.parametr}>
+              <span className={styles.key}>Treasury</span>
+              <span className={styles.value}>12,5%</span>
             </div>
           </div>
         </div>

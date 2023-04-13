@@ -534,8 +534,10 @@ text-fill-color: transparent;
             margin-top: 86px;
             margin-bottom: 151px;
             display: flex;
-            justify-content: space-between;
-            min-width: 1071px;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 51px;
+            width: 930px;
             .parametr {
                 display: flex;
                 flex-direction: column;
@@ -560,9 +562,11 @@ text-fill-color: transparent;
                 }
             }
             @include _1160 {
-                flex-wrap: wrap;
                 gap: 51px;
                 min-width: 0px;
+                width: 420px;
+            }
+            @include _420 {
                 width: 320px;
             }
         }

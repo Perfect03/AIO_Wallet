@@ -2,15 +2,15 @@ import styles from './Main.module.scss';
 import logo from '../../assets/logo__main.svg';
 import logoTokenomics from '../../assets/logo__tokenomics.svg';
 import arrow from '../../assets/arrow__down.svg';
-import twitter from '../../assets/twitter.svg';
 import React, { useEffect } from 'react';
 import Card from '../Card/Card';
 import { useTranslation } from 'react-i18next';
 import Developments from '../Developments/Developments';
 import Navbar from '../Navbar/Navbar';
-import useLocalStorage from '../../hooks/use-localStorage';
+
 import { toast } from 'react-toastify';
 import { Link, animateScroll as scroll } from 'react-scroll';
+import Tokenomics from '../Tokenomics/Tokenomics';
 
 interface IProps {
   stat: boolean;
@@ -301,8 +301,8 @@ const Main = ({ stat, setStat, lang }: IProps) => {
       </section>
 
       <section id="section5" className={styles.section__five}>
+      <h1>{t('Tok&Dist')}</h1>
         <div className={styles.block}>
-          <h1>{t('Tok&Dist')}</h1>
           <div className={styles.statistics}>
             <img src={logoTokenomics} alt="AIO" />
             <ul>
@@ -333,31 +333,8 @@ const Main = ({ stat, setStat, lang }: IProps) => {
               {t('Join')}
             </button>
           </div>
-          <div className={styles.numbers}>
-            <div className={styles.parametr}>
-              <span className={styles.key}>Token Sale</span>
-              <span className={styles.value}>35%</span>
-            </div>
-            <div className={styles.parametr}>
-              <span className={styles.key}>Liquidity</span>
-              <span className={styles.value}>25%</span>
-            </div>
-            <div className={styles.parametr}>
-              <span className={styles.key}>Marketing</span>
-              <span className={styles.value}>10%</span>
-            </div>
-            <div className={styles.parametr}>
-              <span className={styles.key}>Team</span>
-              <span className={styles.value}>10%</span>
-            </div>
-            <div className={styles.parametr}>
-              <span className={styles.key}>Development</span>
-              <span className={styles.value}>7,5%</span>
-            </div>
-            <div className={styles.parametr}>
-              <span className={styles.key}>Treasury</span>
-              <span className={styles.value}>12,5%</span>
-            </div>
+          <div className={styles.diagram}>
+          <Tokenomics></Tokenomics>
           </div>
         </div>
       </section>

@@ -50,65 +50,68 @@ const Tokenomics = () => {
 
     return (
       <text textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-        <tspan x={x} y={y-5} fill="white">{values[index]}</tspan><br />
-        <tspan x={x} y={y+16} fill='url(#font)' font-size="28px">{`${percent*100}%`}</tspan>
+        <tspan x={x} y={y - 5} fill="white">
+          {values[index]}
+        </tspan>
+        <br />
+        <tspan x={x} y={y + 16} fill="url(#font)" fontSize="28px">{`${percent * 100}%`}</tspan>
       </text>
     );
   };
 
   return (
-    <div style={{ width: 320, height: 324 }}>
-    <ResponsiveContainer>
-    <PieChart>
-      <defs>
-        <linearGradient id="tokenSale" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0%" stopColor="#FB69B2" />
-          <stop offset="100%" stopColor="#BC5DCA" />
-        </linearGradient>
-        <linearGradient id="liquidity" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0%" stopColor="#BC5DCA" />
-          <stop offset="100%" stopColor="#8E54DB" />
-        </linearGradient>
-        <linearGradient id="marketing" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0%" stopColor="#8E54DB" />
-          <stop offset="100%" stopColor="#7C51E2" />
-        </linearGradient>
-        <linearGradient id="team" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0%" stopColor="#7C51E2" />
-          <stop offset="100%" stopColor="#6A4DE8" />
-        </linearGradient>
-        <linearGradient id="development" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0%" stopColor="#6A4DE8" />
-          <stop offset="100%" stopColor="#5348F1" />
-        </linearGradient>
-        <linearGradient id="treasury" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0%" stopColor="#5348F1" />
-          <stop offset="100%" stopColor="#4646F6" />
-        </linearGradient>
+    <div className={styles.chart} style={{ width: 320, height: 324 }}>
+      <ResponsiveContainer>
+        <PieChart>
+          <defs>
+            <linearGradient id="tokenSale" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stopColor="#FB69B2" />
+              <stop offset="100%" stopColor="#BC5DCA" />
+            </linearGradient>
+            <linearGradient id="liquidity" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stopColor="#BC5DCA" />
+              <stop offset="100%" stopColor="#8E54DB" />
+            </linearGradient>
+            <linearGradient id="marketing" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stopColor="#8E54DB" />
+              <stop offset="100%" stopColor="#7C51E2" />
+            </linearGradient>
+            <linearGradient id="team" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stopColor="#7C51E2" />
+              <stop offset="100%" stopColor="#6A4DE8" />
+            </linearGradient>
+            <linearGradient id="development" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stopColor="#6A4DE8" />
+              <stop offset="100%" stopColor="#5348F1" />
+            </linearGradient>
+            <linearGradient id="treasury" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stopColor="#5348F1" />
+              <stop offset="100%" stopColor="#4646F6" />
+            </linearGradient>
 
-        <linearGradient id="font" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0%" stopColor="#FB69B2" />
-          <stop offset="100%" stopColor="#4646F6" />
-        </linearGradient>
-      </defs>
-      <Pie
-        dataKey="value"
-        isAnimationActive={false}
-        data={data}
-        cx="50%"
-        cy="50%"
-        innerRadius={48}
-        outerRadius={80}
-        stroke="none"
-        label={renderCustomizedLabel}
-        paddingAngle={5}
-      >
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-        ))}
-      </Pie>
-    </PieChart>
-    </ResponsiveContainer>
+            <linearGradient id="font" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stopColor="#FB69B2" />
+              <stop offset="100%" stopColor="#4646F6" />
+            </linearGradient>
+          </defs>
+          <Pie
+            dataKey="value"
+            isAnimationActive={false}
+            data={data}
+            cx="50%"
+            cy="50%"
+            innerRadius={48}
+            outerRadius={80}
+            stroke="none"
+            label={renderCustomizedLabel}
+            paddingAngle={5}
+          >
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+            ))}
+          </Pie>
+        </PieChart>
+      </ResponsiveContainer>
     </div>
   );
 };

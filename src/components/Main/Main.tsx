@@ -301,7 +301,7 @@ const Main = ({ stat, setStat, lang }: IProps) => {
       </section>
 
       <section id="section5" className={styles.section__five}>
-      <h1>{t('Tok&Dist')}</h1>
+        <h1>{t('Tok&Dist')}</h1>
         <div className={styles.block}>
           <div className={styles.statistics}>
             <img src={logoTokenomics} alt="AIO" />
@@ -334,7 +334,7 @@ const Main = ({ stat, setStat, lang }: IProps) => {
             </button>
           </div>
           <div className={styles.diagram}>
-          <Tokenomics></Tokenomics>
+            <Tokenomics></Tokenomics>
           </div>
         </div>
       </section>

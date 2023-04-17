@@ -1,0 +1,15 @@
+@mixin _420 {
+    @media (max-width: 420px){
+        @content;
+    }
+}
+
+.chart {
+    margin-top: -19px;
+    margin-left: 21.82px;
+    margin-right: 21.82px;
+    @include _420 {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}

@@ -1,22 +1,21 @@
 import styles from './Header.module.scss';
-import logo from '../../assets/logo__header.svg';
-import React from 'react';
-import useLocalStorage from '../../hooks/use-localStorage';
-import i18n from '../../i18n';
+import logo from '../../../assets/logo__header.svg';
+import React, { useContext } from 'react';
+import useLocalStorage from '../../../hooks/use-localStorage';
+import i18n from '../../../i18n';
 import { useTranslation } from 'react-i18next';
 import { toast, ToastContainer } from 'react-toastify';
 import { Link, animateScroll as scroll } from 'react-scroll';
-import Navbar from '../Navbar/Navbar';
+import { Context, ContextType } from '../../../languageContext';
+import { NavLink } from 'react-router-dom';
 
 interface IProps {
   stat: boolean;
   setStat: React.Dispatch<React.SetStateAction<boolean>>;
-  lang: string;
-  setLanguage: (lang: string) => void;
 }
 
-const Header = ({ stat, setStat, lang, setLanguage }: IProps) => {
-  //const [language, setLanguage] = useLocalStorage('language', 'en');
+const Header = ({ stat, setStat }: IProps) => {
+  const { language, setLanguage } = useContext(Context) as ContextType;
 
   const handleLenguageChange = (lang: string) => {
     if (lang === 'ru') {
@@ -39,7 +38,7 @@ const Header = ({ stat, setStat, lang, setLanguage }: IProps) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   return (
-    <header className={scroll > window.innerHeight + 5 ? styles.sticky : ''}>
+    <header className={scroll > window.innerHeight ? styles.sticky : ''}>
       <div className={styles.container}>
         <img src={logo} alt="AIO" />
         <ul>
@@ -75,24 +74,19 @@ const Header = ({ stat, setStat, lang, setLanguage }: IProps) => {
           </li>
         </ul>
         <div className={styles.right}>
-          <button
-            className={styles.button}
-            onClick={() => {
-              toast['info'](t('In development'));
-            }}
-          >
+          <NavLink className={styles.button} to="AIO-Wallet">
             AIO-Wallet
-          </button>
+          </NavLink>
           <div className={styles.langs}>
             <span
-              className={`${styles.lang} ${lang === 'ru' ? styles.active : ''}`}
+              className={`${styles.lang} ${language === 'ru' ? styles.active : ''}`}
               onClick={() => handleLenguageChange('ru')}
             >
               RU
             </span>
             <span className={styles.between}> / </span>
             <span
-              className={`${styles.lang} ${lang === 'en' ? styles.active : ''}`}
+              className={`${styles.lang} ${language === 'en' ? styles.active : ''}`}
               onClick={() => handleLenguageChange('en')}
             >
               EN

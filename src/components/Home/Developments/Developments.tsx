@@ -5,7 +5,8 @@ import Slider from 'react-slick';
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import useLocalStorage from '../../hooks/use-localStorage';
+import useLocalStorage from '../../../hooks/use-localStorage';
+import { NavLink } from 'react-router-dom';
 
 const Developments = () => {
   const { t } = useTranslation();
@@ -75,14 +76,9 @@ const Developments = () => {
                 <h1>AIO-Wallet</h1>
                 <div className={styles.about}>{t('AIO-Wallet')}</div>
               </div>
-              <button
-                className={styles.to}
-                onClick={() => {
-                  toast['info'](t('In development'));
-                }}
-              >
+              <NavLink className={styles.to} to="AIO-Wallet">
                 AIO-Wallet
-              </button>
+              </NavLink>
             </div>
             <div className={styles.ellipse}></div>
           </div>

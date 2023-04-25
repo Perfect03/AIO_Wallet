@@ -49,5 +49,12 @@
     "Distribution": "Распределение",
     "Neurals": "Разработки",
     "Join": "Присоединиться",
-    "In development": "Данный проект находится в разработке"
+    "In development": "Данный проект находится в разработке",
+    "Save secret phrase": "Сохранить секретный ключ",
+    "Restore from 12-word seed": "Восстановить из 12-и слов",
+    "Create Wallet": "Создать кошелек",
+    "Your secret phrase": "Ваше кодовое слово",
+    "I understand": "Понятно",
+    "All neurals in AIO": "Все нейросети в проекте AIO будут работать в связке друг с другом, что позволит пользователям получать полный и всесторонний набор услуг.",
+    "Write these words": "Write these words in the correct order and keep them in a safe place."
 }

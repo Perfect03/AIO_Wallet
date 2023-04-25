@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import logo from '../../assets/logo__header.svg';
+import { Link, NavLink } from 'react-router-dom';
+import logo from '../../../assets/logo__header.svg';
 import { toast } from 'react-toastify';
 import styles from './Footer.module.scss';
 
@@ -30,14 +30,9 @@ const Footer = () => {
             <a href="#section5">{t('Distribution')}</a>
           </li>
         </ul>
-        <button
-          className={styles.button}
-          onClick={() => {
-            toast['info'](t('In development'));
-          }}
-        >
+        <NavLink className={styles.button} to="AIO-Wallet">
           AIO-Wallet
-        </button>
+        </NavLink>
       </div>
     </footer>
   );

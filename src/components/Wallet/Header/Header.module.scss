@@ -1,0 +1,26 @@
+.header {
+    display: flex;
+    height: 80px;
+    justify-content: space-between;
+    padding: 0 15.833vw;
+    .logo {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    .langs {
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+        .lang {
+            color: #7A7B7C;
+            cursor: pointer;
+            &:hover {
+                color: white;
+            }
+            &.active {
+                color: white;
+            }
+        }
+    }
+}

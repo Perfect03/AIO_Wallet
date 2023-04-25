@@ -1,8 +1,9 @@
 import styles from './Main.module.scss';
-import logo from '../../assets/logo__main.svg';
-import logoTokenomics from '../../assets/logo__tokenomics.svg';
-import arrow from '../../assets/arrow__down.svg';
-import React, { useEffect } from 'react';
+import logo from '../../../assets/logo__main.svg';
+import logoTokenomics from '../../../assets/logo__tokenomics.svg';
+import arrow from '../../../assets/arrow__down.svg';
+import React, { useContext, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import Card from '../Card/Card';
 import { useTranslation } from 'react-i18next';
 import Developments from '../Developments/Developments';
@@ -11,15 +12,16 @@ import Navbar from '../Navbar/Navbar';
 import { toast } from 'react-toastify';
 import { Link, animateScroll as scroll } from 'react-scroll';
 import Tokenomics from '../Tokenomics/Tokenomics';
+import { Context, ContextType } from '../../../languageContext';
 
 interface IProps {
   stat: boolean;
   setStat: React.Dispatch<React.SetStateAction<boolean>>;
-  lang: string;
 }
 
-const Main = ({ stat, setStat, lang }: IProps) => {
+const Main = ({ stat, setStat }: IProps) => {
   const { t } = useTranslation();
+  const { language } = useContext(Context) as ContextType;
   return (
     <main
       onClick={() => {
@@ -48,7 +50,7 @@ const Main = ({ stat, setStat, lang }: IProps) => {
               className={styles.join}
               onClick={(event) => {
                 event.preventDefault();
-                window.open(`https://t.me/AIO_OFFICIAL_${lang === 'ru' ? 'CIS' : 'EN'}`);
+                window.open(`https://t.me/AIO_OFFICIAL_${language === 'ru' ? 'CIS' : 'EN'}`);
               }}
             >
               {t('Join')}
@@ -57,7 +59,7 @@ const Main = ({ stat, setStat, lang }: IProps) => {
               className={styles.whitepaper}
               onClick={(event) => {
                 event.preventDefault();
-                window.open(`https://${lang === 'ru' ? 'cis' : 'en'}.aio-docs.xyz/`);
+                window.open(`https://${language === 'ru' ? 'cis' : 'en'}.aio-docs.xyz/`);
               }}
             >
               <div className={styles.whitepaper__text}>Whitepaper</div>
@@ -76,7 +78,7 @@ const Main = ({ stat, setStat, lang }: IProps) => {
               className={styles.telegram}
               onClick={(event) => {
                 event.preventDefault();
-                window.open(`https://t.me/AIO_OFFICIAL_${lang === 'ru' ? 'CIS' : 'EN'}`);
+                window.open(`https://t.me/AIO_OFFICIAL_${language === 'ru' ? 'CIS' : 'EN'}`);
               }}
             >
               <svg
@@ -142,7 +144,7 @@ const Main = ({ stat, setStat, lang }: IProps) => {
                     className={styles.to}
                     onClick={(event) => {
                       event.preventDefault();
-                      lang == 'ru'
+                      language == 'ru'
                         ? window.open('https://forms.gle/5uTAuXWaKX8x6PWt8')
                         : window.open('https://forms.gle/HwWjGgHXbVrtrsLT7');
                     }}
@@ -160,14 +162,9 @@ const Main = ({ stat, setStat, lang }: IProps) => {
                     <h1>AIO-Wallet</h1>
                     <div className={styles.about}>{t('AIO-Wallet')}</div>
                   </div>
-                  <button
-                    className={styles.to}
-                    onClick={() => {
-                      toast['info'](t('In development'));
-                    }}
-                  >
+                  <NavLink className={styles.to} to="AIO-Wallet">
                     AIO-Wallet
-                  </button>
+                  </NavLink>
                 </div>
                 <div className={styles.ellipse}></div>
               </div>
@@ -327,7 +324,7 @@ const Main = ({ stat, setStat, lang }: IProps) => {
               className={styles.join}
               onClick={(event) => {
                 event.preventDefault();
-                window.open(`https://t.me/AIO_OFFICIAL_${lang === 'ru' ? 'CIS' : 'EN'}`);
+                window.open(`https://t.me/AIO_OFFICIAL_${language === 'ru' ? 'CIS' : 'EN'}`);
               }}
             >
               {t('Join')}

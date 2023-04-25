@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 
 export type ContextType = {
-  status: boolean;
+  language: string;
+  setLanguage: Dispatch<string>;
 };
 
 export const Context = React.createContext<ContextType | null>(null);

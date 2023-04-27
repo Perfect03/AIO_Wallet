@@ -27,7 +27,7 @@ const HeaderWallet = () => {
     <header className={styles.header}>
       <NavLink to="/">
         <img src={logo} alt="AIO" className={styles.logo} />
-        </NavLink>
+      </NavLink>
       <div className={styles.langs}>
         <span
           className={`${styles.lang} ${language === 'ru' ? styles.active : ''}`}

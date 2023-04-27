@@ -64,6 +64,26 @@ const MainWallet = ({ user }: IMainWallet) => {
                   </div>
                 </div>
               </div>
+              <div className={styles.asset}>
+                <div className={styles.coin}>
+                  <img src={bitcoin} alt="" />
+                </div>
+                <div className={styles.coinAbout}>
+                  <div className={styles.firstLine}>
+                    <div className={styles.currency}>Bitcoin</div>
+                    <div className={styles.sum}>
+                      <button>
+                        <img src={refresh} alt="" />
+                      </button>
+                      {user.btc}
+                    </div>
+                  </div>
+                  <div className={styles.secondLine}>
+                    <span className={styles.address}>Show address</span>
+                    <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                  </div>
+                </div>
+              </div>
             </div>
             <button className={styles.addToken}>{t('Add custom tokens')}</button>
           </div>

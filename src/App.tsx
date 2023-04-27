@@ -5,7 +5,7 @@ import i18n from './i18n';
 import useLocalStorage from './hooks/use-localStorage';
 import Home from './components/Home/Home';
 import { Context } from './languageContext';
-import Wallet from './components/Wallet/Wallet';
+import Wallet from './components/Wallet/Authorisation/CreateWallet';
 
 function App() {
   const [language, setLanguage] = useLocalStorage('language', 'ru');

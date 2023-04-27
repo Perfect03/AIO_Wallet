@@ -56,5 +56,14 @@
     "Your secret phrase": "Your secret phrase",
     "I understand": "I understand",
     "All neurals in AIO": "Все нейросети в проекте AIO будут работать в связке друг с другом, что позволит пользователям получать полный и всесторонний набор услуг.",
-    "Write these words": "Write these words in the correct order and keep them in a safe place."
+    "Write these words": "Write these words in the correct order and keep them in a safe place.",
+    "SeedAbout1": "1. Write these words in the correct",
+    "SeedAbout2": "2. Write these words in the correct order and keep them in a safe place.",
+    "Select seed language": "Select language for your secret phrase: ",
+    "Copy seed": "Seed phrase is copied",
+    "Copy seed error": "Error in copying text",
+    "Your balance": "Your balance",
+    "Your assets": "Your assets",
+    "Write these words in the correct order and keep them": "Write these words in the correct order and keep them",
+    "Add custom tokens": "Add custom tokens"
 }

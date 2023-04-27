@@ -38,7 +38,7 @@ const Header = ({ stat, setStat }: IProps) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   return (
-    <header className={scroll > window.innerHeight ? styles.sticky : ''}>
+    <header className={`${styles.headerHome} ${scroll > window.innerHeight ? styles.sticky : ''}`}>
       <div className={styles.container}>
         <img src={logo} alt="AIO" />
         <ul>

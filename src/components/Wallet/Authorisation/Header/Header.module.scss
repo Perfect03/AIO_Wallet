@@ -3,6 +3,9 @@
     height: 80px;
     justify-content: space-between;
     padding: 0 15.833vw;
+    top: -80px;
+    align-items: center;
+    transition: .35s cubic-bezier(0.645, 0.045, 0.355, 1);
     .logo {
         &:hover {
             cursor: pointer;
@@ -23,4 +26,8 @@
             }
         }
     }
+}
+
+.toastify {
+    top: 77px;
 }

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Main from './Main/Main';
 import Footer from './Footer/Footer';
 import Header from './Header/Header';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import i18n from '../../i18n';
 import useLocalStorage from '../../hooks/use-localStorage';

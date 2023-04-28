@@ -6,7 +6,7 @@ import styles from './CreateWallet.module.scss';
 
 export default function SeedInput(props: {
   setAnimation: React.Dispatch<React.SetStateAction<string>>;
-  setStep: React.Dispatch<React.SetStateAction<number>>
+  setStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const [seed, setSeed] = useState<string[]>([]);
   const [valid, setValid] = useState(true);
@@ -16,7 +16,6 @@ export default function SeedInput(props: {
     const newSeed = seed;
     newSeed[index] = e.target.value.toLowerCase();
     setSeed(newSeed);
-    console.log(index);
   }
 
   function handleKeyDown(index: number, e: KeyboardEvent) {

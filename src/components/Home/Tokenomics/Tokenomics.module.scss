@@ -3,13 +3,20 @@
         @content;
     }
 }
+@mixin _900 {
+    @media (max-width: 900px){
+        @content;
+    }
+}
 
 .chart {
-    margin-top: -19px;
-    margin-left: 21.82px;
-    margin-right: 21.82px;
+    margin-left: 9px;
+    @include _900 {
+        font-size: 12px;
+    }
     @include _420 {
         margin-left: 0;
+        font-size: 12px;
         margin-right: 0;
     }
 }

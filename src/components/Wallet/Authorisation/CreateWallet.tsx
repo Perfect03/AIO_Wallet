@@ -64,7 +64,7 @@ const CreateWallet = () => {
             ${animation == 'start' && styles.animation_start} 
             ${animation == 'end' && styles.animation_end}`}
                   >
-                    <h1>{t('Create new wallet')}</h1>
+                    <h1>{t('Create Wallet')}</h1>
                     <button
                       onClick={(event) => {
                         event.preventDefault();
@@ -83,8 +83,8 @@ const CreateWallet = () => {
             ${animation == 'end' && styles.animation_start} 
             ${animation == 'start' && styles.animation_end}`}
                   >
-                    <h1>{t('Your secret phrase')}</h1>
-                    <div className={styles.infoText}>{t('All neurals in AIO')}</div>
+                    <h1>{t('Your seed phrase')}</h1>
+                    <div className={styles.infoText}>{t('Write down this 12-word')}</div>
                     <div className={styles.buttons}>
                       <button
                         className={styles.understand}
@@ -106,7 +106,7 @@ const CreateWallet = () => {
             ${animation == 'start' && styles.animation_start} 
             ${animation == 'end' && styles.animation_end}`}
                   >
-                    <h1>{t('Your secret phrase')}</h1>
+                    <h1>{t('Your seed phrase')}</h1>
                     <div className={styles.infoText}>{t('Write these words')}</div>
                     <div className={styles.buttons}>
                       <button
@@ -117,7 +117,7 @@ const CreateWallet = () => {
                           changeStep(4);
                         }}
                       >
-                        {t('I understand')}
+                        {t('Next')}
                       </button>
                     </div>
                   </div>
@@ -129,7 +129,7 @@ const CreateWallet = () => {
             ${animation == 'end' && styles.animation_start} 
             ${animation == 'start' && styles.animation_end}`}
                   >
-                    <h1>{t('Your secret phrase')}</h1>
+                    <h1>{t('Your seed phrase')}</h1>
                     <div className={styles.infoText}>{t('Write these words')}</div>
                     <div className={styles.words}>
                       {walletData?.mnemonic.map((el, index) => (
@@ -148,7 +148,7 @@ const CreateWallet = () => {
                           changeStep(6);
                         }}
                       >
-                        {t('I understand')}
+                        {t('Next')}
                       </button>
                       <button className={styles.copy} onClick={handleCopyClick}>
                         <img src={copy} alt="" />
@@ -163,7 +163,7 @@ const CreateWallet = () => {
             ${animation == 'end' && styles.animation_start} 
             ${animation == 'start' && styles.animation_end}`}
                   >
-                    <h1>{t('Enter your secret phrase')}</h1>
+                    <h1>{t('Enter Your seed phrase')}</h1>
                     <SeedInput setAnimation={setAnimation} setStep={setStep} />
                   </div>
                 )}

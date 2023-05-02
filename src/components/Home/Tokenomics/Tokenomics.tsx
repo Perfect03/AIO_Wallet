@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Tokenomics.module.scss';
-import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { PieChart, Pie, ResponsiveContainer, Cell } from 'recharts';
 
 interface ILabel {
   cx: number;
@@ -13,25 +13,37 @@ interface ILabel {
 }
 
 const Tokenomics = () => {
-  const [index, setIndex] = useState(0);
   const data = [
-    { name: 'Token Sale', value: 35 },
-    { name: 'Liquidity', value: 25 },
-    { name: 'Marketing', value: 10 },
-    { name: 'Team', value: 10 },
-    { name: 'Development', value: 12.5 },
-    { name: 'Treasury', value: 7.5 },
+    { name: 'Presale #1', value: 12 },
+    { name: 'Presale#2', value: 18 },
+    { name: 'Liquidity', value: 15 },
+    { name: 'Marketing', value: 15 },
+    { name: 'Development', value: 11.5 },
+    { name: 'Team', value: 12 },
+    { name: 'Reserve', value: 6.5 },
+    { name: 'Treasury', value: 10 },
   ];
 
   const RADIAN = Math.PI / 180;
-  const values = ['Token Sale', 'Liquidity', 'Marketing', 'Team', 'Development', 'Treasury'];
+  const values = [
+    'Presale #1',
+    'Presale#2',
+    'Liquidity',
+    'Marketing',
+    'Development',
+    'Team',
+    'Reserve',
+    'Treasury',
+  ];
 
   const colors = [
-    'url(#tokenSale)',
+    'url(#presale1)',
+    'url(#presale2)',
     'url(#liquidity)',
     'url(#marketing)',
-    'url(#team)',
     'url(#development)',
+    'url(#team)',
+    'url(#reserve)',
     'url(#treasury)',
   ];
 
@@ -60,33 +72,41 @@ const Tokenomics = () => {
   };
 
   return (
-    <div className={styles.chart} style={{ width: 320, height: 324 }}>
+    <div className={styles.chart} style={{ width: '100%', height: '100%' }}>
       <ResponsiveContainer>
         <PieChart>
           <defs>
-            <linearGradient id="tokenSale" x1="0" y1="1" x2="1" y2="0">
-              <stop offset="0%" stopColor="#FB69B2" />
-              <stop offset="100%" stopColor="#BC5DCA" />
+            <linearGradient id="presale1" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stopColor="#4646F6" />
+              <stop offset="100%" stopColor="#584AEF" />
+            </linearGradient>
+            <linearGradient id="presale2" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stopColor="#584AEF" />
+              <stop offset="100%" stopColor="#674CEA" />
             </linearGradient>
             <linearGradient id="liquidity" x1="0" y1="1" x2="1" y2="0">
-              <stop offset="0%" stopColor="#BC5DCA" />
-              <stop offset="100%" stopColor="#8E54DB" />
+              <stop offset="0%" stopColor="#674CEA" />
+              <stop offset="100%" stopColor="#7A50E2" />
             </linearGradient>
             <linearGradient id="marketing" x1="0" y1="1" x2="1" y2="0">
-              <stop offset="0%" stopColor="#8E54DB" />
-              <stop offset="100%" stopColor="#7C51E2" />
-            </linearGradient>
-            <linearGradient id="team" x1="0" y1="1" x2="1" y2="0">
-              <stop offset="0%" stopColor="#7C51E2" />
-              <stop offset="100%" stopColor="#6A4DE8" />
+              <stop offset="0%" stopColor="#7A50E2" />
+              <stop offset="100%" stopColor="#9655D8" />
             </linearGradient>
             <linearGradient id="development" x1="0" y1="1" x2="1" y2="0">
-              <stop offset="0%" stopColor="#6A4DE8" />
-              <stop offset="100%" stopColor="#5348F1" />
+              <stop offset="0%" stopColor="#9655D8" />
+              <stop offset="100%" stopColor="#CA60C4" />
+            </linearGradient>
+            <linearGradient id="team" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stopColor="#CA60C4" />
+              <stop offset="100%" stopColor="#AF5ACF" />
+            </linearGradient>
+            <linearGradient id="reserve" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stopColor="#AF5ACF" />
+              <stop offset="100%" stopColor="#E064BC" />
             </linearGradient>
             <linearGradient id="treasury" x1="0" y1="1" x2="1" y2="0">
-              <stop offset="0%" stopColor="#5348F1" />
-              <stop offset="100%" stopColor="#4646F6" />
+              <stop offset="0%" stopColor="#E064BC" />
+              <stop offset="100%" stopColor="#FB69B2" />
             </linearGradient>
 
             <linearGradient id="font" x1="0" y1="1" x2="1" y2="0">
@@ -102,6 +122,8 @@ const Tokenomics = () => {
             cy="50%"
             innerRadius={48}
             outerRadius={80}
+            startAngle={90}
+            endAngle={-270}
             stroke="none"
             label={renderCustomizedLabel}
             paddingAngle={5}

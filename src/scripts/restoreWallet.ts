@@ -4,9 +4,9 @@ import { HDKey } from 'ethereum-cryptography/hdkey';
 import { secp256k1 } from 'ethereum-cryptography/secp256k1';
 import { keccak256 } from 'ethereum-cryptography/keccak';
 import { bytesToHex } from 'ethereum-cryptography/utils';
-import { Wallet, stringToArray } from './getWallet';
+import { TWallet, stringToArray } from './getWallet';
 
-export default function restoreWallet(_mnemonic: string): Wallet {
+export default function restoreWallet(_mnemonic: string): TWallet {
   if (!validateMnemonic(_mnemonic, wordlist))
     return {
       mnemonic: [],

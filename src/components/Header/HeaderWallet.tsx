@@ -17,14 +17,17 @@ import InvestIcon from './icons/InvestIcon';
 import TradesIcon from './icons/TradesIcon';
 import SettingsIcon from './icons/SettingsIcon';
 import ExitIcon from './icons/ExitIcon';
+import useLocalStorage from '../../hooks/use-localStorage';
+import { TWallet } from '../../scripts/getWallet';
 
-interface IHeaderWallet {
-  balance: number;
-  walletID: string;
-}
-
-const HeaderWallet = ({ balance, walletID }: IHeaderWallet) => {
+const HeaderWallet = () => {
   const { language, setLanguage } = useContext(Context) as ContextType;
+
+  const walletInfo = useLocalStorage<TWallet>('wallet', {
+    mnemonic: [],
+    privateKey: '',
+    address: '',
+  })[0];
 
   const handleLenguageChange = (lang: string) => {
     if (lang === 'ru') {
@@ -64,7 +67,7 @@ const HeaderWallet = ({ balance, walletID }: IHeaderWallet) => {
             <div className={styles.coin}>
               <img src={coin} alt="AIO" />
             </div>
-            <div className={styles.balance}>$ {`${balance}`.slice(0, 6)}</div>
+            <div className={styles.balance}>$ ------- </div>
           </div>
           <div className={styles.right}>
             <div className={styles.langs}>
@@ -85,7 +88,7 @@ const HeaderWallet = ({ balance, walletID }: IHeaderWallet) => {
             <div className={styles.wallet}>
               <img src={wallet} alt="AIO" className={styles.logo} />
               <span className={styles.id}>
-                {walletID.slice(0, 6)}…{walletID.slice(-4)}
+                {walletInfo.address.slice(0, 6)}…{walletInfo.address.slice(-4)}
               </span>
             </div>
           </div>

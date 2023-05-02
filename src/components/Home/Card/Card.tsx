@@ -46,9 +46,6 @@ const Card = () => {
             <li>{t('Phase2_3')}</li>
             <li>{t('Phase2_4')}</li>
             <li>{t('Phase2_5')}</li>
-            <li>{t('Phase2_6')}</li>
-            <li>{t('Phase2_7')}</li>
-            <li>{t('Phase2_8')}</li>
           </ul>
         </div>
         <div className={styles.item}>
@@ -60,6 +57,7 @@ const Card = () => {
             <li>{t('Phase3_2')}</li>
             <li>{t('Phase3_3')}</li>
             <li>{t('Phase3_4')}</li>
+            <li>{t('Phase3_5')}</li>
           </ul>
         </div>
         <div className={styles.item}>
@@ -71,7 +69,6 @@ const Card = () => {
             <li>{t('Phase4_2')}</li>
             <li>{t('Phase4_3')}</li>
             <li>{t('Phase4_4')}</li>
-            <li>{t('Phase4_5')}</li>
           </ul>
         </div>
         <div className={styles.item}>

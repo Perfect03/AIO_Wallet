@@ -24,7 +24,7 @@ const Wallet = () => {
 
   return (
     <>
-      <HeaderWallet balance={balance} walletID={walletID}></HeaderWallet>
+      <HeaderWallet></HeaderWallet>
       <MainWallet user={user}></MainWallet>
     </>
   );

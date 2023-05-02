@@ -2,7 +2,7 @@ import styles from './CreateWallet.module.scss';
 import copy from '../../../assets/copy.svg';
 import Header from './Header/Header';
 import { useContext, useEffect, useState } from 'react';
-import { getWallet, Wallet as IWallet } from '../../../scripts/getWallet';
+import { getWallet, TWallet } from '../../../scripts/getWallet';
 import { useTranslation } from 'react-i18next';
 import SeedInput from './SeedInput';
 
@@ -16,13 +16,15 @@ const CreateWallet = () => {
   const { language } = useContext(Context) as ContextType;
   const [animation, setAnimation] = useState('start');
   const [step, setStep] = useState(1);
-  const [walletData, setWalletData] = useState<IWallet>();
+  const [walletData, setWalletData] = useLocalStorage<TWallet>('wallet', {
+    mnemonic: [],
+    privateKey: '',
+    address: '',
+  });
 
   useEffect(() => {
     setAnimation('middle');
   }, []);
-
-  useLocalStorage('wallet', JSON.stringify(walletData));
 
   const changeStep = (i: number) => {
     setTimeout(() => {

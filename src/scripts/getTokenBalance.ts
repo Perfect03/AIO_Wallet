@@ -3,7 +3,7 @@ import useLocalStorage from '../hooks/use-localStorage';
 import abi from '../locales/erc20.abi.json';
 type address = string;
 
-async function addCustomTokens(tokenAddress: address) {
+async function getTokenBalance(tokenAddress: address) {
   const bscRpcUrl = process.env.REACT_APP_RPC_ENDPONT;
   const chainId = process.env.REACT_APP_CHAIN_ID;
   const provider = new ethers.providers.JsonRpcProvider(bscRpcUrl, chainId);
@@ -18,4 +18,4 @@ async function addCustomTokens(tokenAddress: address) {
   return balance;
 }
 
-export default addCustomTokens;
+export default getTokenBalance;

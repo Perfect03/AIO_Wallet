@@ -30,18 +30,18 @@ const MainWallet = ({ user }: IMainWallet) => {
             <div className={styles.buttons}>
               <button className={styles.deposit}>
                 <img src={deposit} alt="" />
-                <span>Deposit</span>
+                <span>{t('Deposit')}</span>
               </button>
               <button className={styles.withdraw}>
                 <img src={withdraw} alt="" />
-                <span>Withdraw</span>
+                <span>{t('Withdraw')}</span>
               </button>
             </div>
           </div>
           <div className={styles.yourAssets}>
             <h1 className={styles.title}>{t('Your assets')}</h1>
             <div className={styles.describe}>
-              {t('Write these words in the correct order and keep them')}
+              {t('Here you can safely store, send and receive assets')}
             </div>
             <div className={styles.assets}>
               <div className={styles.asset}>

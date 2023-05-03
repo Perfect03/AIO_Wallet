@@ -1,15 +1,11 @@
 import { Wallet, Transaction } from 'ethers';
 import { ethers } from 'ethers';
-import useLocalStorage from '../hooks/use-localStorage';
+import defaultProvider from './rpc/defaultProvider';
 
 type address = string;
 
-async function sendTransaction(_to: address, _amount: number) {
-  const bscRpcUrl = process.env.REACT_APP_RPC_ENDPONT;
-  const chainId = process.env.REACT_APP_CHAIN_ID;
-  const provider = new ethers.providers.JsonRpcProvider(bscRpcUrl, chainId);
-
-  const [walletData, setWalletData] = useLocalStorage('wallet', '');
+async function sendTransaction(_to: address, _amount: number, walletData: any) {
+  const provider = defaultProvider;
 
   const privateKey = walletData.privateKey;
 

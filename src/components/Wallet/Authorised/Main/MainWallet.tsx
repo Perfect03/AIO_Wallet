@@ -9,13 +9,31 @@ import { useTranslation } from 'react-i18next';
 import { Context, ContextType } from '../../../../languageContext';
 import { NavLink } from 'react-router-dom';
 import { IWallet } from '../../../../interfaces/interfaces';
+import Modal from 'react-modal';
 
 interface IMainWallet {
   user: IWallet;
 }
 
 const MainWallet = ({ user }: IMainWallet) => {
-  const { language, setLanguage } = useContext(Context) as ContextType;
+  const [depositModalIsOpen, setDepositModalIsOpen] = React.useState(false);
+  const [withdrawModalIsOpen, setWithdrawModalIsOpen] = React.useState(false);
+  const depositModalStyles = {
+    overlay: {
+      backgroundColor: 'rgba(15, 12, 23, 0.82)',
+      zIndex: 31,
+    },
+    content: {
+      width: '423px',
+      transform: 'translate(-50%, -50%)',
+      background: 'rgba(29, 25, 37, 0.92)',
+      backdropFilter: 'blur(11px)',
+      borderRadius: '6px',
+      padding: 0,
+      border: 0,
+      left: 'calc(50vw  - 423px/2)',
+    },
+  }
 
   const { t } = useTranslation();
 
@@ -28,11 +46,13 @@ const MainWallet = ({ user }: IMainWallet) => {
             <div className={styles.usd}>{`${user.balance}`.slice(0, 8)} USD</div>
             <div className={styles.btc}>{`${user.btc}`.slice(0, 10)} BTC</div>
             <div className={styles.buttons}>
-              <button className={styles.deposit}>
+              <button className={styles.deposit} onClick={() => setDepositModalIsOpen(true)}>
                 <img src={deposit} alt="" />
                 <span>{t('Deposit')}</span>
               </button>
-              <button className={styles.withdraw}>
+              <button className={styles.withdraw} onClick={() => {
+
+              }}>
                 <img src={withdraw} alt="" />
                 <span>{t('Withdraw')}</span>
               </button>
@@ -88,6 +108,14 @@ const MainWallet = ({ user }: IMainWallet) => {
             <button className={styles.addToken}>{t('Add custom tokens')}</button>
           </div>
         </div>
+        <Modal
+        isOpen={depositModalIsOpen}
+        onRequestClose={() => setDepositModalIsOpen(false)}
+        style={depositModalStyles}
+        contentLabel="Example Modal"
+        >
+          22
+        </Modal>
       </main>
     </>
   );

@@ -119,10 +119,11 @@
             justify-content: center;
             align-items: center;
           }
-          input {
-            background: rgba(15, 12, 23, 1);
-            color: #7a7b7c;
-          }
+        }
+        input {
+          background: rgba(15, 12, 23, 1);
+          color: #7a7b7c;
+          width: 10ch;
         }
       }
       .buttons {

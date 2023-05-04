@@ -57,6 +57,11 @@
         @content;
     }
 }
+@mixin _364 {
+    @media (max-width: 364px){
+        @content;
+    }
+}
 
 * {
     color: white;
@@ -551,11 +556,19 @@ display: inline-block;
             }
         }
         .diagram {
-            padding-bottom: 32px;
+            padding-bottom: 29px;
             background: rgba(29, 25, 37, 0.75);
             backdrop-filter: blur(11px);
             border-radius: 6px;
             display: inline-block;
+            width: 390px;
+            height: 337px;
+            @include _900 {
+                width: 363.64px;
+            }
+            @include _364 {
+                width: 320px;
+            }
         }
         @include _900 {
             flex-direction: column;

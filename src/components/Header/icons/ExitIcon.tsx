@@ -1,10 +1,17 @@
 import { NavLink } from 'react-router-dom';
+import useLocalStorage from '../../../hooks/uselocalStorage';
 import styles from '../HeaderWallet.module.scss';
 
 export default function ExitIcon() {
+  function handleExitClick() {
+    try {
+      window.localStorage.removeItem('wallet');
+    } catch (e) {}
+  }
+
   return (
     <NavLink to="/">
-      <button className={styles.leftLink}>
+      <button className={styles.leftLink} onClick={handleExitClick}>
         <svg
           width="24"
           height="24"

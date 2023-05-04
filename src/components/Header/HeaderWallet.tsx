@@ -17,7 +17,7 @@ import InvestIcon from './icons/InvestIcon';
 import TradesIcon from './icons/TradesIcon';
 import SettingsIcon from './icons/SettingsIcon';
 import ExitIcon from './icons/ExitIcon';
-import useLocalStorage from '../../hooks/use-localStorage';
+import useLocalStorage from '../../hooks/uselocalStorage';
 import { TWallet } from '../../scripts/getWallet';
 
 const HeaderWallet = () => {

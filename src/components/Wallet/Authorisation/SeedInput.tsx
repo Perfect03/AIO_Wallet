@@ -1,10 +1,9 @@
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useLocalStorage from '../../../hooks/use-localStorage';
+import useLocalStorage from '../../../hooks/uselocalStorage';
 import { TWallet } from '../../../scripts/getWallet';
 import restoreWallet from '../../../scripts/restoreWallet';
 import styles from './CreateWallet.module.scss';
-import { ethers, Wallet } from 'ethers';
 
 export default function SeedInput(props: {
   setAnimation: React.Dispatch<React.SetStateAction<string>>;
@@ -39,9 +38,8 @@ export default function SeedInput(props: {
   console.log(seed);
 
   function handleSubmitClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    const wallet = restoreWallet(seed.join(' '));
-
-    if (wallet.address) {
+    try {
+      const wallet = restoreWallet(seed.join(' '));
       setWallet({
         pk: wallet.privateKey,
         addr: wallet.address,
@@ -49,7 +47,7 @@ export default function SeedInput(props: {
       props.setStep(6);
       props.setAnimation('end');
       e.preventDefault();
-    } else {
+    } catch {
       setValid(false);
     }
   }

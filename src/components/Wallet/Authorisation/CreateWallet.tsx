@@ -5,9 +5,8 @@ import { useContext, useEffect, useState } from 'react';
 import { getWallet, TWallet } from '../../../scripts/getWallet';
 import { useTranslation } from 'react-i18next';
 import SeedInput from './SeedInput';
-
 import { toast } from 'react-toastify';
-import useLocalStorage from '../../../hooks/use-localStorage';
+import useLocalStorage from '../../../hooks/uselocalStorage';
 import { Context, ContextType } from '../../../languageContext';
 import Wallet from '../Authorised/Wallet';
 import { ethers } from 'ethers';
@@ -25,6 +24,10 @@ const CreateWallet = () => {
 
   useEffect(() => {
     setAnimation('middle');
+
+    if (walletData.pk) {
+      setStep(6);
+    }
   }, []);
 
   const changeStep = (i: number) => {

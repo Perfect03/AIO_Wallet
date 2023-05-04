@@ -1,8 +1,10 @@
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useLocalStorage from '../../../hooks/use-localStorage';
+import { TWallet } from '../../../scripts/getWallet';
 import restoreWallet from '../../../scripts/restoreWallet';
 import styles from './CreateWallet.module.scss';
+import { ethers, Wallet } from 'ethers';
 
 export default function SeedInput(props: {
   setAnimation: React.Dispatch<React.SetStateAction<string>>;
@@ -12,10 +14,20 @@ export default function SeedInput(props: {
   const [valid, setValid] = useState(true);
   const { t } = useTranslation();
 
+  useEffect(() => {
+    if (!valid) setTimeout(() => setValid(true), 3000);
+  }, [valid]);
+
+  const setWallet = useLocalStorage<TWallet>('wallet', {
+    pk: '',
+    addr: '',
+  })[1];
+
   function handleWordInput(index: number, e: ChangeEvent<HTMLInputElement>) {
     const newSeed = seed;
     newSeed[index] = e.target.value.toLowerCase();
     setSeed(newSeed);
+    console.log(newSeed);
   }
 
   function handleKeyDown(index: number, e: KeyboardEvent) {
@@ -24,14 +36,22 @@ export default function SeedInput(props: {
     }
   }
 
-  function handleSubmitClick() {
+  console.log(seed);
+
+  function handleSubmitClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     const wallet = restoreWallet(seed.join(' '));
 
-    if (wallet) {
-      try {
-        localStorage.setItem('wallet', JSON.stringify(wallet));
-      } catch (error) {}
-    } else setValid(false);
+    if (wallet.address) {
+      setWallet({
+        pk: wallet.privateKey,
+        addr: wallet.address,
+      });
+      props.setStep(6);
+      props.setAnimation('end');
+      e.preventDefault();
+    } else {
+      setValid(false);
+    }
   }
 
   return (
@@ -54,15 +74,7 @@ export default function SeedInput(props: {
           ))}
       </div>
       <div className={styles.buttons}>
-        <button
-          className={styles.understand}
-          onClick={(event) => {
-            event.preventDefault();
-            props.setAnimation('end');
-            handleSubmitClick();
-            props.setStep(6);
-          }}
-        >
+        <button className={styles.understand} onClick={(e) => handleSubmitClick(e)}>
           {valid ? t('Proceed') : t('Not valid seed phrase!')}
         </button>
       </div>

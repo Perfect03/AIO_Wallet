@@ -24,12 +24,11 @@ const HeaderWallet = () => {
   const { language, setLanguage } = useContext(Context) as ContextType;
 
   const walletInfo = useLocalStorage<TWallet>('wallet', {
-    mnemonic: [],
-    privateKey: '',
-    address: '',
+    pk: '',
+    addr: '',
   })[0];
 
-  const handleLenguageChange = (lang: string) => {
+  const handleLanguageChange = (lang: string) => {
     if (lang === 'ru') {
       i18n.changeLanguage('ru');
       setLanguage('ru');
@@ -73,14 +72,14 @@ const HeaderWallet = () => {
             <div className={styles.langs}>
               <span
                 className={`${styles.lang} ${language === 'ru' ? styles.active : ''}`}
-                onClick={() => handleLenguageChange('ru')}
+                onClick={() => handleLanguageChange('ru')}
               >
                 RU
               </span>
               <span> / </span>
               <span
                 className={`${styles.lang} ${language === 'en' ? styles.active : ''}`}
-                onClick={() => handleLenguageChange('en')}
+                onClick={() => handleLanguageChange('en')}
               >
                 EN
               </span>
@@ -88,7 +87,7 @@ const HeaderWallet = () => {
             <div className={styles.wallet}>
               <img src={wallet} alt="AIO" className={styles.logo} />
               <span className={styles.id}>
-                {walletInfo.address.slice(0, 6)}…{walletInfo.address.slice(-4)}
+                {walletInfo.addr.slice(0, 6)}…{walletInfo.addr.slice(-4)}
               </span>
             </div>
           </div>

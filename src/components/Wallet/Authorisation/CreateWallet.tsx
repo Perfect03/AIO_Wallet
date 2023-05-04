@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import useLocalStorage from '../../../hooks/use-localStorage';
 import { Context, ContextType } from '../../../languageContext';
 import Wallet from '../Authorised/Wallet';
+import { ethers } from 'ethers';
 
 const CreateWallet = () => {
   const { t } = useTranslation();
@@ -17,10 +18,10 @@ const CreateWallet = () => {
   const [animation, setAnimation] = useState('start');
   const [step, setStep] = useState(1);
   const [walletData, setWalletData] = useLocalStorage<TWallet>('wallet', {
-    mnemonic: [],
-    privateKey: '',
-    address: '',
+    pk: '',
+    addr: '',
   });
+  const [mnemonic, setMnemonic] = useState('');
 
   useEffect(() => {
     setAnimation('middle');
@@ -33,13 +34,17 @@ const CreateWallet = () => {
 
       if (i === 4) {
         const newWallet = getWallet();
-        setWalletData(newWallet);
+        setWalletData({
+          pk: newWallet.privateKey,
+          addr: newWallet.address,
+        });
+        setMnemonic(newWallet.mnemonic.phrase);
       }
     }, 300);
   };
 
   function handleCopyClick() {
-    const stringMnemonic = walletData!.mnemonic.join(' ');
+    const stringMnemonic = new ethers.Wallet(walletData.pk).mnemonic.phrase;
     navigator.clipboard
       .writeText(stringMnemonic)
       .then(() => {
@@ -134,7 +139,7 @@ const CreateWallet = () => {
                     <h1>{t('Your seed phrase')}</h1>
                     <div className={styles.infoText}>{t('Write these words')}</div>
                     <div className={styles.words}>
-                      {walletData?.mnemonic.map((el, index) => (
+                      {mnemonic?.split(' ').map((el, index) => (
                         <div className={styles.word} key={index}>
                           <div className={styles.number}>{index + 1}</div>
                           <div>{el}</div>

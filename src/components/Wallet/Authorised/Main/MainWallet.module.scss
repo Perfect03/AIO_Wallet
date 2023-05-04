@@ -130,3 +130,197 @@
         }
     }
 }
+
+.modal {
+    .modalBack {
+        background: transparent;
+        position: fixed;
+        left: 20px;
+        top: 31px;
+    }
+    
+    .modalTitle {
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 28px;
+        text-align: center;
+        margin-bottom: 12px;
+    }
+    
+    .modalSubTitle {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 22px;
+        color: #7A7B7C;
+        text-align: center;
+    }
+    .field {
+        margin-top: 32px;
+        ul {
+            margin: 0;
+            padding: 0;
+            height: 39px;
+            overflow: visible;
+            margin-top: 8px;
+            .modalAsset {
+                background: #272332;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 39px;
+                position: relative;
+                z-index: 5;
+                cursor: pointer;
+                .asset {
+                    display: flex;
+                    align-items: center;
+                    .modalAssetImage {
+                        margin-left: 10px;
+                        margin-right: 6px;
+                    }
+                }
+                .assetMore {
+                    margin-right: 16px;
+                }
+            }
+        }
+        .network {
+            display: flex;
+            gap: 3px;
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 18px;
+            background: #272332;
+            border-radius: 4px;
+            height: 39px;
+            align-items: center;
+            padding: 10px;
+            margin-top: 8px;
+            .networkTitle {
+                color: white;
+            }
+            .networkSubTitle {
+                color: rgba(122, 123, 124, 1);
+            }
+        }
+        .addressDeposit {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 11px;
+            margin-bottom: 20px;
+            .addressCopy {
+                background: transparent;
+              }
+        }
+        .addressWithdraw {
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 18px;
+            background: #272332;
+            border-radius: 4px;
+            height: 39px;
+            padding: 10.5px;
+            width: 100%;
+            margin-top: 8px;
+        }
+        .addressText {
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 18px;
+            background: #272332;
+            border-radius: 4px;
+            height: 39px;
+            padding: 10.5px;
+            width: 100%;
+        }
+        .fieldTitles {
+            display: flex;
+            justify-content: space-between;
+            .fieldSubTitle {
+                font-weight: 500;
+                font-size: 15px;
+                line-height: 18px;
+                background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                text-fill-color: transparent;
+            }
+        }
+        .withdrawAiAmount {
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 18px;
+            background: #272332;
+            border-radius: 4px;
+            height: 39px;
+            padding: 10.5px;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+    }
+    .modalInfo {
+        margin-top: 16px;
+        .infoTitle {
+            margin-bottom: 4px;
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 18px;
+            color: #7A7B7C;
+        }
+        .info {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 19px;
+        }
+    }
+    .sum {
+        margin-top: 42px;
+        margin-bottom: 18px;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 28px;
+
+    }
+    .submit {
+        height: 52px;
+        background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+        box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
+        border-radius: 4px;
+        width: 100%;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 21px;
+    }
+    .qrBorder {
+        position: relative;
+        background-clip: padding-box;
+        background: rgba(29, 25, 37, 0.92);
+        border: solid 2px transparent;
+        border-radius: 6px;
+        width: 125px;
+        height: 125px;
+        padding: 3px;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            z-index: -1;
+            margin: -3px; 
+            border-radius: inherit;
+            background: linear-gradient(to right, rgba(251, 105, 178, 1), rgba(70, 70, 246, 1));
+        }
+        .qr {
+            background: white;
+            border-radius: 6px;
+            padding: 6px;
+        }
+    }
+}

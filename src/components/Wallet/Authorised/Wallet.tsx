@@ -1,5 +1,5 @@
 import styles from './Wallet.module.scss';
-import HeaderWallet from '../../Header/HeaderWallet';
+import HeaderWallet from './Header/HeaderWallet';
 import MainWallet from './Main/MainWallet';
 import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';

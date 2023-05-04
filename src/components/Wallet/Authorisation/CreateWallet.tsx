@@ -1,5 +1,6 @@
 import styles from './CreateWallet.module.scss';
 import copy from '../../../assets/copy.svg';
+import back from '../../../assets/back.svg';
 import Header from './Header/Header';
 import { useContext, useEffect, useState } from 'react';
 import { getWallet, TWallet } from '../../../scripts/getWallet';
@@ -47,6 +48,7 @@ const CreateWallet = () => {
   };
 
   function handleCopyClick() {
+    console.log(walletData.pk);
     const stringMnemonic = new ethers.Wallet(walletData.pk).mnemonic.phrase;
     navigator.clipboard
       .writeText(stringMnemonic)
@@ -173,12 +175,27 @@ const CreateWallet = () => {
             ${animation == 'end' && styles.animation_start} 
             ${animation == 'start' && styles.animation_end}`}
                   >
-                    <h1>{t('Enter Your seed phrase')}</h1>
+                    <button
+                      className={styles.back}
+                      onClick={() => {
+                        setAnimation('end');
+                        changeStep(1);
+                      }}
+                    >
+                      <img src={back} alt="" />
+                    </button>
+                    <h1>{t('Enter your seed phrase')}</h1>
                     <SeedInput setAnimation={setAnimation} setStep={setStep} />
                   </div>
                 )}
                 {step !== 5 && (
-                  <a className={styles.restore} onClick={() => changeStep(5)}>
+                  <a
+                    className={styles.restore}
+                    onClick={() => {
+                      changeStep(5);
+                      setAnimation('end');
+                    }}
+                  >
                     {t('Restore from 12-word seed')}
                   </a>
                 )}

@@ -3,6 +3,19 @@
     @content;
   }
 }
+
+@mixin _540 {
+  @media (max-width: 540px) {
+    @content;
+  }
+}
+
+@mixin _410 {
+  @media (max-width: 410px) {
+    @content;
+  }
+}
+
 * {
   color: white;
 }
@@ -81,6 +94,12 @@
       background: rgba(29, 25, 37, 0.75);
       backdrop-filter: blur(11px);
       transition: opacity 0.6s, visibility 0.5s, transform 0.3s ease;
+      @include _540 {
+        width: 390px;
+      }
+      @include _410 {
+        width: 290px;
+      }
       h1 {
         font-weight: 500;
         font-size: 24px;
@@ -120,7 +139,7 @@
             align-items: center;
           }
         }
-        input {
+        .inputWord {
           background: rgba(15, 12, 23, 1);
           color: #7a7b7c;
           width: 10ch;
@@ -148,6 +167,12 @@
           background: #272332;
           border-radius: 4px;
         }
+      }
+      .back {
+        background: transparent;
+        position: fixed;
+        left: 18px;
+        top: 22px;
       }
     }
     .restore {

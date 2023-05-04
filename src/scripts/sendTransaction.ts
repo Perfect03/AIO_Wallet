@@ -1,4 +1,4 @@
-import { Wallet, Transaction } from 'ethers';
+import { Wallet } from 'ethers';
 import { ethers } from 'ethers';
 import defaultProvider from './rpc/defaultProvider';
 
@@ -13,7 +13,7 @@ async function sendTransaction(_to: address, _amount: number, walletData: any) {
 
   const tx = {
     to: _to,
-    value: ethers.utils.parseUnits('0.1', 'ether'),
+    value: _amount,
   };
 
   const signedTx = await wallet.signTransaction(tx);

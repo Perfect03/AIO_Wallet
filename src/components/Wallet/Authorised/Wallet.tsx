@@ -14,6 +14,7 @@ import { getIdMap } from '../../../scripts/cryptocurrencyMap';
 import convert from '../../../scripts/convert';
 import getTokenBalance from '../../../scripts/getTokenBalance';
 import defaultProvider from '../../../scripts/rpc/defaultProvider';
+import getTokenMetadata from '../../../scripts/getTokenMetadata';
 
 const Wallet = () => {
   const { t } = useTranslation();
@@ -26,6 +27,13 @@ const Wallet = () => {
     walletID: walletID,
     btc: btc,
   };
+
+  useEffect(() => {
+    (async () => {
+      const r = await getTokenMetadata('1');
+      console.log(r);
+    })();
+  }, []);
 
   return (
     <>

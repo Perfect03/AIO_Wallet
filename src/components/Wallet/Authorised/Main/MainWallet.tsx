@@ -7,21 +7,42 @@ import bitcoin from '../../../../assets/bitcoin.svg';
 import bitcoin_small from '../../../../assets/bitcoin_small.svg';
 import back from '../../../../assets/back.svg';
 import more from '../../../../assets/more.svg';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Context, ContextType } from '../../../../languageContext';
 import { toast } from 'react-toastify';
-import { IWallet } from '../../../../interfaces/interfaces';
 import Modal from 'react-modal';
 import QRCode from 'react-qr-code';
+import getNativeBalance from '../../../../scripts/getNativeBalance';
+import useLocalStorage from '../../../../hooks/uselocalStorage';
+import { TWallet } from '../../../../scripts/getWallet';
+import { getIdMap } from '../../../../scripts/cryptocurrencyMap';
+import { Coin } from '../../../../scripts/cryptocurrencyMap';
+import getLatestQuotes from '../../../../scripts/getLatestQuotes';
 
-interface IMainWallet {
-  user: IWallet;
-}
-
-const MainWallet = ({ user }: IMainWallet) => {
+const MainWallet = () => {
   const [depositModalIsOpen, setDepositModalIsOpen] = React.useState(false);
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = React.useState(false);
+  const [nativeBal, setNativeBal] = useState('');
+  const [bnbQuote, setBnbQuote] = useState(0);
+  const [assets, setAssets] = useState<string[]>([]);
+  // const [tokens, setTokensMap] = useState<Coin[]>([]);
+
+  const walletData = useLocalStorage<TWallet>('wallet', {
+    pk: '',
+    addr: '',
+  })[0];
+
+  useEffect(() => {
+    (async () => {
+      const bal = await getNativeBalance(walletData.addr);
+      setNativeBal(bal.toString());
+
+      const fethcedTokens = await getIdMap();
+      console.log(fethcedTokens);
+      setBnbQuote(await getLatestQuotes('BNB', fethcedTokens));
+    })();
+  }, []);
 
   const depositModalStyles = {
     overlay: {
@@ -61,12 +82,6 @@ const MainWallet = ({ user }: IMainWallet) => {
     },
   };
 
-  const assets = [
-    { currency: 'BTC', image: bitcoin_small },
-    { currency: 'BTC', image: bitcoin_small },
-    { currency: 'BTC', image: bitcoin_small },
-    { currency: 'BTC', image: bitcoin_small },
-  ];
   const [isDepositMenuOpen, setIsDepositMenuOpen] = useState(false);
   const address = 'TRcHB2CZe3vYVbXhDgUnQNr1WzZRHz9avN';
 
@@ -89,8 +104,8 @@ const MainWallet = ({ user }: IMainWallet) => {
         <div className={styles.container}>
           <div className={styles.yourBalance}>
             <h1 className={styles.title}>{t('Your balance')}</h1>
-            <div className={styles.usd}>{`${user.balance}`.slice(0, 8)} USD</div>
-            <div className={styles.btc}>{`${user.btc}`.slice(0, 10)} BTC</div>
+            <div className={styles.usd}>{`${bnbQuote * +nativeBal}`.slice(0, 8)} USD</div>
+            <div className={styles.btc}>{`${nativeBal}`.slice(0, 10)} BTC</div>
             <div className={styles.buttons}>
               <button className={styles.deposit} onClick={() => setDepositModalIsOpen(true)}>
                 <img src={deposit} alt="" />
@@ -108,46 +123,30 @@ const MainWallet = ({ user }: IMainWallet) => {
               {t('Here you can safely store, send and receive assets')}
             </div>
             <div className={styles.assets}>
-              <div className={styles.asset}>
-                <div className={styles.coin}>
-                  <img src={bitcoin} alt="" />
-                </div>
-                <div className={styles.coinAbout}>
-                  <div className={styles.firstLine}>
-                    <div className={styles.currency}>Bitcoin</div>
-                    <div className={styles.sum}>
-                      <button>
-                        <img src={refresh} alt="" />
-                      </button>
-                      {user.btc}
+              {assets.map((el, index) => {
+                return (
+                  <div className={styles.asset} key={index}>
+                    <div className={styles.coin}>
+                      <img src={bitcoin} alt="" />
+                    </div>
+                    <div className={styles.coinAbout}>
+                      <div className={styles.firstLine}>
+                        <div className={styles.currency}>Bitcoin</div>
+                        <div className={styles.sum}>
+                          <button>
+                            <img src={refresh} alt="" />
+                          </button>
+                          {''}
+                        </div>
+                      </div>
+                      <div className={styles.secondLine}>
+                        <span className={styles.address}>Show address</span>
+                        <span className={styles.usd}>{`${''}`.slice(0, 6)} USD</span>
+                      </div>
                     </div>
                   </div>
-                  <div className={styles.secondLine}>
-                    <span className={styles.address}>Show address</span>
-                    <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.asset}>
-                <div className={styles.coin}>
-                  <img src={bitcoin} alt="" />
-                </div>
-                <div className={styles.coinAbout}>
-                  <div className={styles.firstLine}>
-                    <div className={styles.currency}>Bitcoin</div>
-                    <div className={styles.sum}>
-                      <button>
-                        <img src={refresh} alt="" />
-                      </button>
-                      {user.btc}
-                    </div>
-                  </div>
-                  <div className={styles.secondLine}>
-                    <span className={styles.address}>Show address</span>
-                    <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
-                  </div>
-                </div>
-              </div>
+                );
+              })}
             </div>
             <button className={styles.addToken}>{t('Add custom tokens')}</button>
           </div>
@@ -164,32 +163,6 @@ const MainWallet = ({ user }: IMainWallet) => {
           <h1 className={styles.modalTitle}>Deposit Bitcoin</h1>
           <h2 className={styles.modalSubTitle}>Only BTC can be deposited</h2>
           <div className={styles.field}>
-            <div className={styles.fieldTitle}>Select assets</div>
-            <ul>
-              <li
-                className={styles.modalAsset}
-                onClick={() => {
-                  setIsDepositMenuOpen(!isDepositMenuOpen);
-                }}
-              >
-                <div className={styles.asset}>
-                  <img className={styles.modalAssetImage} src={assets[0].image} alt="" />
-                  {`${assets[0].currency}`}
-                </div>
-                <img className={styles.assetMore} src={more} alt="" />
-              </li>
-              {isDepositMenuOpen &&
-                assets.slice(1).map((el, index) => (
-                  <li className={styles.modalAsset} key={index}>
-                    <div className={styles.asset}>
-                      <img className={styles.modalAssetImage} src={el.image} alt="" />
-                      {`${el.currency}`}
-                    </div>
-                  </li>
-                ))}
-            </ul>
-          </div>
-          <div className={styles.field}>
             <div className={styles.fieldTitle}>Network</div>
             <div className={styles.network}>
               <div className={styles.networkTitle}>BSC</div>
@@ -199,7 +172,7 @@ const MainWallet = ({ user }: IMainWallet) => {
           <div className={styles.field}>
             <div className={styles.fieldTitle}>Address</div>
             <div className={styles.addressDeposit}>
-              <input className={styles.addressText} />
+              <p className={styles.addressText}>{walletData.addr}</p>
               <button className={styles.addressCopy} onClick={handleCopyClick}>
                 <img src={copyForModal} alt="" />
               </button>
@@ -238,8 +211,8 @@ const MainWallet = ({ user }: IMainWallet) => {
                   }}
                 >
                   <div className={styles.asset}>
-                    <img className={styles.modalAssetImage} src={assets[0].image} alt="" />
-                    {`${assets[0].currency}`}
+                    <img className={styles.modalAssetImage} src={''} alt="" />
+                    {``}
                   </div>
                   <img className={styles.assetMore} src={more} alt="" />
                 </li>
@@ -247,8 +220,8 @@ const MainWallet = ({ user }: IMainWallet) => {
                   assets.slice(1).map((el, index) => (
                     <li className={styles.modalAsset} key={index}>
                       <div className={styles.asset}>
-                        <img className={styles.modalAssetImage} src={el.image} alt="" />
-                        {`${el.currency}`}
+                        <img className={styles.modalAssetImage} src={''} alt="" />
+                        {``}
                       </div>
                     </li>
                   ))}

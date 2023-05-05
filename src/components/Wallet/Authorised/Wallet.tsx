@@ -5,7 +5,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { IWallet } from '../../../interfaces/interfaces';
-
 import { toast } from 'react-toastify';
 import { Link, animateScroll as scroll } from 'react-scroll';
 import { Context, ContextType } from '../../../languageContext';
@@ -14,7 +13,6 @@ import { getIdMap } from '../../../scripts/cryptocurrencyMap';
 import convert from '../../../scripts/convert';
 import getTokenBalance from '../../../scripts/getTokenBalance';
 import defaultProvider from '../../../scripts/rpc/defaultProvider';
-import getTokenMetadata from '../../../scripts/getTokenMetadata';
 
 const Wallet = () => {
   const { t } = useTranslation();
@@ -28,17 +26,10 @@ const Wallet = () => {
     btc: btc,
   };
 
-  useEffect(() => {
-    (async () => {
-      const r = await getTokenMetadata('1');
-      console.log(r);
-    })();
-  }, []);
-
   return (
     <>
-      <HeaderWallet></HeaderWallet>
-      <MainWallet user={user}></MainWallet>
+      <HeaderWallet />
+      <MainWallet />
     </>
   );
 };

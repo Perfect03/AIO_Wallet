@@ -24,7 +24,8 @@ interface IMainWallet {
 const MainWallet = ({ user }: IMainWallet) => {
   const [depositModalIsOpen, setDepositModalIsOpen] = React.useState(false);
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = React.useState(false);
-  const [assetsWindow, setAssetsWindow] = React.useState('assets');
+  const [withdrawAdress, setWithdrawAdress] = React.useState('');
+  const [withdrawSum, setWithdrawSum] = React.useState(0);
 
   const depositModalStyles = {
     overlay: {
@@ -211,7 +212,10 @@ const MainWallet = ({ user }: IMainWallet) => {
             </div>
             <div className={styles.field}>
               <div className={styles.fieldTitle}>{t('Address')}</div>
-              <input className={styles.addressWithdraw} />
+              <input
+                className={styles.addressWithdraw}
+                onChange={(e) => setWithdrawAdress(e.target.value)}
+              />
             </div>
             <div className={styles.field}>
               <div className={styles.fieldTitle}>{t('Network')}</div>
@@ -220,33 +224,50 @@ const MainWallet = ({ user }: IMainWallet) => {
                 <div className={styles.networkSubTitle}>(BEP20)</div>
               </div>
             </div>
-            <div className={styles.field}>
-              <div className={styles.fieldTitles}>
-                <div className={styles.fieldTitle}>{t('Withdrawal amount')}</div>
-                <div className={styles.fieldSubTitle}>All</div>
+            {withdrawAdress ? (
+              <div className={styles.field}>
+                <div className={styles.fieldTitles}>
+                  <div className={styles.fieldTitle}>{t('Withdrawal amount')}</div>
+                  <div className={styles.fieldSubTitle}>All</div>
+                </div>
+                <input
+                  className={styles.withdrawAiAmount}
+                  name="withdrawai"
+                  placeholder={`${t('Minimum amount')}: 0.34124331 BTC`}
+                  onChange={(e) => setWithdrawSum(Number(e.target.value))}
+                ></input>
               </div>
-              <input
-                className={styles.withdrawAiAmount}
-                name="withdrawai"
-                placeholder={`${t('Minimum amount')}: 0.34124331 BTC`}
-              ></input>
-            </div>
+            ) : (
+              ''
+            )}
             <div className={styles.modalInfo}>
               <div className={styles.infoTitle}>{t('Balance')} BTC</div>
               <div className={styles.info}>0.34124331 BTC</div>
             </div>
-            <div className={styles.modalInfo} style={{ display: 'none' }}>
-              <div className={styles.infoTitle}>{t('Minimum amount')}</div>
-              <div className={styles.info}>0.34124331 BTC</div>
-            </div>
-            <div className={styles.modalInfo}>
-              <div className={styles.infoTitle}>{t('Network comission')}</div>
-              <div className={styles.info}>0.0000043 ~ 0.0002 BTC</div>
-            </div>
-            <div className={styles.sum}>0.34124331 BTC</div>
-            <button className={styles.submit} type="submit">
-              {t('to withdraw')}
-            </button>
+            {withdrawSum == 0 ? (
+              <>
+                <div className={styles.modalInfo}>
+                  <div className={styles.infoTitle}>{t('Minimum amount')}</div>
+                  <div className={styles.info}>0.34124331 BTC</div>
+                </div>
+                <div className={styles.modalInfo}>
+                  <div className={styles.infoTitle}>{t('Network comission')}</div>
+                  <div className={styles.info}>0.0000043 ~ 0.0002 BTC</div>
+                </div>
+              </>
+            ) : (
+              ''
+            )}
+            {withdrawSum ? (
+              <>
+                <div className={styles.sum}>{withdrawSum} BTC</div>
+                <button className={styles.submit} type="submit">
+                  {t('to withdraw')}
+                </button>
+              </>
+            ) : (
+              ''
+            )}
           </form>
         </Modal>
       </main>

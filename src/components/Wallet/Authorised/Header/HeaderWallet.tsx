@@ -1,14 +1,14 @@
 import styles from './HeaderWallet.module.scss';
-import logo from '../../../assets/logo__header.svg';
-import wallet from '../../assets/wallet.svg';
-import logoLeft from '../../assets/logo__left.svg';
-import coin from '../../assets/coin.svg';
+import logo from '../../../../../assets/logo__header.svg';
+import wallet from '../../../../assets/wallet.svg';
+import logoLeft from '../../../../assets/logo__left.svg';
+import coin from '../../../../assets/coin.svg';
 import React, { useContext } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
-import i18n from '../../i18n';
+import i18n from '../../../../i18n';
 import { useTranslation } from 'react-i18next';
 import { Link, animateScroll as scroll } from 'react-scroll';
-import { Context, ContextType } from '../../languageContext';
+import { Context, ContextType } from '../../../../languageContext';
 import { NavLink } from 'react-router-dom';
 import HomeIcon from './icons/HomeIcon';
 import TransactIcon from './icons/TransactIcon';
@@ -17,8 +17,8 @@ import InvestIcon from './icons/InvestIcon';
 import TradesIcon from './icons/TradesIcon';
 import SettingsIcon from './icons/SettingsIcon';
 import ExitIcon from './icons/ExitIcon';
-import useLocalStorage from '../../hooks/uselocalStorage';
-import { TWallet } from '../../scripts/getWallet';
+import useLocalStorage from '../../../../hooks/uselocalStorage';
+import { TWallet } from '../../../../scripts/getWallet';
 
 const HeaderWallet = () => {
   const { language, setLanguage } = useContext(Context) as ContextType;

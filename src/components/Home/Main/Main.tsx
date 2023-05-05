@@ -145,8 +145,8 @@ const Main = ({ stat, setStat }: IProps) => {
                     onClick={(event) => {
                       event.preventDefault();
                       language == 'ru'
-                        ? window.open('https://forms.gle/5uTAuXWaKX8x6PWt8')
-                        : window.open('https://forms.gle/HwWjGgHXbVrtrsLT7');
+                        ? window.open('https://t.me/AIO_OFFICIAL_CIS')
+                        : window.open('https://t.me/AIO_OFFICIAL_EN');
                     }}
                   >
                     AIO-Chat

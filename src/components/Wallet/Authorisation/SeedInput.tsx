@@ -26,7 +26,6 @@ export default function SeedInput(props: {
     const newSeed = seed;
     newSeed[index] = e.target.value.toLowerCase();
     setSeed(newSeed);
-    console.log(newSeed);
   }
 
   function handleKeyDown(index: number, e: KeyboardEvent) {
@@ -34,8 +33,6 @@ export default function SeedInput(props: {
       document.getElementById(`input-${index + 1}`)?.focus();
     }
   }
-
-  console.log(seed);
 
   function handleSubmitClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     try {

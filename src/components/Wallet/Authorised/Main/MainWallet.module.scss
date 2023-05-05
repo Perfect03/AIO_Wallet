@@ -1,18 +1,43 @@
+@mixin _1100 {
+    @media (max-width: 1100px){
+        @content;
+    }
+}
+
+@mixin _565 {
+    @media (max-width: 565px){
+        @content;
+    }
+}
+
 .mainWalletAuthorised {
     background: #0F0C17;
     height: calc(100vh - 80px);
+    @include _1100 {
+        height: auto;
+    }
     .container {
         padding-left: 112px;
         padding-right: 30px;
         padding-top: 6px;
+        padding-bottom: 20px;
         display: flex;
         gap: 24px;
+        @include _1100 {
+            flex-direction: column;
+            align-items: center;
+        }
         .yourBalance {
             background: rgba(29, 25, 37, 0.75);
             backdrop-filter: blur(11px);
             border-radius: 6px;
             padding: 24px;
             width: 423px;
+            max-height: 271px;
+            @include _565 {
+                max-height: 326px;
+                width: 290px;
+            }
             .title {
                 font-weight: 500;
                 font-size: 24px;
@@ -42,14 +67,20 @@
             }
             .buttons {
                 display: flex;
-                justify-content: space-between;
+                gap: 11px;
+                @include _565 {
+                    flex-direction: column;
+                    align-items: center;
+                }
                 button {
                     display: flex;
                     align-items: center;
+                    justify-content: center;
                     gap: 8px;
                     background: #272332;
                     border-radius: 4px;
-                    padding: 12px 48px;
+                    width: 182px;
+                    height: 44px;
                 }
             }
         }
@@ -293,6 +324,71 @@
         font-weight: 500;
         font-size: 18px;
         line-height: 21px;
+    }
+    .searchWrapper {
+        &:before {
+            content: "";
+            display: block;
+            background: url("../../../../assets/search.svg") no-repeat;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        .search {
+            background: #272332;
+            border-radius: 4px;
+            height: 40px;
+            padding-left: 35px;
+            width: 100%;
+                &::-webkit-input-placeholder {
+                color: white;
+                }
+                &:-moz-placeholder { 
+                    color: white;
+                }
+                &::-moz-placeholder { 
+                    color: white;
+                }
+                &:-ms-input-placeholder { 
+                    color: white;
+                }
+        }
+    }
+    .modalAssets {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 25px;
+        .modalAsset {
+            display: flex;
+            gap: 12px;
+            .logo {
+                background: #272332;
+                border-radius: 12px;
+                width: 44px;
+                height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .asset {
+                display: flex;
+                flex-direction: column;
+                .assetTitle {
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 160%;
+                }
+                .assetName {
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 160%;
+                    color: #7A7B7C;
+                }
+            }
+        }
     }
     .qrBorder {
         position: relative;

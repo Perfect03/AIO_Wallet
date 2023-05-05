@@ -1,5 +1,6 @@
 import styles from './MainWallet.module.scss';
 import copyForModal from '../../../../assets/copyForModal.svg';
+import search from '../../../../assets/search.svg';
 import deposit from '../../../../assets/deposit.svg';
 import refresh from '../../../../assets/refresh.svg';
 import withdraw from '../../../../assets/withdraw.svg';
@@ -23,6 +24,7 @@ import getLatestQuotes from '../../../../scripts/getLatestQuotes';
 const MainWallet = () => {
   const [depositModalIsOpen, setDepositModalIsOpen] = React.useState(false);
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = React.useState(false);
+  const [assetsModalIsOpen, setAssetsModalIsOpen] = React.useState(false);
   const [nativeBal, setNativeBal] = useState('');
   const [bnbQuote, setBnbQuote] = useState(0);
   const [assets, setAssets] = useState<string[]>([]);
@@ -82,6 +84,24 @@ const MainWallet = () => {
     },
   };
 
+  const assetsModalStyles = {
+    overlay: {
+      backgroundColor: 'rgba(15, 12, 23, 0.82)',
+      zIndex: 31,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    content: {
+      width: '423px',
+      background: 'rgba(29, 25, 37, 0.92)',
+      backdropFilter: 'blur(11px)',
+      borderRadius: '6px',
+      padding: '24px',
+      border: 0,
+    },
+  };
+
   const [isDepositMenuOpen, setIsDepositMenuOpen] = useState(false);
   const address = 'TRcHB2CZe3vYVbXhDgUnQNr1WzZRHz9avN';
 
@@ -89,10 +109,10 @@ const MainWallet = () => {
     navigator.clipboard
       .writeText(address)
       .then(() => {
-        toast['success'](t('Copy seed'));
+        toast['info'](t('Copy address'));
       })
       .catch((err) => {
-        toast['error'](t('Copy seed error'));
+        toast['error'](t('Copy address error'));
       });
   }
 
@@ -148,7 +168,9 @@ const MainWallet = () => {
                 );
               })}
             </div>
-            <button className={styles.addToken}>{t('Add custom tokens')}</button>
+            <button className={styles.addToken} onClick={() => setAssetsModalIsOpen(true)}>
+              {t('Add custom tokens')}
+            </button>
           </div>
         </div>
         <Modal
@@ -160,17 +182,43 @@ const MainWallet = () => {
           <button className={styles.modalBack} onClick={() => setDepositModalIsOpen(false)}>
             <img src={back} alt="" />
           </button>
-          <h1 className={styles.modalTitle}>Deposit Bitcoin</h1>
-          <h2 className={styles.modalSubTitle}>Only BTC can be deposited</h2>
+          <h1 className={styles.modalTitle}>{t('Deposit')}</h1>
+          <h2 className={styles.modalSubTitle}>{t('Only BEP-20 assets can be deposited')}</h2>
           <div className={styles.field}>
-            <div className={styles.fieldTitle}>Network</div>
+            <div className={styles.fieldTitle}>{t('Select assets')}</div>
+            <ul>
+              <li
+                className={styles.modalAsset}
+                onClick={() => {
+                  setIsDepositMenuOpen(!isDepositMenuOpen);
+                }}
+              >
+                <div className={styles.asset}>
+                  <img className={styles.modalAssetImage} src={''} alt="" />
+                  {`${'assets[0].currency'}`}
+                </div>
+                <img className={styles.assetMore} src={more} alt="" />
+              </li>
+              {isDepositMenuOpen &&
+                assets.slice(1).map((el, index) => (
+                  <li className={styles.modalAsset} key={index}>
+                    <div className={styles.asset}>
+                      <img className={styles.modalAssetImage} src={'el.image'} alt="" />
+                      {`${'el.currency'}`}
+                    </div>
+                  </li>
+                ))}
+            </ul>
+          </div>
+          <div className={styles.field}>
+            <div className={styles.fieldTitle}>{t('Network')}</div>
             <div className={styles.network}>
               <div className={styles.networkTitle}>BSC</div>
               <div className={styles.networkSubTitle}>(BEP20)</div>
             </div>
           </div>
           <div className={styles.field}>
-            <div className={styles.fieldTitle}>Address</div>
+            <div className={styles.fieldTitle}>{t('Address')}</div>
             <div className={styles.addressDeposit}>
               <p className={styles.addressText}>{walletData.addr}</p>
               <button className={styles.addressCopy} onClick={handleCopyClick}>
@@ -199,10 +247,10 @@ const MainWallet = () => {
             <button className={styles.modalBack} onClick={() => setWithdrawModalIsOpen(false)}>
               <img src={back} alt="" />
             </button>
-            <h1 className={styles.modalTitle}>Withdraw Bitcoin</h1>
-            <h2 className={styles.modalSubTitle}>Only BTC can be deposited</h2>
+            <h1 className={styles.modalTitle}>{t('Withdraw')}</h1>
+            <h2 className={styles.modalSubTitle}>{t('Only BEP-20 assets can be withdrawn')}</h2>
             <div className={styles.field}>
-              <div className={styles.fieldTitle}>Select assets</div>
+              <div className={styles.fieldTitle}>{t('Select assets')}</div>
               <ul>
                 <li
                   className={styles.modalAsset}
@@ -228,11 +276,11 @@ const MainWallet = () => {
               </ul>
             </div>
             <div className={styles.field}>
-              <div className={styles.fieldTitle}>Address</div>
+              <div className={styles.fieldTitle}>{t('Address')}</div>
               <input className={styles.addressWithdraw} />
             </div>
             <div className={styles.field}>
-              <div className={styles.fieldTitle}>Network</div>
+              <div className={styles.fieldTitle}>{t('Network')}</div>
               <div className={styles.network}>
                 <div className={styles.networkTitle}>BSC</div>
                 <div className={styles.networkSubTitle}>(BEP20)</div>
@@ -240,31 +288,104 @@ const MainWallet = () => {
             </div>
             <div className={styles.field}>
               <div className={styles.fieldTitles}>
-                <div className={styles.fieldTitle}>Withdrawal amount</div>
+                <div className={styles.fieldTitle}>{t('Withdrawal amount')}</div>
                 <div className={styles.fieldSubTitle}>All</div>
               </div>
               <input
                 className={styles.withdrawAiAmount}
                 name="withdrawai"
-                placeholder="Minimum amount: 0.34124331 BTC"
+                placeholder={`${t('Minimum amount')}: 0.34124331 BTC`}
               ></input>
             </div>
             <div className={styles.modalInfo}>
-              <div className={styles.infoTitle}>Balance BTC</div>
+              <div className={styles.infoTitle}>{t('Balance')} BTC</div>
               <div className={styles.info}>0.34124331 BTC</div>
             </div>
             <div className={styles.modalInfo} style={{ display: 'none' }}>
-              <div className={styles.infoTitle}>Minimum amount</div>
+              <div className={styles.infoTitle}>{t('Minimum amount')}</div>
               <div className={styles.info}>0.34124331 BTC</div>
             </div>
             <div className={styles.modalInfo}>
-              <div className={styles.infoTitle}>Network comission</div>
+              <div className={styles.infoTitle}>{t('Network comission')}</div>
               <div className={styles.info}>0.0000043 ~ 0.0002 BTC</div>
             </div>
             <div className={styles.sum}>0.34124331 BTC</div>
             <button className={styles.submit} type="submit">
-              Withdraw
+              {t('to withdraw')}
             </button>
+          </form>
+        </Modal>
+        <Modal
+          isOpen={assetsModalIsOpen}
+          onRequestClose={() => setAssetsModalIsOpen(false)}
+          style={assetsModalStyles}
+          className={styles.modal}
+        >
+          <form name="assets" method="post" action="">
+            <h1 className={styles.modalTitle}>{t('Select assets')}</h1>
+            <div className={styles.searchWrapper}>
+              <input
+                className={styles.search}
+                name="searchAssets"
+                placeholder={`${t('Search')}`}
+              ></input>
+            </div>
+            <div className={styles.modalAssets}>
+              <div className={styles.modalAsset}>
+                <div className={styles.logo}>
+                  <img src={bitcoin} alt="" />
+                </div>
+                <div className={styles.asset}>
+                  <span className={styles.assetTitle}>BTC</span>
+                  <span className={styles.assetName}>Bitcoin</span>
+                </div>
+              </div>
+              <div className={styles.modalAsset}>
+                <div className={styles.logo}>
+                  <img src={bitcoin} alt="" />
+                </div>
+                <div className={styles.asset}>
+                  <span className={styles.assetTitle}>BTC</span>
+                  <span className={styles.assetName}>Bitcoin</span>
+                </div>
+              </div>
+              <div className={styles.modalAsset}>
+                <div className={styles.logo}>
+                  <img src={bitcoin} alt="" />
+                </div>
+                <div className={styles.asset}>
+                  <span className={styles.assetTitle}>BTC</span>
+                  <span className={styles.assetName}>Bitcoin</span>
+                </div>
+              </div>
+              <div className={styles.modalAsset}>
+                <div className={styles.logo}>
+                  <img src={bitcoin} alt="" />
+                </div>
+                <div className={styles.asset}>
+                  <span className={styles.assetTitle}>BTC</span>
+                  <span className={styles.assetName}>Bitcoin</span>
+                </div>
+              </div>
+              <div className={styles.modalAsset}>
+                <div className={styles.logo}>
+                  <img src={bitcoin} alt="" />
+                </div>
+                <div className={styles.asset}>
+                  <span className={styles.assetTitle}>BTC</span>
+                  <span className={styles.assetName}>Bitcoin</span>
+                </div>
+              </div>
+              <div className={styles.modalAsset}>
+                <div className={styles.logo}>
+                  <img src={bitcoin} alt="" />
+                </div>
+                <div className={styles.asset}>
+                  <span className={styles.assetTitle}>BTC</span>
+                  <span className={styles.assetName}>Bitcoin</span>
+                </div>
+              </div>
+            </div>
           </form>
         </Modal>
       </main>

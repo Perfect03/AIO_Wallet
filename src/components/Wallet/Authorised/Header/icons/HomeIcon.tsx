@@ -4,7 +4,7 @@ import styles from '../HeaderWallet.module.scss';
 export default function HomeIcon() {
   return (
     <NavLink to="/">
-      <button className={styles.leftLink}>
+      <button className={`${styles.leftLink} ${styles.active}`}>
         <svg
           width="24"
           height="24"

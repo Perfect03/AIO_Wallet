@@ -12,6 +12,7 @@ import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Context, ContextType } from '../../../../languageContext';
 import { toast } from 'react-toastify';
+import YourAssets from '../YourAssets/YourAssets';
 import { IWallet } from '../../../../interfaces/interfaces';
 import Modal from 'react-modal';
 import QRCode from 'react-qr-code';
@@ -23,7 +24,7 @@ interface IMainWallet {
 const MainWallet = ({ user }: IMainWallet) => {
   const [depositModalIsOpen, setDepositModalIsOpen] = React.useState(false);
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = React.useState(false);
-  const [assetsModalIsOpen, setAssetsModalIsOpen] = React.useState(false);
+  const [assetsWindow, setAssetsWindow] = React.useState('assets');
 
   const depositModalStyles = {
     overlay: {
@@ -60,24 +61,6 @@ const MainWallet = ({ user }: IMainWallet) => {
       padding: '24px',
       border: 0,
       maxHeight: '100vh', // потом нужно исправлять для каждой отдельной вариации окна
-    },
-  };
-
-  const assetsModalStyles = {
-    overlay: {
-      backgroundColor: 'rgba(15, 12, 23, 0.82)',
-      zIndex: 31,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    content: {
-      width: '423px',
-      background: 'rgba(29, 25, 37, 0.92)',
-      backdropFilter: 'blur(11px)',
-      borderRadius: '6px',
-      padding: '24px',
-      border: 0,
     },
   };
 
@@ -122,57 +105,7 @@ const MainWallet = ({ user }: IMainWallet) => {
               </button>
             </div>
           </div>
-          <div className={styles.yourAssets}>
-            <h1 className={styles.title}>{t('Your assets')}</h1>
-            <div className={styles.describe}>
-              {t('Here you can safely store, send and receive assets')}
-            </div>
-            <div className={styles.assets}>
-              <div className={styles.asset}>
-                <div className={styles.coin}>
-                  <img src={bitcoin} alt="" />
-                </div>
-                <div className={styles.coinAbout}>
-                  <div className={styles.firstLine}>
-                    <div className={styles.currency}>Bitcoin</div>
-                    <div className={styles.sum}>
-                      <button>
-                        <img src={refresh} alt="" />
-                      </button>
-                      {user.btc}
-                    </div>
-                  </div>
-                  <div className={styles.secondLine}>
-                    <span className={styles.address}>Show address</span>
-                    <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.asset}>
-                <div className={styles.coin}>
-                  <img src={bitcoin} alt="" />
-                </div>
-                <div className={styles.coinAbout}>
-                  <div className={styles.firstLine}>
-                    <div className={styles.currency}>Bitcoin</div>
-                    <div className={styles.sum}>
-                      <button>
-                        <img src={refresh} alt="" />
-                      </button>
-                      {user.btc}
-                    </div>
-                  </div>
-                  <div className={styles.secondLine}>
-                    <span className={styles.address}>Show address</span>
-                    <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <button className={styles.addToken} onClick={() => setAssetsModalIsOpen(true)}>
-              {t('Add custom tokens')}
-            </button>
-          </div>
+          <YourAssets user={user}></YourAssets>
         </div>
         <Modal
           isOpen={depositModalIsOpen}
@@ -314,79 +247,6 @@ const MainWallet = ({ user }: IMainWallet) => {
             <button className={styles.submit} type="submit">
               {t('to withdraw')}
             </button>
-          </form>
-        </Modal>
-        <Modal
-          isOpen={assetsModalIsOpen}
-          onRequestClose={() => setAssetsModalIsOpen(false)}
-          style={assetsModalStyles}
-          className={styles.modal}
-        >
-          <form name="assets" method="post" action="">
-            <h1 className={styles.modalTitle}>{t('Select assets')}</h1>
-            <div className={styles.searchWrapper}>
-              <input
-                className={styles.search}
-                name="searchAssets"
-                placeholder={`${t('Search')}`}
-              ></input>
-            </div>
-            <div className={styles.modalAssets}>
-              <div className={styles.modalAsset}>
-                <div className={styles.logo}>
-                  <img src={bitcoin} alt="" />
-                </div>
-                <div className={styles.asset}>
-                  <span className={styles.assetTitle}>BTC</span>
-                  <span className={styles.assetName}>Bitcoin</span>
-                </div>
-              </div>
-              <div className={styles.modalAsset}>
-                <div className={styles.logo}>
-                  <img src={bitcoin} alt="" />
-                </div>
-                <div className={styles.asset}>
-                  <span className={styles.assetTitle}>BTC</span>
-                  <span className={styles.assetName}>Bitcoin</span>
-                </div>
-              </div>
-              <div className={styles.modalAsset}>
-                <div className={styles.logo}>
-                  <img src={bitcoin} alt="" />
-                </div>
-                <div className={styles.asset}>
-                  <span className={styles.assetTitle}>BTC</span>
-                  <span className={styles.assetName}>Bitcoin</span>
-                </div>
-              </div>
-              <div className={styles.modalAsset}>
-                <div className={styles.logo}>
-                  <img src={bitcoin} alt="" />
-                </div>
-                <div className={styles.asset}>
-                  <span className={styles.assetTitle}>BTC</span>
-                  <span className={styles.assetName}>Bitcoin</span>
-                </div>
-              </div>
-              <div className={styles.modalAsset}>
-                <div className={styles.logo}>
-                  <img src={bitcoin} alt="" />
-                </div>
-                <div className={styles.asset}>
-                  <span className={styles.assetTitle}>BTC</span>
-                  <span className={styles.assetName}>Bitcoin</span>
-                </div>
-              </div>
-              <div className={styles.modalAsset}>
-                <div className={styles.logo}>
-                  <img src={bitcoin} alt="" />
-                </div>
-                <div className={styles.asset}>
-                  <span className={styles.assetTitle}>BTC</span>
-                  <span className={styles.assetName}>Bitcoin</span>
-                </div>
-              </div>
-            </div>
           </form>
         </Modal>
       </main>

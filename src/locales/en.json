@@ -82,5 +82,7 @@
     "Search": "Search",
     "Minimum amount": "Minimum amount",
     "Network comission": "Network comission",
-    "Balance": "Balance"
+    "Balance": "Balance",
+    "Transactions": "Transactions",
+    "Select coin for transaction type": "Select coin for transaction type"
 }

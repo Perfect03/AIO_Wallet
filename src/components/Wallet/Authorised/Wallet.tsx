@@ -11,7 +11,7 @@ import { Context, ContextType } from '../../../languageContext';
 import getLatestQuotes from '../../../scripts/getLatestQuotes';
 import { getIdMap } from '../../../scripts/cryptocurrencyMap';
 import convert from '../../../scripts/convert';
-import getTokenBalance from '../../../scripts/getTokenBalance';
+import getTokenBalance from '../../../scripts/quoting/getTokenBalance';
 import defaultProvider from '../../../scripts/rpc/defaultProvider';
 
 const Wallet = () => {

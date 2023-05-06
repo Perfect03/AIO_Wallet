@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 
 const instanceAxios = axios.create({ baseURL: 'http://localhost:3001/' });
 
-export interface Coin {
+export type Coin = {
   id: number;
   name: string;
   symbol: string;
@@ -12,7 +12,7 @@ export interface Coin {
     token_address: string;
   };
   is_active: boolean;
-}
+};
 
 export async function getIdMap(): Promise<Coin[]> {
   const apiUrl = '/cryptocurrency/map';

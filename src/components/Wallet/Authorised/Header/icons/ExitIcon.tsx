@@ -1,11 +1,12 @@
 import { NavLink } from 'react-router-dom';
-import useLocalStorage from '../../../hooks/uselocalStorage';
+import useLocalStorage from '../../../../../hooks/useLocalStorage';
 import styles from '../HeaderWallet.module.scss';
 
 export default function ExitIcon() {
   function handleExitClick() {
     try {
       window.localStorage.removeItem('wallet');
+      window.localStorage.removeItem('assets');
     } catch (e) {}
   }
 

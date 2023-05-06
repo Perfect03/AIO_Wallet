@@ -14,12 +14,14 @@ import { Context, ContextType } from '../../../../languageContext';
 import { toast } from 'react-toastify';
 import Modal from 'react-modal';
 import QRCode from 'react-qr-code';
-import getNativeBalance from '../../../../scripts/getNativeBalance';
-import useLocalStorage from '../../../../hooks/uselocalStorage';
+import getNativeBalance from '../../../../scripts/quoting/getNativeBalance';
+import useLocalStorage from '../../../../hooks/useLocalStorage';
 import { TWallet } from '../../../../scripts/getWallet';
 import { getIdMap } from '../../../../scripts/cryptocurrencyMap';
-import { Coin } from '../../../../scripts/cryptocurrencyMap';
 import getLatestQuotes from '../../../../scripts/getLatestQuotes';
+import AddCustomModal from './Modals/AddCustomModal';
+import checkSavedAssets, { AssetWithBalance } from './helpers/checkSavedAssets';
+import getTokenBalance from '../../../../scripts/quoting/getTokenBalance';
 
 const MainWallet = () => {
   const [depositModalIsOpen, setDepositModalIsOpen] = React.useState(false);
@@ -27,8 +29,8 @@ const MainWallet = () => {
   const [assetsModalIsOpen, setAssetsModalIsOpen] = React.useState(false);
   const [nativeBal, setNativeBal] = useState('');
   const [bnbQuote, setBnbQuote] = useState(0);
-  const [assets, setAssets] = useState<string[]>([]);
-  // const [tokens, setTokensMap] = useState<Coin[]>([]);
+
+  const [assets, setAssets] = useState<AssetWithBalance[]>([]);
 
   const walletData = useLocalStorage<TWallet>('wallet', {
     pk: '',
@@ -36,13 +38,15 @@ const MainWallet = () => {
   })[0];
 
   useEffect(() => {
+    const savedAssets = window.localStorage.getItem('assets');
+    const parsed: string[] = JSON.parse(savedAssets ? savedAssets : '[]');
+
     (async () => {
+      const userAssets = await checkSavedAssets(parsed ? parsed : [], walletData.addr);
+      setAssets(userAssets);
+
       const bal = await getNativeBalance(walletData.addr);
       setNativeBal(bal.toString());
-
-      const fethcedTokens = await getIdMap();
-      console.log(fethcedTokens);
-      setBnbQuote(await getLatestQuotes('BNB', fethcedTokens));
     })();
   }, []);
 
@@ -103,11 +107,10 @@ const MainWallet = () => {
   };
 
   const [isDepositMenuOpen, setIsDepositMenuOpen] = useState(false);
-  const address = 'TRcHB2CZe3vYVbXhDgUnQNr1WzZRHz9avN';
 
   function handleCopyClick() {
     navigator.clipboard
-      .writeText(address)
+      .writeText(walletData.addr)
       .then(() => {
         toast['info'](t('Copy address'));
       })
@@ -147,16 +150,16 @@ const MainWallet = () => {
                 return (
                   <div className={styles.asset} key={index}>
                     <div className={styles.coin}>
-                      <img src={bitcoin} alt="" />
+                      <img src={el.logoURI} alt="" width={44} height={44} />
                     </div>
                     <div className={styles.coinAbout}>
                       <div className={styles.firstLine}>
-                        <div className={styles.currency}>Bitcoin</div>
+                        <div className={styles.currency}>{el.name}</div>
                         <div className={styles.sum}>
                           <button>
                             <img src={refresh} alt="" />
                           </button>
-                          {''}
+                          <>{el.balance}</>
                         </div>
                       </div>
                       <div className={styles.secondLine}>
@@ -185,32 +188,6 @@ const MainWallet = () => {
           <h1 className={styles.modalTitle}>{t('Deposit')}</h1>
           <h2 className={styles.modalSubTitle}>{t('Only BEP-20 assets can be deposited')}</h2>
           <div className={styles.field}>
-            <div className={styles.fieldTitle}>{t('Select assets')}</div>
-            <ul>
-              <li
-                className={styles.modalAsset}
-                onClick={() => {
-                  setIsDepositMenuOpen(!isDepositMenuOpen);
-                }}
-              >
-                <div className={styles.asset}>
-                  <img className={styles.modalAssetImage} src={''} alt="" />
-                  {`${'assets[0].currency'}`}
-                </div>
-                <img className={styles.assetMore} src={more} alt="" />
-              </li>
-              {isDepositMenuOpen &&
-                assets.slice(1).map((el, index) => (
-                  <li className={styles.modalAsset} key={index}>
-                    <div className={styles.asset}>
-                      <img className={styles.modalAssetImage} src={'el.image'} alt="" />
-                      {`${'el.currency'}`}
-                    </div>
-                  </li>
-                ))}
-            </ul>
-          </div>
-          <div className={styles.field}>
             <div className={styles.fieldTitle}>{t('Network')}</div>
             <div className={styles.network}>
               <div className={styles.networkTitle}>BSC</div>
@@ -231,7 +208,7 @@ const MainWallet = () => {
               <QRCode
                 size={256}
                 style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
-                value={address}
+                value={walletData.addr}
                 viewBox={`0 0 256 256`}
               />
             </div>
@@ -321,72 +298,7 @@ const MainWallet = () => {
           style={assetsModalStyles}
           className={styles.modal}
         >
-          <form name="assets" method="post" action="">
-            <h1 className={styles.modalTitle}>{t('Select assets')}</h1>
-            <div className={styles.searchWrapper}>
-              <input
-                className={styles.search}
-                name="searchAssets"
-                placeholder={`${t('Search')}`}
-              ></input>
-            </div>
-            <div className={styles.modalAssets}>
-              <div className={styles.modalAsset}>
-                <div className={styles.logo}>
-                  <img src={bitcoin} alt="" />
-                </div>
-                <div className={styles.asset}>
-                  <span className={styles.assetTitle}>BTC</span>
-                  <span className={styles.assetName}>Bitcoin</span>
-                </div>
-              </div>
-              <div className={styles.modalAsset}>
-                <div className={styles.logo}>
-                  <img src={bitcoin} alt="" />
-                </div>
-                <div className={styles.asset}>
-                  <span className={styles.assetTitle}>BTC</span>
-                  <span className={styles.assetName}>Bitcoin</span>
-                </div>
-              </div>
-              <div className={styles.modalAsset}>
-                <div className={styles.logo}>
-                  <img src={bitcoin} alt="" />
-                </div>
-                <div className={styles.asset}>
-                  <span className={styles.assetTitle}>BTC</span>
-                  <span className={styles.assetName}>Bitcoin</span>
-                </div>
-              </div>
-              <div className={styles.modalAsset}>
-                <div className={styles.logo}>
-                  <img src={bitcoin} alt="" />
-                </div>
-                <div className={styles.asset}>
-                  <span className={styles.assetTitle}>BTC</span>
-                  <span className={styles.assetName}>Bitcoin</span>
-                </div>
-              </div>
-              <div className={styles.modalAsset}>
-                <div className={styles.logo}>
-                  <img src={bitcoin} alt="" />
-                </div>
-                <div className={styles.asset}>
-                  <span className={styles.assetTitle}>BTC</span>
-                  <span className={styles.assetName}>Bitcoin</span>
-                </div>
-              </div>
-              <div className={styles.modalAsset}>
-                <div className={styles.logo}>
-                  <img src={bitcoin} alt="" />
-                </div>
-                <div className={styles.asset}>
-                  <span className={styles.assetTitle}>BTC</span>
-                  <span className={styles.assetName}>Bitcoin</span>
-                </div>
-              </div>
-            </div>
-          </form>
+          <AddCustomModal assets={assets} setAssets={setAssets} close={setAssetsModalIsOpen} />
         </Modal>
       </main>
     </>

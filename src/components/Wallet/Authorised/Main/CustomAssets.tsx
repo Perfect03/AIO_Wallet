@@ -1,6 +1,6 @@
 import styles from './MainWallet.module.scss';
 import refresh from '../../../../assets/refresh.svg';
-import getTokenBalance from '../../../../scripts/getTokenBalance';
+import getTokenBalance from '../../../../scripts/quoting/getTokenBalance';
 import { useEffect } from 'react';
 
 export default function CustomAssets(props: { code: string }) {

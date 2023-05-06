@@ -30,11 +30,14 @@ app.get('/cryptocurrency/quotes/latest', async (req, response) => {
 
 app.get('/cryptocurrency/map', async (req, response) => {
   try {
-    const res = await request(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/map`, {
-      headers: {
-        'X-CMC_PRO_API_KEY': process.env.COINMARKETCAP_API_KEY,
-      },
-    });
+    const res = await request(
+      `https://pro-api.coinmarketcap.com/v1/cryptocurrency/map?sort=cmc_rank`,
+      {
+        headers: {
+          'X-CMC_PRO_API_KEY': process.env.COINMARKETCAP_API_KEY,
+        },
+      }
+    );
     const data = await res.body.json();
     response.status(200).json(data);
   } catch (error) {
@@ -55,6 +58,21 @@ app.get('/tools/price-conversion', async (req, response) => {
         },
       }
     );
+    const data = await res.body.json();
+    response.status(200).json(data);
+  } catch (error) {
+    response.status(500).send('error');
+  }
+});
+
+app.get('/cryptocurrency/info', async (req, response) => {
+  const id = req.query.id;
+  try {
+    const res = await request(`https://pro-api.coinmarketcap.com/v2/cryptocurrency/info?id=${id}`, {
+      headers: {
+        'X-CMC_PRO_API_KEY': process.env.COINMARKETCAP_API_KEY,
+      },
+    });
     const data = await res.body.json();
     response.status(200).json(data);
   } catch (error) {

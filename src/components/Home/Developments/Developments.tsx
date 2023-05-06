@@ -5,7 +5,7 @@ import Slider from 'react-slick';
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import useLocalStorage from '../../../hooks/uselocalStorage';
+import useLocalStorage from '../../../hooks/useLocalStorage';
 import { NavLink } from 'react-router-dom';
 
 const Developments = () => {

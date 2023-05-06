@@ -4,7 +4,7 @@ import Footer from './Footer/Footer';
 import Header from './Header/Header';
 import 'react-toastify/dist/ReactToastify.css';
 import i18n from '../../i18n';
-import useLocalStorage from '../../hooks/uselocalStorage';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 function Home() {
   const [status, setStatus] = useState(false);

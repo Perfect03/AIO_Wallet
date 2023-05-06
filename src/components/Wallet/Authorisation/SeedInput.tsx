@@ -1,6 +1,6 @@
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useLocalStorage from '../../../hooks/uselocalStorage';
+import useLocalStorage from '../../../hooks/useLocalStorage';
 import { TWallet } from '../../../scripts/getWallet';
 import restoreWallet from '../../../scripts/restoreWallet';
 import styles from './CreateWallet.module.scss';

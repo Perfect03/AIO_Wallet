@@ -1,7 +1,7 @@
 import styles from './Header.module.scss';
 import logo from '../../../assets/logo__header.svg';
 import React, { useContext } from 'react';
-import useLocalStorage from '../../../hooks/uselocalStorage';
+import useLocalStorage from '../../../hooks/useLocalStorage';
 import i18n from '../../../i18n';
 import { useTranslation } from 'react-i18next';
 import { toast, ToastContainer } from 'react-toastify';

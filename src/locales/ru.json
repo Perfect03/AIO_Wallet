@@ -84,5 +84,7 @@
     "Network comission": "Комиссия сети",
     "Balance": "Баланс",
     "Transactions": "Транзакции",
-    "Select coin for transaction type": "Выберите валюту для транзакции"
+    "Select coin for transaction type": "Выберите валюту для транзакции",
+    "From": "От",
+    "To": "К"
 }

@@ -3,7 +3,7 @@ import logo from '../../../../../assets/logo__header.svg';
 import wallet from '../../../../assets/wallet.svg';
 import logoLeft from '../../../../assets/logo__left.svg';
 import coin from '../../../../assets/coin.svg';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import i18n from '../../../../i18n';
 import { useTranslation } from 'react-i18next';
@@ -37,6 +37,7 @@ const HeaderWallet = () => {
       setLanguage('en');
     }
   };
+  const [burgerStatus, setBurgerStatus] = useState(false);
 
   const { t } = useTranslation();
 
@@ -47,8 +48,31 @@ const HeaderWallet = () => {
           <NavLink to="/">
             <img src={logoLeft} alt="AIO" className={styles.logo} />
           </NavLink>
-          <nav>
+          <div className={styles.burger}>
+            <div
+              className={`${styles.burgerBtn} ${burgerStatus ? styles.burgerActive : ''}`}
+              onClick={() => setBurgerStatus(!burgerStatus)}
+            >
+              <span></span>
+            </div>
+          </div>
+          <nav className={burgerStatus ? styles.active : ''}>
             <div className={styles.top}>
+              <div className={styles.langs}>
+                <span
+                  className={`${styles.lang} ${language === 'ru' ? styles.active : ''}`}
+                  onClick={() => handleLanguageChange('ru')}
+                >
+                  RU
+                </span>
+                <span> / </span>
+                <span
+                  className={`${styles.lang} ${language === 'en' ? styles.active : ''}`}
+                  onClick={() => handleLanguageChange('en')}
+                >
+                  EN
+                </span>
+              </div>
               <HomeIcon />
               <TransactIcon />
               <SwapIcon />
@@ -76,7 +100,7 @@ const HeaderWallet = () => {
               >
                 RU
               </span>
-              <span> / </span>
+              <span className={styles.between}> / </span>
               <span
                 className={`${styles.lang} ${language === 'en' ? styles.active : ''}`}
                 onClick={() => handleLanguageChange('en')}

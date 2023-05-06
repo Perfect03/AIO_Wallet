@@ -1,5 +1,5 @@
 import styles from './YourAssets.module.scss';
-import copyForModal from '../../../../assets/copyForModal.svg';
+import useResize from '../../../../hooks/use-resize';
 import search from '../../../../assets/search.svg';
 import deposit from '../../../../assets/deposit.svg';
 import refresh from '../../../../assets/refresh.svg';
@@ -23,8 +23,15 @@ interface IMainWallet {
 const YourAssets = ({ user }: IMainWallet) => {
   const [assetsModalIsOpen, setAssetsModalIsOpen] = React.useState(false);
   const [assetsWindow, setAssetsWindow] = React.useState('assets');
+  const width = useResize();
 
   const assets = [
+    { icon: bitcoin, title: 'BTC', info: 'bitcoin' },
+    { icon: bitcoin, title: 'BTC', info: 'bitcoin' },
+    { icon: bitcoin, title: 'BTC', info: 'bitcoin' },
+    { icon: bitcoin, title: 'BTC', info: 'bitcoin' },
+    { icon: bitcoin, title: 'BTC', info: 'bitcoin' },
+    { icon: bitcoin, title: 'BTC', info: 'bitcoin' },
     { icon: bitcoin, title: 'BTC', info: 'bitcoin' },
     { icon: bitcoin, title: 'BTC', info: 'bitcoin' },
     { icon: bitcoin, title: 'BTC', info: 'bitcoin' },
@@ -79,7 +86,6 @@ const YourAssets = ({ user }: IMainWallet) => {
       alignItems: 'center',
     },
     content: {
-      width: '423px',
       background: 'rgba(29, 25, 37, 0.92)',
       backdropFilter: 'blur(11px)',
       borderRadius: '6px',
@@ -113,7 +119,7 @@ const YourAssets = ({ user }: IMainWallet) => {
                     <button>
                       <img src={refresh} alt="" />
                     </button>
-                    {user.btc}
+                    {`${user.balance}`.slice(0, 6)}
                   </div>
                 </div>
                 <div className={styles.secondLine}>
@@ -133,7 +139,347 @@ const YourAssets = ({ user }: IMainWallet) => {
                     <button>
                       <img src={refresh} alt="" />
                     </button>
-                    {user.btc}
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
+                  </div>
+                </div>
+                <div className={styles.secondLine}>
+                  <span className={styles.address}>Show address</span>
+                  <span className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.asset}>
+              <div className={styles.coin}>
+                <img src={bitcoin} alt="" />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>Bitcoin</div>
+                  <div className={styles.sum}>
+                    <button>
+                      <img src={refresh} alt="" />
+                    </button>
+                    {`${user.balance}`.slice(0, 4)}
                   </div>
                 </div>
                 <div className={styles.secondLine}>
@@ -145,8 +491,14 @@ const YourAssets = ({ user }: IMainWallet) => {
           </div>
         ) : (
           <div className={styles.transactions}>
-            {transactions.map((el) => (
-              <div className={styles.transaction}>
+            {transactions.map((el, index) => (
+              <div
+                className={styles.transaction}
+                key={index}
+                title={
+                  width < 540 ? `${el.type == 'deposit' ? t('From') : t('To')}: ${el.client}` : ''
+                }
+              >
                 <div className={styles.left}>
                   <div className={styles.icon}>
                     <img src={el.type == 'withdraw' ? withdraw : deposit} alt="" />
@@ -156,14 +508,15 @@ const YourAssets = ({ user }: IMainWallet) => {
                     <div className={styles.info}>
                       <span className={styles.date}>{el.date}</span>
                       <div className={styles.ellipse}></div>
-                      <span className={styles.client}>
-                        {el.type == 'deposit' ? t('From') : t('To')}: {el.client}
+                      <span className={styles.client} title={width > 539 ? el.client : ''}>
+                        {el.type == 'deposit' ? t('From') : t('To')}: {el.client.slice(0, 4)}…
+                        {el.client.slice(-2)}
                       </span>
                     </div>
                   </div>
                 </div>
                 <div className={styles.sums}>
-                  <div className={styles.btc}>{`${el.btc}`.slice(0, 10)} BTC</div>
+                  <div className={styles.btc}>{`${el.btc}`.slice(0, 6)} BTC</div>
                   <div className={styles.usd}>{`${el.usd}`.slice(0, 6)} USD</div>
                 </div>
               </div>
@@ -184,6 +537,9 @@ const YourAssets = ({ user }: IMainWallet) => {
         style={assetsModalStyles}
         className={styles.modal}
       >
+        <button className={styles.modalBack} onClick={() => setAssetsModalIsOpen(false)}>
+          <img src={back} alt="" />
+        </button>
         <form name="assets" method="post" action="">
           <h1 className={styles.modalTitle}>{t('Select assets')}</h1>
           <div className={styles.searchWrapper}>
@@ -194,9 +550,10 @@ const YourAssets = ({ user }: IMainWallet) => {
             ></input>
           </div>
           <div className={styles.modalAssets}>
-            {assets.map((el) => (
+            {assets.map((el, index) => (
               <div
                 className={styles.modalAsset}
+                key={index}
                 onClick={() => {
                   setAssetsWindow('transactions');
                   setAssetsModalIsOpen(false);

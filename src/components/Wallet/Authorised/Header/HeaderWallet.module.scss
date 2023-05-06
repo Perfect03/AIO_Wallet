@@ -1,9 +1,25 @@
+@mixin _500 {
+    @media (max-width: 500px) {
+      @content;
+    }
+  }
+
+  @mixin _400 {
+    @media (max-width: 400px) {
+      @content;
+    }
+  }
+
 .headerAuthorised {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     transition: .35s cubic-bezier(0.645, 0.045, 0.355, 1);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 30;
     .left {
         .logo {
             position: fixed;
@@ -12,6 +28,76 @@
             left: 3.5px;
             &:hover {
                 cursor: pointer;
+            }
+            @include _500 {
+            }
+        }
+        .burger {
+            position: fixed;
+            z-index: 30;
+            top: 50px;
+            left: 31px;
+            display: none;
+            .burgerBtn {
+                width: 24px;
+                height: 20px;
+                margin-right: 20px;
+                position: relative;
+                cursor: pointer;
+                &:before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    width: 24px;
+                    border: 1px solid white;
+                    border-radius: 2px;
+                    display: none;
+                    @include _500 {
+                        display: block;
+                    }
+                }
+                span {
+                    content: '';
+                    position: absolute;
+                    top: 9px;
+                    width: 24px;
+                    border: 1px solid white;
+                    border-radius: 2px;
+                    display: none;
+                    @include _500 {
+                        display: flex;
+                    }
+                }
+                &:after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    width: 24px;
+                    border: 1px solid white;
+                    border-radius: 2px;
+                    display: none;
+                    @include _500 {
+                        display: flex;
+                    }
+                }
+                &.burgerActive {
+                    &:before {
+                        transform: rotate(-45deg) translate(-6px, 7px);
+                        transition: ease-out 0.5s;
+                    }
+                    span {
+                        transform: rotate(-45deg);
+                        transition: ease-out 0.5s;
+                    }
+                    &:after {
+                        transform: rotate(45deg) translate(-6px, -7px);
+                        transition: ease-out 0.5s;
+                    }
+                }
+            }  
+            
+            @include _500 {
+                display: flex;
             }
         }
         nav {
@@ -27,9 +113,12 @@
             width: 82px;
             background: rgba(29, 25, 37, 0.75);
             backdrop-filter: blur(11px);
+            transition: all 0.5s;
+            z-index: 29;
             .top, .bottom {
                 display: flex;
                 flex-direction: column;
+                align-items: center;
                 gap: 12px;
                 .leftLink {
                     width: 44px;
@@ -52,6 +141,33 @@
                         stop-color: #4646F6;
                     }
                 }
+                .langs {
+                    font-weight: 500;
+                    font-size: 15px;
+                    line-height: 18px;
+                    display: none;
+                    .lang {
+                        color: #7A7B7C;
+                        cursor: pointer;
+                        &:hover {
+                            color: white;
+                        }
+                        &.active {
+                            color: white;
+                        }
+                    }
+                    @include _500 {
+                        display: block;
+                    }
+                }
+            }
+            @include _500 {
+                transform: translateX(-100%);
+            }
+            &.active {
+                @include _500 {
+                    transform: translateX(0);
+                }
             }
         }
     }
@@ -62,7 +178,7 @@
         align-items: center;
         flex-grow: 1;
         padding-left: 112px;
-        padding-right: 30px;
+        padding-right: 18px;
         .left {
             display: flex;
             gap: 8px;
@@ -77,11 +193,14 @@
                justify-content: center;
                align-items: center;
             }
+            @include _400 {
+                flex-direction: column;
+            }
         }
         .right {
             display: flex;
             align-items: center;
-            gap: 40px;
+            gap: 20px;
             .langs {
                 font-weight: 500;
                 font-size: 15px;
@@ -96,12 +215,18 @@
                         color: white;
                     }
                 }
+                @include _500 {
+                    display: none;
+                }
             }
             .wallet {
                 display: flex;
                 align-items: center;
                 gap: 8px;
             }
+        }
+        @include _500 {
+            padding-left: 87px;
         }
     }
 }

@@ -36,7 +36,6 @@ const MainWallet = ({ user }: IMainWallet) => {
       alignItems: 'center',
     },
     content: {
-      width: '423px',
       background: 'rgba(29, 25, 37, 0.92)',
       backdropFilter: 'blur(11px)',
       borderRadius: '6px',
@@ -55,17 +54,17 @@ const MainWallet = ({ user }: IMainWallet) => {
       alignItems: 'center',
     },
     content: {
-      width: '423px',
       background: 'rgba(29, 25, 37, 0.92)',
       backdropFilter: 'blur(11px)',
       borderRadius: '6px',
       padding: '24px',
       border: 0,
-      maxHeight: '100vh', // потом нужно исправлять для каждой отдельной вариации окна
+      maxHeight: '100vh',
     },
   };
 
   const assets = [
+    { currency: 'BTC', image: bitcoin_small },
     { currency: 'BTC', image: bitcoin_small },
     { currency: 'BTC', image: bitcoin_small },
     { currency: 'BTC', image: bitcoin_small },
@@ -93,8 +92,8 @@ const MainWallet = ({ user }: IMainWallet) => {
         <div className={styles.container}>
           <div className={styles.yourBalance}>
             <h1 className={styles.title}>{t('Your balance')}</h1>
-            <div className={styles.usd}>{`${user.balance}`.slice(0, 8)} USD</div>
-            <div className={styles.btc}>{`${user.btc}`.slice(0, 10)} BTC</div>
+            <div className={styles.usd}>{`${user.balance}`.slice(0, 6)} USD</div>
+            <div className={styles.btc}>{`${user.btc}`.slice(0, 6)} BTC</div>
             <div className={styles.buttons}>
               <button className={styles.deposit} onClick={() => setDepositModalIsOpen(true)}>
                 <img src={deposit} alt="" />

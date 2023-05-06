@@ -1,312 +1,395 @@
 @mixin _1100 {
-    @media (max-width: 1100px){
-        @content;
-    }
+  @media (max-width: 1100px) {
+    @content;
+  }
 }
 
 @mixin _565 {
-    @media (max-width: 565px){
-        @content;
-    }
+  @media (max-width: 565px) {
+    @content;
+  }
 }
 
 @mixin _500 {
-    @media (max-width: 500px){
-        @content;
-    }
+  @media (max-width: 500px) {
+    @content;
+  }
 }
 
 @mixin _400 {
-    @media (max-width: 400px){
-        @content;
-    }
+  @media (max-width: 400px) {
+    @content;
+  }
 }
 
 .mainWalletAuthorised {
-    background: #0F0C17;
-    height: 100vh;
+  background: #0f0c17;
+  height: 100vh;
+  @include _1100 {
+    height: auto;
+  }
+  .container {
+    padding-left: 112px;
+    padding-right: 30px;
+    padding-top: 86px;
+    padding-bottom: 20px;
+    display: flex;
+    gap: 24px;
     @include _1100 {
-        height: auto;
+      flex-direction: column;
+      align-items: center;
     }
-    .container {
-        padding-left: 112px;
-        padding-right: 30px;
-        padding-top: 86px;
-        padding-bottom: 20px;
+    @include _500 {
+      padding-left: 30px;
+    }
+    .yourBalance {
+      background: rgba(29, 25, 37, 0.75);
+      backdrop-filter: blur(11px);
+      border-radius: 6px;
+      padding: 24px;
+      width: 423px;
+      max-height: 271px;
+      @include _565 {
+        max-height: 326px;
+        width: 290px;
+      }
+      @include _400 {
+        width: calc(100vw - 34px);
+      }
+      .title {
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 28px;
+        text-align: center;
+        margin-bottom: 27px;
+      }
+      .usd {
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 24px;
+        color: #7a7b7c;
+        text-align: center;
+      }
+      .btc {
+        background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+        text-align: center;
+        font-weight: 600;
+        font-size: 28px;
+        line-height: 35px;
+        margin-top: 8px;
+        margin-bottom: 57px;
+      }
+      .buttons {
         display: flex;
-        gap: 24px;
-        @include _1100 {
-            flex-direction: column;
-            align-items: center;
+        gap: 11px;
+        @include _565 {
+          flex-direction: column;
+          align-items: center;
         }
-        @include _500 {
-            padding-left: 30px;
+        button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background: #272332;
+          border-radius: 4px;
+          width: 182px;
+          height: 44px;
         }
-        .yourBalance {
-            background: rgba(29, 25, 37, 0.75);
-            backdrop-filter: blur(11px);
-            border-radius: 6px;
-            padding: 24px;
-            width: 423px;
-            max-height: 271px;
-            @include _565 {
-                max-height: 326px;
-                width: 290px;
-            }
-            @include _400 {
-                width: calc(100vw - 34px)
-            }
-            .title {
-                font-weight: 500;
-                font-size: 24px;
-                line-height: 28px;
-                text-align: center;
-                margin-bottom: 27px;
-            }
-            .usd {
-                font-weight: 400;
-                font-size: 18px;
-                line-height: 24px;
-                color: #7A7B7C;
-                text-align: center;
-            }
-            .btc {
-                background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-                text-fill-color: transparent;
-                text-align: center;
-                font-weight: 600;
-                font-size: 28px;
-                line-height: 35px;
-                margin-top: 8px;
-                margin-bottom: 57px;
-            }
-            .buttons {
-                display: flex;
-                gap: 11px;
-                @include _565 {
-                    flex-direction: column;
-                    align-items: center;
-                }
-                button {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 8px;
-                    background: #272332;
-                    border-radius: 4px;
-                    width: 182px;
-                    height: 44px;
-                }
-            }
-        }
+      }
     }
+  }
 }
 
 .modal {
-    width: 423px;
-    overflow-y: auto;
-    .modalBack {
-        background: transparent;
-        position: fixed;
-        left: 20px;
-        top: 31px;
-        @include _400 {
-            left: 10px;
-            top: 15.5px;
-        }
+  width: 423px;
+  overflow-y: auto;
+  .modalBack {
+    background: transparent;
+    position: fixed;
+    left: 20px;
+    top: 31px;
+    @include _400 {
+      left: 10px;
+      top: 15.5px;
     }
-    
-    .modalTitle {
-        font-weight: 500;
-        font-size: 24px;
-        line-height: 28px;
-        text-align: center;
-        margin-bottom: 12px;
-        @include _400 {
-            font-size: 19px;
-            line-height: 23px;
-            margin-bottom: 10px;
-        }
-    }
-    
-    .modalSubTitle {
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 22px;
-        color: #7A7B7C;
-        text-align: center;
-        @include _400 {
-            font-size: 12px;
-            line-height: 18px;
-        }
-    }
-    .field {
-        margin-top: 32px;
-        font-weight: 400;
-        font-size: 15px;
-        line-height: 18px;
-        @include _400 {
-            margin-top: 25px;
-            font-size: 14px;
-            line-height: 16px;
-        }
-        ul {
-            margin: 0;
-            padding: 0;
-            height: 39px;
-            overflow: visible;
-            margin-top: 8px;
-            .modalAsset {
-                background: #272332;
-                border-radius: 4px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                height: 39px;
-                position: relative;
-                z-index: 5;
-                cursor: pointer;
-                .asset {
-                    display: flex;
-                    align-items: center;
-                    .modalAssetImage {
-                        margin-left: 10px;
-                        margin-right: 6px;
-                    }
-                }
-                .assetMore {
-                    margin-right: 16px;
-                }
-            }
-        }
-        .network {
-            display: flex;
-            gap: 3px;
-            background: #272332;
-            border-radius: 4px;
-            height: 39px;
-            align-items: center;
-            padding: 10px;
-            margin-top: 8px;
-            .networkTitle {
-                color: white;
-            }
-            .networkSubTitle {
-                color: rgba(122, 123, 124, 1);
-            }
-        }
-        .addressDeposit {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 11px;
-            margin-bottom: 20px;
-            .addressCopy {
-                background: transparent;
-              }
-        }
-        .addressWithdraw {
-            background: #272332;
-            border-radius: 4px;
-            height: 39px;
-            padding: 10.5px;
-            width: 100%;
-            margin-top: 8px;
-        }
-        .addressText {
-            background: #272332;
-            border-radius: 4px;
-            height: 39px;
-            padding: 10.5px;
-            width: 100%;
-        }
-        .fieldTitles {
-            display: flex;
-            justify-content: space-between;
-            .fieldSubTitle {
-                line-height: 18px;
-                background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-                text-fill-color: transparent;
-            }
-        }
-        .withdrawAiAmount {
-            background: #272332;
-            border-radius: 4px;
-            height: 39px;
-            padding: 10.5px;
-            width: 100%;
-            margin-bottom: 8px;
-        }
-    }
-    .modalInfo {
-        margin-top: 16px;
-        .infoTitle {
-            margin-bottom: 4px;
-            font-weight: 400;
-            font-size: 15px;
-            line-height: 18px;
-            color: #7A7B7C;
-        }
-        .info {
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 19px;
-        }
-    }
-    .sum {
-        margin-top: 42px;
-        margin-bottom: 18px;
-        font-weight: 500;
-        font-size: 24px;
-        line-height: 28px;
+  }
 
+  form {
+    .modalTitle {
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 28px;
+      text-align: center;
+      margin-bottom: 12px;
     }
-    .submit {
-        height: 52px;
-        background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
-        box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
-        border-radius: 4px;
-        width: 100%;
-        font-weight: 500;
-        font-size: 18px;
-        line-height: 21px;
-    }
-    .qrBorder {
-        position: relative;
-        background-clip: padding-box;
-        background: rgba(29, 25, 37, 0.92);
-        border: solid 2px transparent;
-        border-radius: 6px;
-        width: 125px;
-        height: 125px;
-        padding: 3px;
-        margin: auto;
+    .modalAssets {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 25px;
+      overflow-y: auto;
+      max-height: 67vh;
+      .modalAsset {
         display: flex;
-        justify-content: center;
+        gap: 12px;
+        cursor: pointer;
+        &:hover {
+          background: #272332;
+        }
+        .logo {
+          background: #272332;
+          border-radius: 12px;
+          width: 44px;
+          height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .asset {
+          display: flex;
+          flex-direction: column;
+          .assetTitle {
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 160%;
+          }
+          .assetName {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 160%;
+            color: #7a7b7c;
+          }
+        }
+      }
+    }
+    .searchWrapper {
+      &:before {
+        content: '';
+        display: block;
+        background: url('../../../../assets/search.svg') no-repeat;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        margin-top: 10px;
+        margin-left: 10px;
+      }
+      .search {
+        background: #272332;
+        border-radius: 4px;
+        height: 40px;
+        padding-left: 35px;
+        width: 100%;
+        &::-webkit-input-placeholder {
+          color: white;
+        }
+        &:-moz-placeholder {
+          color: white;
+        }
+        &::-moz-placeholder {
+          color: white;
+        }
+        &:-ms-input-placeholder {
+          color: white;
+        }
+      }
+    }
+  }
+
+  .modalTitle {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+    margin-bottom: 12px;
+    @include _400 {
+      font-size: 19px;
+      line-height: 23px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .modalSubTitle {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: #7a7b7c;
+    text-align: center;
+    @include _400 {
+      font-size: 12px;
+      line-height: 18px;
+    }
+  }
+  .field {
+    margin-top: 32px;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    @include _400 {
+      margin-top: 25px;
+      font-size: 14px;
+      line-height: 16px;
+    }
+    ul {
+      margin: 0;
+      padding: 0;
+      height: 39px;
+      overflow: visible;
+      margin-top: 8px;
+      .modalAsset {
+        background: #272332;
+        border-radius: 4px;
+        display: flex;
         align-items: center;
-        margin-top: 20px;
-        &:before {
-            content: '';
-            position: absolute;
-            top: 0; right: 0; bottom: 0; left: 0;
-            z-index: -1;
-            margin: -3px; 
-            border-radius: inherit;
-            background: linear-gradient(to right, rgba(251, 105, 178, 1), rgba(70, 70, 246, 1));
+        justify-content: space-between;
+        height: 39px;
+        position: relative;
+        z-index: 5;
+        cursor: pointer;
+        .asset {
+          display: flex;
+          align-items: center;
+          .modalAssetImage {
+            margin-left: 10px;
+            margin-right: 6px;
+          }
         }
-        .qr {
-            background: white;
-            border-radius: 6px;
-            padding: 6px;
+        .assetMore {
+          margin-right: 16px;
         }
+      }
     }
-    @include _500 {
-        width: calc(100vw - 42px)
+    .network {
+      display: flex;
+      gap: 3px;
+      background: #272332;
+      border-radius: 4px;
+      height: 39px;
+      align-items: center;
+      padding: 10px;
+      margin-top: 8px;
+      .networkTitle {
+        color: white;
+      }
+      .networkSubTitle {
+        color: rgba(122, 123, 124, 1);
+      }
     }
+    .addressDeposit {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 11px;
+      margin-bottom: 20px;
+      .addressCopy {
+        background: transparent;
+      }
+    }
+    .addressWithdraw {
+      background: #272332;
+      border-radius: 4px;
+      height: 39px;
+      padding: 10.5px;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .addressText {
+      background: #272332;
+      border-radius: 4px;
+      height: 39px;
+      padding: 10.5px;
+      width: 100%;
+    }
+    .fieldTitles {
+      display: flex;
+      justify-content: space-between;
+      .fieldSubTitle {
+        line-height: 18px;
+        background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+      }
+    }
+    .withdrawAiAmount {
+      background: #272332;
+      border-radius: 4px;
+      height: 39px;
+      padding: 10.5px;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+  }
+  .modalInfo {
+    margin-top: 16px;
+    .infoTitle {
+      margin-bottom: 4px;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 18px;
+      color: #7a7b7c;
+    }
+    .info {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+    }
+  }
+  .sum {
+    margin-top: 42px;
+    margin-bottom: 18px;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+  }
+  .submit {
+    height: 52px;
+    background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
+    box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
+    border-radius: 4px;
+    width: 100%;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+  }
+  .qrBorder {
+    position: relative;
+    background-clip: padding-box;
+    background: rgba(29, 25, 37, 0.92);
+    border: solid 2px transparent;
+    border-radius: 6px;
+    width: 125px;
+    height: 125px;
+    padding: 3px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      margin: -3px;
+      border-radius: inherit;
+      background: linear-gradient(to right, rgba(251, 105, 178, 1), rgba(70, 70, 246, 1));
+    }
+    .qr {
+      background: white;
+      border-radius: 6px;
+      padding: 6px;
+    }
+  }
+  @include _500 {
+    width: calc(100vw - 42px);
+  }
 }

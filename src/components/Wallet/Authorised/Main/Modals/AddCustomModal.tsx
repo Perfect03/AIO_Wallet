@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
 import styles from '../MainWallet.module.scss';
 import top7 from '../../../../../scripts/quoting/token-lists/pancakeswap-top-7.json';
+import top100 from '../../../../../scripts/quoting/token-lists/pancakeswap-top-100.json';
 import { useTranslation } from 'react-i18next';
 import useLocalStorage from '../../../../../hooks/useLocalStorage';
 import checkSavedAssets, { Asset } from '../helpers/checkSavedAssets';
@@ -65,7 +65,7 @@ export default function AddCustomModal(props: {
           ></input>
         </div>
         <div className={styles.modalAssets}>
-          {top7.tokens.map((el, index) => {
+          {top100.tokens.map((el, index) => {
             return (
               <div
                 className={styles.modalAsset}

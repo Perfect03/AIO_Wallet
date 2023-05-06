@@ -1,5 +1,4 @@
 import { NavLink } from 'react-router-dom';
-import useLocalStorage from '../../../../../hooks/useLocalStorage';
 import styles from '../HeaderWallet.module.scss';
 
 export default function ExitIcon() {

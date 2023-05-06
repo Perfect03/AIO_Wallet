@@ -10,22 +10,37 @@
     }
 }
 
+@mixin _500 {
+    @media (max-width: 500px){
+        @content;
+    }
+}
+
+@mixin _400 {
+    @media (max-width: 400px){
+        @content;
+    }
+}
+
 .mainWalletAuthorised {
     background: #0F0C17;
-    height: calc(100vh - 80px);
+    height: 100vh;
     @include _1100 {
         height: auto;
     }
     .container {
         padding-left: 112px;
         padding-right: 30px;
-        padding-top: 6px;
+        padding-top: 86px;
         padding-bottom: 20px;
         display: flex;
         gap: 24px;
         @include _1100 {
             flex-direction: column;
             align-items: center;
+        }
+        @include _500 {
+            padding-left: 30px;
         }
         .yourBalance {
             background: rgba(29, 25, 37, 0.75);
@@ -37,6 +52,9 @@
             @include _565 {
                 max-height: 326px;
                 width: 290px;
+            }
+            @include _400 {
+                width: calc(100vw - 34px)
             }
             .title {
                 font-weight: 500;
@@ -84,90 +102,21 @@
                 }
             }
         }
-        .yourAssets {
-            background: rgba(29, 25, 37, 0.75);
-            backdrop-filter: blur(11px);
-            border-radius: 6px;
-            padding: 24px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            .title {
-                font-weight: 500;
-                font-size: 24px;
-                line-height: 28px;
-            }
-            .describe {
-                font-weight: 400;
-                font-size: 14px;
-                line-height: 22px;
-                color: #7A7B7C;
-                margin-top: 16px;
-                margin-bottom: 33px;
-            }
-            .assets {
-                margin-bottom: 24px;
-                .asset {
-                    display: flex;
-                    gap: 12px;
-                    align-items: center;
-                    margin-bottom: 12px;
-                    .coin {
-                        background: #272332;
-                        border-radius: 12px;
-                        width: 44px;
-                        height: 44px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                    }
-                    .coinAbout {
-                        flex-grow: 1;
-                        .firstLine {
-                            display: flex;
-                            justify-content: space-between;
-                            font-weight: 500;
-                            font-size: 16px;
-                            line-height: 160%;
-                            .currency {
-                            }
-                            .sum {
-                                display: flex;
-                                align-items: center;
-                                button {
-                                    background: transparent;
-                                }
-                            }
-                        }
-                        .secondLine {
-                            display: flex;
-                            justify-content: space-between;
-                            font-weight: 400;
-                            font-size: 14px;
-                            line-height: 160%;
-                            color: #7A7B7C;
-                            .address {
-                            }
-                        }
-                    }
-                }
-            }
-            .addToken {
-                background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
-                box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
-                border-radius: 4px;
-                padding: 12px 0;
-            }
-        }
     }
 }
 
 .modal {
+    width: 423px;
+    overflow-y: auto;
     .modalBack {
         background: transparent;
         position: fixed;
         left: 20px;
         top: 31px;
+        @include _400 {
+            left: 10px;
+            top: 15.5px;
+        }
     }
     
     .modalTitle {
@@ -176,6 +125,11 @@
         line-height: 28px;
         text-align: center;
         margin-bottom: 12px;
+        @include _400 {
+            font-size: 19px;
+            line-height: 23px;
+            margin-bottom: 10px;
+        }
     }
     
     .modalSubTitle {
@@ -184,9 +138,21 @@
         line-height: 22px;
         color: #7A7B7C;
         text-align: center;
+        @include _400 {
+            font-size: 12px;
+            line-height: 18px;
+        }
     }
     .field {
         margin-top: 32px;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 18px;
+        @include _400 {
+            margin-top: 25px;
+            font-size: 14px;
+            line-height: 16px;
+        }
         ul {
             margin: 0;
             padding: 0;
@@ -219,9 +185,6 @@
         .network {
             display: flex;
             gap: 3px;
-            font-weight: 400;
-            font-size: 15px;
-            line-height: 18px;
             background: #272332;
             border-radius: 4px;
             height: 39px;
@@ -246,9 +209,6 @@
               }
         }
         .addressWithdraw {
-            font-weight: 400;
-            font-size: 15px;
-            line-height: 18px;
             background: #272332;
             border-radius: 4px;
             height: 39px;
@@ -257,9 +217,6 @@
             margin-top: 8px;
         }
         .addressText {
-            font-weight: 400;
-            font-size: 15px;
-            line-height: 18px;
             background: #272332;
             border-radius: 4px;
             height: 39px;
@@ -270,8 +227,6 @@
             display: flex;
             justify-content: space-between;
             .fieldSubTitle {
-                font-weight: 500;
-                font-size: 15px;
                 line-height: 18px;
                 background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
                 -webkit-background-clip: text;
@@ -281,9 +236,6 @@
             }
         }
         .withdrawAiAmount {
-            font-weight: 400;
-            font-size: 15px;
-            line-height: 18px;
             background: #272332;
             border-radius: 4px;
             height: 39px;
@@ -353,5 +305,8 @@
             border-radius: 6px;
             padding: 6px;
         }
+    }
+    @include _500 {
+        width: calc(100vw - 42px)
     }
 }

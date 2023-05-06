@@ -84,5 +84,7 @@
     "Network comission": "Network comission",
     "Balance": "Balance",
     "Transactions": "Transactions",
-    "Select coin for transaction type": "Select coin for transaction type"
+    "Select coin for transaction type": "Select coin for transaction type",
+    "From": "From",
+    "To": "To"
 }

@@ -254,7 +254,10 @@ const MainWallet = () => {
             </div>
             <div className={styles.field}>
               <div className={styles.fieldTitle}>{t('Address')}</div>
-              <input className={styles.addressWithdraw} />
+              <input
+                className={styles.addressWithdraw}
+                onChange={(e) => setWithdrawAdress(e.target.value)}
+              />
             </div>
             <div className={styles.field}>
               <div className={styles.fieldTitle}>{t('Network')}</div>
@@ -263,17 +266,22 @@ const MainWallet = () => {
                 <div className={styles.networkSubTitle}>(BEP20)</div>
               </div>
             </div>
-            <div className={styles.field}>
-              <div className={styles.fieldTitles}>
-                <div className={styles.fieldTitle}>{t('Withdrawal amount')}</div>
-                <div className={styles.fieldSubTitle}>All</div>
+            {withdrawAdress ? (
+              <div className={styles.field}>
+                <div className={styles.fieldTitles}>
+                  <div className={styles.fieldTitle}>{t('Withdrawal amount')}</div>
+                  <div className={styles.fieldSubTitle}>All</div>
+                </div>
+                <input
+                  className={styles.withdrawAiAmount}
+                  name="withdrawai"
+                  placeholder={`${t('Minimum amount')}: 0.34124331 BTC`}
+                  onChange={(e) => setWithdrawSum(Number(e.target.value))}
+                ></input>
               </div>
-              <input
-                className={styles.withdrawAiAmount}
-                name="withdrawai"
-                placeholder={`${t('Minimum amount')}: 0.34124331 BTC`}
-              ></input>
-            </div>
+            ) : (
+              ''
+            )}
             <div className={styles.modalInfo}>
               <div className={styles.infoTitle}>{t('Balance')} BTC</div>
               <div className={styles.info}>0.34124331 BTC</div>

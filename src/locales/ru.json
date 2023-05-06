@@ -82,5 +82,7 @@
     "Search": "Поиск",
     "Minimum amount": "Минимальное количество",
     "Network comission": "Комиссия сети",
-    "Balance": "Баланс"
+    "Balance": "Баланс",
+    "Transactions": "Транзакции",
+    "Select coin for transaction type": "Выберите валюту для транзакции"
 }

@@ -1,36 +1,26 @@
 import styles from './MainWallet.module.scss';
-import copyForModal from '../../../../assets/copyForModal.svg';
-import search from '../../../../assets/search.svg';
 import deposit from '../../../../assets/deposit.svg';
 import refresh from '../../../../assets/refresh.svg';
 import withdraw from '../../../../assets/withdraw.svg';
-import bitcoin from '../../../../assets/bitcoin.svg';
-import bitcoin_small from '../../../../assets/bitcoin_small.svg';
-import back from '../../../../assets/back.svg';
-import more from '../../../../assets/more.svg';
-import React, { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Context, ContextType } from '../../../../languageContext';
-import { toast } from 'react-toastify';
-import Modal from 'react-modal';
-import QRCode from 'react-qr-code';
 import getNativeBalance from '../../../../scripts/quoting/getNativeBalance';
 import useLocalStorage from '../../../../hooks/useLocalStorage';
 import { TWallet } from '../../../../scripts/getWallet';
-import { getIdMap } from '../../../../scripts/cryptocurrencyMap';
-import getLatestQuotes from '../../../../scripts/getLatestQuotes';
 import AddCustomModal from './Modals/AddCustomModal';
-import checkSavedAssets, { AssetWithBalance } from './helpers/checkSavedAssets';
-import getTokenBalance from '../../../../scripts/quoting/getTokenBalance';
+import checkSavedAssets, { Asset } from './helpers/checkSavedAssets';
+import WithdrawModal from './Modals/WidthdrawModal';
+import DepositModal from './Modals/DepositModal';
+import getBalances from './helpers/getBalances';
 
 const MainWallet = () => {
-  const [depositModalIsOpen, setDepositModalIsOpen] = React.useState(false);
-  const [withdrawModalIsOpen, setWithdrawModalIsOpen] = React.useState(false);
-  const [assetsModalIsOpen, setAssetsModalIsOpen] = React.useState(false);
   const [nativeBal, setNativeBal] = useState('');
   const [bnbQuote, setBnbQuote] = useState(0);
+  const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);
+  const [depositModalIsOpen, setDepositModalIsOpen] = useState(false);
+  const [assetsModalIsOpen, setAssetsModalIsOpen] = useState(false);
 
-  const [assets, setAssets] = useState<AssetWithBalance[]>([]);
+  const [assets, setAssets] = useState<Asset[]>([]);
 
   const walletData = useLocalStorage<TWallet>('wallet', {
     pk: '',
@@ -42,82 +32,15 @@ const MainWallet = () => {
     const parsed: string[] = JSON.parse(savedAssets ? savedAssets : '[]');
 
     (async () => {
-      const userAssets = await checkSavedAssets(parsed ? parsed : [], walletData.addr);
+      let userAssets = checkSavedAssets(parsed ? parsed : []);
+      setAssets(userAssets);
+      userAssets = await getBalances(userAssets, walletData.addr);
       setAssets(userAssets);
 
       const bal = await getNativeBalance(walletData.addr);
       setNativeBal(bal.toString());
     })();
   }, []);
-
-  const depositModalStyles = {
-    overlay: {
-      backgroundColor: 'rgba(15, 12, 23, 0.82)',
-      zIndex: 31,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    content: {
-      width: '423px',
-      background: 'rgba(29, 25, 37, 0.92)',
-      backdropFilter: 'blur(11px)',
-      borderRadius: '6px',
-      padding: '24px',
-      border: 0,
-      maxHeight: '531px',
-    },
-  };
-
-  const withdrawModalStyles = {
-    overlay: {
-      backgroundColor: 'rgba(15, 12, 23, 0.82)',
-      zIndex: 31,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    content: {
-      width: '423px',
-      background: 'rgba(29, 25, 37, 0.92)',
-      backdropFilter: 'blur(11px)',
-      borderRadius: '6px',
-      padding: '24px',
-      border: 0,
-      maxHeight: '100vh', // потом нужно исправлять для каждой отдельной вариации окна
-    },
-  };
-
-  const assetsModalStyles = {
-    overlay: {
-      backgroundColor: 'rgba(15, 12, 23, 0.82)',
-      zIndex: 31,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    content: {
-      width: '423px',
-      background: 'rgba(29, 25, 37, 0.92)',
-      backdropFilter: 'blur(11px)',
-      borderRadius: '6px',
-      padding: '24px',
-      border: 0,
-    },
-  };
-
-  const [isDepositMenuOpen, setIsDepositMenuOpen] = useState(false);
-
-  function handleCopyClick() {
-    navigator.clipboard
-      .writeText(walletData.addr)
-      .then(() => {
-        toast['info'](t('Copy address'));
-      })
-      .catch((err) => {
-        toast['error'](t('Copy address error'));
-      });
-  }
 
   const { t } = useTranslation();
 
@@ -176,138 +99,20 @@ const MainWallet = () => {
             </button>
           </div>
         </div>
-        <Modal
-          isOpen={depositModalIsOpen}
-          onRequestClose={() => setDepositModalIsOpen(false)}
-          style={depositModalStyles}
-          className={styles.modal}
-        >
-          <button className={styles.modalBack} onClick={() => setDepositModalIsOpen(false)}>
-            <img src={back} alt="" />
-          </button>
-          <h1 className={styles.modalTitle}>{t('Deposit')}</h1>
-          <h2 className={styles.modalSubTitle}>{t('Only BEP-20 assets can be deposited')}</h2>
-          <div className={styles.field}>
-            <div className={styles.fieldTitle}>{t('Network')}</div>
-            <div className={styles.network}>
-              <div className={styles.networkTitle}>BSC</div>
-              <div className={styles.networkSubTitle}>(BEP20)</div>
-            </div>
-          </div>
-          <div className={styles.field}>
-            <div className={styles.fieldTitle}>{t('Address')}</div>
-            <div className={styles.addressDeposit}>
-              <p className={styles.addressText}>{walletData.addr}</p>
-              <button className={styles.addressCopy} onClick={handleCopyClick}>
-                <img src={copyForModal} alt="" />
-              </button>
-            </div>
-          </div>
-          <div className={styles.qrBorder}>
-            <div className={styles.qr}>
-              <QRCode
-                size={256}
-                style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
-                value={walletData.addr}
-                viewBox={`0 0 256 256`}
-              />
-            </div>
-          </div>
-        </Modal>
-        <Modal
-          isOpen={withdrawModalIsOpen}
-          onRequestClose={() => setWithdrawModalIsOpen(false)}
-          style={withdrawModalStyles}
-          className={styles.modal}
-        >
-          <form name="withdraw" method="post" action="">
-            <button className={styles.modalBack} onClick={() => setWithdrawModalIsOpen(false)}>
-              <img src={back} alt="" />
-            </button>
-            <h1 className={styles.modalTitle}>{t('Withdraw')}</h1>
-            <h2 className={styles.modalSubTitle}>{t('Only BEP-20 assets can be withdrawn')}</h2>
-            <div className={styles.field}>
-              <div className={styles.fieldTitle}>{t('Select assets')}</div>
-              <ul>
-                <li
-                  className={styles.modalAsset}
-                  onClick={() => {
-                    setIsDepositMenuOpen(!isDepositMenuOpen);
-                  }}
-                >
-                  <div className={styles.asset}>
-                    <img className={styles.modalAssetImage} src={''} alt="" />
-                    {``}
-                  </div>
-                  <img className={styles.assetMore} src={more} alt="" />
-                </li>
-                {isDepositMenuOpen &&
-                  assets.slice(1).map((el, index) => (
-                    <li className={styles.modalAsset} key={index}>
-                      <div className={styles.asset}>
-                        <img className={styles.modalAssetImage} src={''} alt="" />
-                        {``}
-                      </div>
-                    </li>
-                  ))}
-              </ul>
-            </div>
-            <div className={styles.field}>
-              <div className={styles.fieldTitle}>{t('Address')}</div>
-              <input
-                className={styles.addressWithdraw}
-                onChange={(e) => setWithdrawAdress(e.target.value)}
-              />
-            </div>
-            <div className={styles.field}>
-              <div className={styles.fieldTitle}>{t('Network')}</div>
-              <div className={styles.network}>
-                <div className={styles.networkTitle}>BSC</div>
-                <div className={styles.networkSubTitle}>(BEP20)</div>
-              </div>
-            </div>
-            {withdrawAdress ? (
-              <div className={styles.field}>
-                <div className={styles.fieldTitles}>
-                  <div className={styles.fieldTitle}>{t('Withdrawal amount')}</div>
-                  <div className={styles.fieldSubTitle}>All</div>
-                </div>
-                <input
-                  className={styles.withdrawAiAmount}
-                  name="withdrawai"
-                  placeholder={`${t('Minimum amount')}: 0.34124331 BTC`}
-                  onChange={(e) => setWithdrawSum(Number(e.target.value))}
-                ></input>
-              </div>
-            ) : (
-              ''
-            )}
-            <div className={styles.modalInfo}>
-              <div className={styles.infoTitle}>{t('Balance')} BTC</div>
-              <div className={styles.info}>0.34124331 BTC</div>
-            </div>
-            <div className={styles.modalInfo} style={{ display: 'none' }}>
-              <div className={styles.infoTitle}>{t('Minimum amount')}</div>
-              <div className={styles.info}>0.34124331 BTC</div>
-            </div>
-            <div className={styles.modalInfo}>
-              <div className={styles.infoTitle}>{t('Network comission')}</div>
-              <div className={styles.info}>0.0000043 ~ 0.0002 BTC</div>
-            </div>
-            <div className={styles.sum}>0.34124331 BTC</div>
-            <button className={styles.submit} type="submit">
-              {t('to withdraw')}
-            </button>
-          </form>
-        </Modal>
-        <Modal
-          isOpen={assetsModalIsOpen}
-          onRequestClose={() => setAssetsModalIsOpen(false)}
-          style={assetsModalStyles}
-          className={styles.modal}
-        >
-          <AddCustomModal assets={assets} setAssets={setAssets} close={setAssetsModalIsOpen} />
-        </Modal>
+        <DepositModal
+          depositModalIsOpen={depositModalIsOpen}
+          setDepositModalIsOpen={setDepositModalIsOpen}
+        />
+        {/* <WithdrawModal
+          withdrawModalIsOpen={withdrawModalIsOpen}
+          setWithdrawModalIsOpen={setWithdrawModalIsOpen}
+        /> */}
+        <AddCustomModal
+          assets={assets}
+          setAssets={setAssets}
+          assetsModalIsOpen={assetsModalIsOpen}
+          setAssetsModalIsOpen={setAssetsModalIsOpen}
+        />
       </main>
     </>
   );

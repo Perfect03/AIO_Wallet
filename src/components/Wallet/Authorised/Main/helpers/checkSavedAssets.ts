@@ -9,20 +9,16 @@ export interface Asset {
   chainId: number;
   decimals: number;
   logoURI: string;
+  balance?: string;
 }
 
-export interface AssetWithBalance extends Asset {
-  balance: string;
-}
-
-export default async function checkSavedAssets(assets: string[], user: string) {
-  const renderAssets: AssetWithBalance[] = [];
+export default function checkSavedAssets(assets: string[]) {
+  const renderAssets: Asset[] = [];
 
   if (assets.length)
     for (const asset of top100.tokens) {
       if (assets.includes(asset.address)) {
-        const balance = await getTokenBalance(asset, user);
-        renderAssets.push({ ...asset, balance });
+        renderAssets.push(asset);
       }
     }
 

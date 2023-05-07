@@ -49,6 +49,7 @@ export default function AddCustomModal(props: {
     if (!savedAssets.includes(newAddress)) {
       const newAsset = addNewAsset(newAddress)!;
       dispatch(addAsset(newAsset));
+      props.setAssetsModalIsOpen(false);
       dispatch(
         updateAssetBalance({
           address: newAsset?.address,
@@ -57,7 +58,6 @@ export default function AddCustomModal(props: {
       );
       setSavedAssets([...savedAssets, newAddress]);
     }
-    props.setAssetsModalIsOpen(false);
   }
 
   useEffect(() => {

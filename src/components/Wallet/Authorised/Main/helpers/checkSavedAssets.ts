@@ -1,6 +1,4 @@
-import { render } from 'react-dom';
-import getTokenBalance from '../../../../../scripts/quoting/getTokenBalance';
-import top100 from '../../../../../scripts/quoting/token-lists/pancakeswap-top-100.json';
+import ext from '../../../../../scripts/quoting/token-lists/pancakeswap-extended.json';
 
 export interface Asset {
   name: string;
@@ -9,14 +7,14 @@ export interface Asset {
   chainId: number;
   decimals: number;
   logoURI: string;
-  balance?: string;
+  balance?: number;
 }
 
 export default function checkSavedAssets(assets: string[]) {
   const renderAssets: Asset[] = [];
 
   if (assets.length)
-    for (const asset of top100.tokens) {
+    for (const asset of ext) {
       if (assets.includes(asset.address)) {
         renderAssets.push(asset);
       }

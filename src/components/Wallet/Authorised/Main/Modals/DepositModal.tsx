@@ -56,6 +56,7 @@ export default function DepositModal(props: {
       onRequestClose={() => props.setDepositModalIsOpen(false)}
       style={depositModalStyles}
       className={styles.modal}
+      appElement={document.getElementById('root') || undefined}
     >
       <button className={styles.modalBack} onClick={() => props.setDepositModalIsOpen(false)}>
         <img src={back} alt="" />

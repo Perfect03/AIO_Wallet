@@ -1,9 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import styles from '../MainWallet.module.scss';
 import back from '../../../../../assets/back.svg';
 import more from '../../../../../assets/more.svg';
 import { useTranslation } from 'react-i18next';
+import { Asset } from '../helpers/checkSavedAssets';
+import { useSelector } from 'react-redux';
+import { AppState, store } from '../../../store';
+import isEthereumAddress from '../helpers/isEthereumAddress';
+import withdraw from '../../../../../scripts/widthdraw';
+import useLocalStorage from '../../../../../hooks/useLocalStorage';
+import { TWallet } from '../../../../../scripts/getWallet';
+import getFees from '../../../../../scripts/quoting/getFees';
+import getTokenBalance from '../../../../../scripts/quoting/getTokenBalance';
+import getNativeBalance from '../../../../../scripts/quoting/getNativeBalance';
+import { toReadableAmount } from '../../../../../scripts/quoting/libs/conversion';
+import { BigNumber } from 'ethers';
 
 const withdrawModalStyles = {
   overlay: {
@@ -28,20 +40,51 @@ export default function WithdrawModal(props: {
   withdrawModalIsOpen: boolean;
   setWithdrawModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const assets = useSelector((state: { assets: AppState }) => state.assets.assets);
+  const unsubscribe = store.subscribe(handleSubscribe);
+
   const [isWithdrawalMenuOpen, setIsWithdrawalMenuOpen] = useState(false);
   const [withdrawAddress, setWithdrawAddress] = useState('');
-  const [widthdrawSum, setWithdrawSum] = useState(0);
+  const [withdrawSum, setWithdrawSum] = useState<number>(0);
+  const [withdrawAsset, setWithdrawAsset] = useState<Asset>(assets[0]);
+  const [fees, setFees] = useState<BigNumber>(BigNumber.from(0));
+
+  const wallet = useLocalStorage<TWallet>('wallet')[0];
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    (async () => {
+      const comission = await getFees();
+      setFees(comission || BigNumber.from(0));
+    })();
+  }, []);
+
+  useEffect(() => {
+    console.log(fees);
+  }, [fees]);
+
+  function handleClose() {
+    props.setWithdrawModalIsOpen(false);
+    setWithdrawAddress('');
+    setWithdrawSum(0);
+  }
+
+  function handleSubscribe() {
+    const bnb = store.getState().assets.assets[0];
+    if (bnb.balance !== withdrawAsset.balance) setWithdrawAsset(bnb);
+    unsubscribe();
+  }
 
   return (
     <Modal
       isOpen={props.withdrawModalIsOpen}
-      onRequestClose={() => props.setWithdrawModalIsOpen(false)}
+      onRequestClose={handleClose}
       style={withdrawModalStyles}
       className={styles.modal}
+      appElement={document.getElementById('root') || undefined}
     >
-      <form name="withdraw" method="post" action="">
+      <form name="withdraw" action="">
         <button className={styles.modalBack} onClick={() => props.setWithdrawModalIsOpen(false)}>
           <img src={back} alt="" />
         </button>
@@ -57,20 +100,39 @@ export default function WithdrawModal(props: {
               }}
             >
               <div className={styles.asset}>
-                <img className={styles.modalAssetImage} src={''} alt="" />
-                {``}
+                <img
+                  className={styles.modalAssetImage}
+                  src={withdrawAsset.logoURI}
+                  alt={`${withdrawAsset.symbol}`}
+                  width={22}
+                  height={22}
+                />
+                {withdrawAsset.name}
               </div>
               <img className={styles.assetMore} src={more} alt="" />
             </li>
-            {/* {isWithdrawalMenuOpen &&
-              assets.slice(1).map((el, index) => (
-                <li className={styles.modalAsset} key={index}>
+            {isWithdrawalMenuOpen &&
+              assets.map((el, index) => (
+                <li
+                  className={styles.modalAsset}
+                  key={index}
+                  onClick={() => {
+                    setIsWithdrawalMenuOpen(!isWithdrawalMenuOpen);
+                    setWithdrawAsset(el);
+                  }}
+                >
                   <div className={styles.asset}>
-                    <img className={styles.modalAssetImage} src={''} alt="" />
-                    {``}
+                    <img
+                      className={styles.modalAssetImage}
+                      src={el.logoURI}
+                      alt={`${el.address} logo`}
+                      width={44}
+                      height={44}
+                    />
+                    {el.name}
                   </div>
                 </li>
-              ))} */}
+              ))}
           </ul>
         </div>
         <div className={styles.field}>
@@ -87,26 +149,31 @@ export default function WithdrawModal(props: {
             <div className={styles.networkSubTitle}>(BEP20)</div>
           </div>
         </div>
-        {withdrawAddress.length ? (
+        {isEthereumAddress(withdrawAddress) == 'valid' ? (
           <div className={styles.field}>
             <div className={styles.fieldTitles}>
               <div className={styles.fieldTitle}>{t('Withdrawal amount')}</div>
-              <div className={styles.fieldSubTitle}>All</div>
+              <div
+                className={styles.fieldSubTitle}
+                onClick={() => setWithdrawSum(withdrawAsset?.balance ? +withdrawAsset?.balance : 0)}
+              >
+                All
+              </div>
             </div>
             <input
               className={styles.withdrawAiAmount}
               name="withdrawal"
               placeholder={`${t('Minimum amount')}: 0.34124331 BTC`}
-              onChange={(e) => setWithdrawSum(Number(e.target.value))}
-              value={widthdrawSum}
+              onChange={(e) => setWithdrawSum(+e.target.value)}
+              value={withdrawSum}
             ></input>
           </div>
         ) : (
           ''
         )}
         <div className={styles.modalInfo}>
-          <div className={styles.infoTitle}>{t('Balance')} BTC</div>
-          <div className={styles.info}>0.34124331 BTC</div>
+          <div className={styles.infoTitle}>{t('Balance')}</div>
+          <div className={styles.info}>{`${withdrawAsset.balance} ${withdrawAsset.symbol}`}</div>
         </div>
         <div className={styles.modalInfo} style={{ display: 'none' }}>
           <div className={styles.infoTitle}>{t('Minimum amount')}</div>
@@ -114,12 +181,18 @@ export default function WithdrawModal(props: {
         </div>
         <div className={styles.modalInfo}>
           <div className={styles.infoTitle}>{t('Network comission')}</div>
-          <div className={styles.info}>0.0000043 ~ 0.0002 BTC</div>
+          <div className={styles.info}>
+            {`${toReadableAmount(fees.mul(21000), 18)} ~ ${toReadableAmount(fees.mul(65000), 18)}`}{' '}
+            BNB
+          </div>
         </div>
         <div className={styles.sum}>0.34124331 BTC</div>
-        <button className={styles.submit} type="submit">
+        <div
+          className={styles.submit}
+          onClick={() => withdraw(withdrawAsset!, withdrawAddress, withdrawSum!, wallet)}
+        >
           {t('to withdraw')}
-        </button>
+        </div>
       </form>
     </Modal>
   );

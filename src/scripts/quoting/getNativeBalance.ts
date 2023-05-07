@@ -1,5 +1,6 @@
 import defaultProvider from '../rpc/defaultProvider';
+import { toReadableAmount } from './libs/conversion';
 
 export default async function getNativeBalance(address: string) {
-  return (await defaultProvider.getBalance(address)).toString();
+  return +toReadableAmount(await defaultProvider.getBalance(address), 18);
 }

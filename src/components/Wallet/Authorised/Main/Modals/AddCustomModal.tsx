@@ -1,11 +1,17 @@
 import styles from '../MainWallet.module.scss';
-import top7 from '../../../../../scripts/quoting/token-lists/pancakeswap-top-7.json';
-import top100 from '../../../../../scripts/quoting/token-lists/pancakeswap-top-100.json';
+import ext from '../../../../../scripts/quoting/token-lists/pancakeswap-extended.json';
 import { useTranslation } from 'react-i18next';
 import useLocalStorage from '../../../../../hooks/useLocalStorage';
 import checkSavedAssets, { Asset } from '../helpers/checkSavedAssets';
-import { TWallet } from '../../../../../scripts/getWallet';
 import Modal from 'react-modal';
+import { useEffect, useState } from 'react';
+import { createFilterToken } from '../helpers/filtering';
+import isEthereumAddress from '../helpers/isEthereumAddress';
+import { addAsset, updateAssetBalance } from '../../../store';
+import { useDispatch } from 'react-redux';
+import addNewAsset from '../helpers/addNewAsset';
+import getTokenBalance from '../../../../../scripts/quoting/getTokenBalance';
+import { TWallet } from '../../../../../scripts/getWallet';
 
 const assetsModalStyles = {
   overlay: {
@@ -26,27 +32,45 @@ const assetsModalStyles = {
 };
 
 export default function AddCustomModal(props: {
-  assets: Asset[];
-  setAssets: React.Dispatch<React.SetStateAction<Asset[]>>;
   assetsModalIsOpen: boolean;
   setAssetsModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { t } = useTranslation();
 
+  const [searchValue, setSearchValue] = useState('');
   const [savedAssets, setSavedAssets] = useLocalStorage<string[]>('assets', []);
-  const wallet = useLocalStorage<TWallet>('wallet', {
+  const [tokenList, setTokenList] = useState<Asset[]>([]);
+  const dispatch = useDispatch();
+  const walletData = useLocalStorage<TWallet>('wallet', {
     pk: '',
     addr: '',
   })[0];
 
   async function handleAddCustomClick(newAddress: string) {
     if (!savedAssets.includes(newAddress)) {
-      const newAssets = [...savedAssets, newAddress];
-      props.setAssetsModalIsOpen(false);
-      props.setAssets(checkSavedAssets(newAssets));
-      setSavedAssets(newAssets);
+      const newAsset = addNewAsset(newAddress)!;
+      dispatch(addAsset(newAsset));
+      dispatch(
+        updateAssetBalance({
+          address: newAsset?.address,
+          balance: await getTokenBalance(newAsset, walletData.addr),
+        })
+      );
+      setSavedAssets([...savedAssets, newAddress]);
     }
+    props.setAssetsModalIsOpen(false);
   }
+
+  useEffect(() => {
+    setTokenList(ext);
+  }, []);
+
+  useEffect(() => {
+    const newTokenList = ext.filter(
+      createFilterToken(searchValue, () => isEthereumAddress(searchValue) == 'valid')
+    );
+    setTokenList(newTokenList);
+  }, [searchValue]);
 
   return (
     <Modal
@@ -54,18 +78,21 @@ export default function AddCustomModal(props: {
       onRequestClose={() => props.setAssetsModalIsOpen(false)}
       style={assetsModalStyles}
       className={styles.modal}
+      appElement={document.getElementById('root') || undefined}
     >
       <form name="assets" method="post" action="">
-        <h1 className={styles.modalTitle}>{t('Select assets')}</h1>
+        <h1 className={styles.modalTitle}>{t('Select asset')}</h1>
         <div className={styles.searchWrapper}>
           <input
             className={styles.search}
             name="searchAssets"
             placeholder={`${t('Search')}`}
-          ></input>
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
         </div>
         <div className={styles.modalAssets}>
-          {top100.tokens.map((el, index) => {
+          {tokenList.map((el, index) => {
             return (
               <div
                 className={styles.modalAsset}

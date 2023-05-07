@@ -6,16 +6,20 @@ import useLocalStorage from './hooks/useLocalStorage';
 import Home from './components/Home/Home';
 import { Context } from './languageContext';
 import Wallet from './components/Wallet/Authorisation/CreateWallet';
+import { Provider } from 'react-redux';
+import { store } from './components/Wallet/store';
 
 function App() {
   const [language, setLanguage] = useLocalStorage('language', 'ru');
   return (
-    <Context.Provider value={{ language: language, setLanguage: setLanguage }}>
-      <Routes>
-        <Route index element={<Home />} />
-        <Route path="/AIO-Wallet" element={<Wallet />} />
-      </Routes>
-    </Context.Provider>
+    <Provider store={store}>
+      <Context.Provider value={{ language: language, setLanguage: setLanguage }}>
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="/AIO-Wallet" element={<Wallet />} />
+        </Routes>
+      </Context.Provider>
+    </Provider>
   );
 }
 

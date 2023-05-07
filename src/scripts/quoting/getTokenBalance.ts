@@ -6,7 +6,7 @@ async function getTokenBalance(token: Asset, userAddress: string) {
   const tokenContract = getTokenContract(token.address);
   const bal = await tokenContract.balanceOf(userAddress);
 
-  return toReadableAmount(bal, token.decimals);
+  return +toReadableAmount(bal, token.decimals);
 }
 
 export default getTokenBalance;

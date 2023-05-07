@@ -5,32 +5,18 @@ import { useTranslation } from 'react-i18next';
 import checkSavedAssets, { Asset } from '../Main/helpers/checkSavedAssets';
 import useLocalStorage from '../../../../hooks/useLocalStorage';
 import { TWallet } from '../../../../scripts/getWallet';
-import getBalances from '../Main/helpers/getBalances';
-import getNativeBalance from '../../../../scripts/quoting/getNativeBalance';
 import AddCustomModal from '../Main/Modals/AddCustomModal';
-
-const assetsModalStyles = {
-  overlay: {
-    backgroundColor: 'rgba(15, 12, 23, 0.82)',
-    zIndex: 31,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  content: {
-    background: 'rgba(29, 25, 37, 0.92)',
-    backdropFilter: 'blur(11px)',
-    borderRadius: '6px',
-    padding: '24px',
-    border: 0,
-  },
-};
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState, updateAssetBalance } from '../../store';
+import { loadAssets } from '../../store';
+import getTokenBalance from '../../../../scripts/quoting/getTokenBalance';
+import { store } from '../../store';
+import getNativeBalance from '../../../../scripts/quoting/getNativeBalance';
 
 export default function Assets() {
   const [assetsModalIsOpen, setAssetsModalIsOpen] = React.useState(false);
-  const [nativeBal, setNativeBal] = useState('');
-
-  const [assets, setAssets] = useState<Asset[]>([]);
+  const dispatch = useDispatch();
+  const assets = useSelector((state: { assets: AppState }) => state.assets.assets);
 
   const walletData = useLocalStorage<TWallet>('wallet', {
     pk: '',
@@ -41,16 +27,20 @@ export default function Assets() {
     const savedAssets = window.localStorage.getItem('assets');
     const parsed: string[] = JSON.parse(savedAssets ? savedAssets : '[]');
 
-    (async () => {
-      let userAssets = checkSavedAssets(parsed ? parsed : []);
-      setAssets(userAssets);
-      userAssets = await getBalances(userAssets, walletData.addr);
-      setAssets(userAssets);
+    const userAssets = checkSavedAssets(parsed ? parsed : []);
 
-      const bal = await getNativeBalance(walletData.addr);
-      setNativeBal(bal.toString());
+    dispatch(loadAssets(userAssets));
+
+    (async () => {
+      for (const storedAsset of store.getState().assets.assets) {
+        let assetBalance;
+        if (storedAsset.symbol === 'BNB') assetBalance = await getNativeBalance(walletData.addr);
+        else assetBalance = await getTokenBalance(storedAsset, walletData.addr);
+        dispatch(updateAssetBalance({ address: storedAsset.address, balance: assetBalance }));
+      }
     })();
   }, []);
+
   const { t } = useTranslation();
 
   return (
@@ -91,8 +81,6 @@ export default function Assets() {
         </button>
       </div>
       <AddCustomModal
-        assets={assets}
-        setAssets={setAssets}
         assetsModalIsOpen={assetsModalIsOpen}
         setAssetsModalIsOpen={setAssetsModalIsOpen}
       />

@@ -12,8 +12,6 @@ import withdraw from '../../../../../scripts/widthdraw';
 import useLocalStorage from '../../../../../hooks/useLocalStorage';
 import { TWallet } from '../../../../../scripts/getWallet';
 import getFees from '../../../../../scripts/quoting/getFees';
-import getTokenBalance from '../../../../../scripts/quoting/getTokenBalance';
-import getNativeBalance from '../../../../../scripts/quoting/getNativeBalance';
 import { toReadableAmount } from '../../../../../scripts/quoting/libs/conversion';
 import { BigNumber } from 'ethers';
 

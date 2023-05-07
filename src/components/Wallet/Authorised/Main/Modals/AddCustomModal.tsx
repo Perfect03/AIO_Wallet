@@ -26,7 +26,6 @@ const assetsModalStyles = {
     background: 'rgba(29, 25, 37, 0.92)',
     backdropFilter: 'blur(11px)',
     borderRadius: '6px',
-    padding: '24px',
     border: 0,
   },
 };

@@ -30,7 +30,6 @@ const withdrawModalStyles = {
     background: 'rgba(29, 25, 37, 0.92)',
     backdropFilter: 'blur(11px)',
     borderRadius: '6px',
-    padding: '24px',
     border: 0,
     maxHeight: '100vh', // потом нужно исправлять для каждой отдельной вариации окна
   },
@@ -81,7 +80,7 @@ export default function WithdrawModal(props: {
       isOpen={props.withdrawModalIsOpen}
       onRequestClose={handleClose}
       style={withdrawModalStyles}
-      className={styles.modal}
+      className={`${styles.modal} ${styles.modalWithdraw}`}
       appElement={document.getElementById('root') || undefined}
     >
       <form name="withdraw" action="">
@@ -90,50 +89,54 @@ export default function WithdrawModal(props: {
         </button>
         <h1 className={styles.modalTitle}>{t('Withdraw')}</h1>
         <h2 className={styles.modalSubTitle}>{t('Only BEP-20 assets can be withdrawn')}</h2>
-        <div className={styles.field}>
+        <div className={`${styles.field} ${isWithdrawalMenuOpen ? styles.listOpen : ''}`}>
           <div className={styles.fieldTitle}>{t('Select assets')}</div>
-          <ul>
-            <li
-              className={styles.modalAsset}
-              onClick={() => {
-                setIsWithdrawalMenuOpen(!isWithdrawalMenuOpen);
-              }}
-            >
-              <div className={styles.asset}>
-                <img
-                  className={styles.modalAssetImage}
-                  src={withdrawAsset.logoURI}
-                  alt={`${withdrawAsset.symbol}`}
-                  width={22}
-                  height={22}
-                />
-                {withdrawAsset.name}
-              </div>
-              <img className={styles.assetMore} src={more} alt="" />
-            </li>
-            {isWithdrawalMenuOpen &&
-              assets.map((el, index) => (
-                <li
-                  className={styles.modalAsset}
-                  key={index}
-                  onClick={() => {
-                    setIsWithdrawalMenuOpen(!isWithdrawalMenuOpen);
-                    setWithdrawAsset(el);
-                  }}
-                >
-                  <div className={styles.asset}>
-                    <img
-                      className={styles.modalAssetImage}
-                      src={el.logoURI}
-                      alt={`${el.address} logo`}
-                      width={44}
-                      height={44}
-                    />
-                    {el.name}
-                  </div>
-                </li>
-              ))}
-          </ul>
+          <div className={styles.dropdownBlock}>
+            <ul>
+              <li
+                className={styles.modalAsset}
+                onClick={() => {
+                  setIsWithdrawalMenuOpen(!isWithdrawalMenuOpen);
+                }}
+              >
+                <div className={styles.asset}>
+                  <img
+                    className={styles.modalAssetImage}
+                    src={withdrawAsset.logoURI}
+                    alt={`${withdrawAsset.symbol}`}
+                    width={40}
+                    height={40}
+                  />
+                  {withdrawAsset.name}
+                </div>
+                <img className={styles.assetMore} src={more} alt="" />
+              </li>
+              {isWithdrawalMenuOpen &&
+                assets
+                  .filter((el) => el != withdrawAsset)
+                  .map((el, index) => (
+                    <li
+                      className={styles.modalAsset}
+                      key={index}
+                      onClick={() => {
+                        setIsWithdrawalMenuOpen(!isWithdrawalMenuOpen);
+                        setWithdrawAsset(el);
+                      }}
+                    >
+                      <div className={styles.asset}>
+                        <img
+                          className={styles.modalAssetImage}
+                          src={el.logoURI}
+                          alt={`${el.address} logo`}
+                          width={40}
+                          height={40}
+                        />
+                        {el.name}
+                      </div>
+                    </li>
+                  ))}
+            </ul>
+          </div>
         </div>
         <div className={styles.field}>
           <div className={styles.fieldTitle}>{t('Address')}</div>
@@ -187,12 +190,12 @@ export default function WithdrawModal(props: {
           </div>
         </div>
         <div className={styles.sum}>0.34124331 BTC</div>
-        <div
+        <button
           className={styles.submit}
           onClick={() => withdraw(withdrawAsset!, withdrawAddress, withdrawSum!, wallet)}
         >
           {t('to withdraw')}
-        </div>
+        </button>
       </form>
     </Modal>
   );

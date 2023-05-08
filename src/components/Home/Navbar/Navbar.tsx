@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
 import { Link, animateScroll as scroll } from 'react-scroll';
 import styles from './Navbar.module.scss';
 
@@ -101,6 +102,9 @@ const Navbar = ({ status, setStatus }: IProps) => {
             </Link>
           </li>
         </ul>
+        <NavLink className={styles.button} to="AIO-Wallet">
+          AIO-Wallet
+        </NavLink>
       </div>
     </div>
   );

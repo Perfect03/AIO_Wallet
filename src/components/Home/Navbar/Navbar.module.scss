@@ -37,8 +37,26 @@
         line-height: 18px;
         padding-top: 36px;
         transition: all 0.4s;
+        ul {
+            margin: 0;
+            padding: 0;
+        }
         li {
             margin-bottom: 36px;
+        }
+        .button {
+            padding: 12px 28px;
+            background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+            box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 15px;
+            line-height: 18px;
+            color: white;
+            &:hover {
+                background: linear-gradient(90deg, #D75596 0%, #3838CD 100%);
+                box-shadow: 0;
+            }
         }
         @include _750 {
             width: 50%;

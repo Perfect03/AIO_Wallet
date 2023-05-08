@@ -108,6 +108,13 @@
 .modal {
   width: 423px;
   overflow-y: auto;
+  padding: 24px;
+  &.modalWithdraw {
+    padding-right: 0;
+    form {
+      margin-right: calc(24px - (399px - 100%));
+    }
+  }
   .modalBack {
     background: transparent;
     position: fixed;
@@ -130,13 +137,13 @@
     .modalAssets {
       display: flex;
       flex-direction: column;
-      gap: 14px;
       margin-top: 25px;
       overflow-y: auto;
       max-height: 67vh;
       .modalAsset {
         display: flex;
         gap: 12px;
+        padding: 7px;
         cursor: pointer;
         &:hover {
           background: #272332;
@@ -237,16 +244,15 @@
     ul {
       margin: 0;
       padding: 0;
-      height: 39px;
-      overflow: visible;
+      height: 49px;
       margin-top: 8px;
+      max-height: 50%;
       .modalAsset {
         background: #272332;
-        border-radius: 4px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 39px;
+        height: 49px;
         position: relative;
         z-index: 5;
         cursor: pointer;
@@ -298,11 +304,8 @@
       margin-top: 8px;
     }
     .addressText {
-      background: #272332;
-      border-radius: 4px;
-      height: 39px;
-      padding: 10.5px;
-      width: 100%;
+      font-size: 14px;
+      line-height: 17px;
     }
     .fieldTitles {
       display: flex;
@@ -349,14 +352,14 @@
     line-height: 28px;
   }
   .submit {
-    height: 52px;
-    background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
-    box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
-    border-radius: 4px;
-    width: 100%;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 21px;
+        height: 52px;
+        background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+        box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
+        border-radius: 4px;
+        width: 100%;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 21px;
   }
   .qrBorder {
     position: relative;

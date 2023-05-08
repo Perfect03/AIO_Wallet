@@ -22,7 +22,6 @@ const depositModalStyles = {
     background: 'rgba(29, 25, 37, 0.92)',
     backdropFilter: 'blur(11px)',
     borderRadius: '6px',
-    padding: '24px',
     border: 0,
     maxHeight: '531px',
   },
@@ -73,7 +72,7 @@ export default function DepositModal(props: {
       <div className={styles.field}>
         <div className={styles.fieldTitle}>{t('Address')}</div>
         <div className={styles.addressDeposit}>
-          <p className={styles.addressText}>{wallet.addr}</p>
+          <div className={styles.addressText}>{wallet.addr}</div>
           <button className={styles.addressCopy} onClick={handleCopyClick}>
             <img src={copyForModal} alt="" />
           </button>

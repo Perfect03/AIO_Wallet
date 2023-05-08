@@ -12,6 +12,7 @@ import { loadAssets } from '../../store';
 import getTokenBalance from '../../../../scripts/quoting/getTokenBalance';
 import { store } from '../../store';
 import getNativeBalance from '../../../../scripts/quoting/getNativeBalance';
+import defaultProvider from '../../../../scripts/rpc/defaultProvider';
 
 export default function Assets() {
   const [assetsModalIsOpen, setAssetsModalIsOpen] = React.useState(false);
@@ -34,6 +35,8 @@ export default function Assets() {
     (async () => {
       for (const storedAsset of store.getState().assets.assets) {
         let assetBalance;
+        console.log(await defaultProvider.getBalance(walletData.addr));
+        console.log(await getNativeBalance(walletData.addr));
         if (storedAsset.symbol === 'BNB') assetBalance = await getNativeBalance(walletData.addr);
         else assetBalance = await getTokenBalance(storedAsset, walletData.addr);
         dispatch(updateAssetBalance({ address: storedAsset.address, balance: assetBalance }));

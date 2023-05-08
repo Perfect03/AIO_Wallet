@@ -2,20 +2,18 @@ import styles from './CreateWallet.module.scss';
 import copy from '../../../assets/copy.svg';
 import back from '../../../assets/back.svg';
 import Header from './Header/Header';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getWallet, TWallet } from '../../../scripts/getWallet';
 import { useTranslation } from 'react-i18next';
 import SeedInput from './SeedInput';
 import { toast } from 'react-toastify';
 import useLocalStorage from '../../../hooks/useLocalStorage';
-import { Context, ContextType } from '../../../languageContext';
 import Wallet from '../Authorised/Wallet';
 import { ethers } from 'ethers';
 import defaultProvider from '../../../scripts/rpc/defaultProvider';
 
 const CreateWallet = () => {
   const { t } = useTranslation();
-  const { language } = useContext(Context) as ContextType;
   const [animation, setAnimation] = useState('start');
   const [step, setStep] = useState(1);
   const [walletData, setWalletData] = useLocalStorage<TWallet>('wallet', {
@@ -28,7 +26,7 @@ const CreateWallet = () => {
     setAnimation('middle');
 
     if (walletData.pk) {
-      setStep(6);
+      setStep(5);
     }
   }, []);
 
@@ -49,10 +47,8 @@ const CreateWallet = () => {
   };
 
   function handleCopyClick() {
-    console.log(walletData.pk);
-    const stringMnemonic = new ethers.Wallet(walletData.pk).mnemonic.phrase;
     navigator.clipboard
-      .writeText(stringMnemonic)
+      .writeText(mnemonic)
       .then(() => {
         toast['success'](t('Copy seed'));
       })
@@ -63,7 +59,7 @@ const CreateWallet = () => {
 
   return (
     <>
-      {step < 6 ? (
+      {step < 5 ? (
         <>
           <Header />
           <main>
@@ -93,29 +89,6 @@ const CreateWallet = () => {
                   <div
                     className={`${styles.info} 
             ${animation == 'middle' && styles.animation} 
-            ${animation == 'end' && styles.animation_start} 
-            ${animation == 'start' && styles.animation_end}`}
-                  >
-                    <h1>{t('Your seed phrase')}</h1>
-                    <div className={styles.infoText}>{t('Write down this 12-word')}</div>
-                    <div className={styles.buttons}>
-                      <button
-                        className={styles.understand}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          setAnimation('start');
-                          changeStep(3);
-                        }}
-                      >
-                        {t('I understand')}
-                      </button>
-                    </div>
-                  </div>
-                )}
-                {step == 3 && (
-                  <div
-                    className={`${styles.info} 
-            ${animation == 'middle' && styles.animation} 
             ${animation == 'start' && styles.animation_start} 
             ${animation == 'end' && styles.animation_end}`}
                   >
@@ -135,7 +108,7 @@ const CreateWallet = () => {
                     </div>
                   </div>
                 )}
-                {step == 4 && (
+                {step == 3 && (
                   <div
                     className={`${styles.info} 
             ${animation == 'middle' && styles.animation} 
@@ -169,7 +142,7 @@ const CreateWallet = () => {
                     </div>
                   </div>
                 )}
-                {step === 5 && (
+                {step === 4 && (
                   <div
                     className={`${styles.info} 
             ${animation == 'middle' && styles.animation} 
@@ -189,7 +162,7 @@ const CreateWallet = () => {
                     <SeedInput setAnimation={setAnimation} setStep={setStep} />
                   </div>
                 )}
-                {step !== 5 && (
+                {step !== 4 && (
                   <a
                     className={styles.restore}
                     onClick={() => {

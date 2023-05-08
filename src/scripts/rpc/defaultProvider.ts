@@ -4,4 +4,6 @@ const url = process.env.REACT_APP_RPC_ENDPOINT;
 
 const defaultProvider = new ethers.providers.JsonRpcProvider(url);
 
+console.log(defaultProvider);
+
 export default defaultProvider;

@@ -15,7 +15,6 @@ export default function useTotalBalance(assets: Asset[]) {
       }
     }
     if (loaded) {
-      console.log('asd');
       (async () => {
         let newNativeBalance = 0;
         for (const asset of assets.slice(1)) {

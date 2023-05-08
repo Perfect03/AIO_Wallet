@@ -15,7 +15,6 @@ export type Config = {
 
 export async function quote(params: Config): Promise<string> {
   const quoterContract = new ethers.Contract(QUOTER_CONTRACT_ADDRESS, Quoter.abi, defaultProvider);
-  console.log(params);
   const poolConstants = await getPoolConstants(params);
 
   const quotedAmountOut = await quoterContract.callStatic.quoteExactInputSingle(
@@ -41,8 +40,6 @@ async function getPoolConstants(params: Config): Promise<{
     fee: 500,
   });
   console.log(currentPoolAddress);
-
-  console.log(params);
 
   const poolContract = new ethers.Contract(
     currentPoolAddress,

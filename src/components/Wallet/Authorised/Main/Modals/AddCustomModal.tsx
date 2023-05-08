@@ -48,6 +48,7 @@ export default function AddCustomModal(props: {
   async function handleAddCustomClick(newAddress: string) {
     if (!savedAssets.includes(newAddress)) {
       const newAsset = addNewAsset(newAddress)!;
+      setSavedAssets([...savedAssets, newAddress]);
       dispatch(addAsset(newAsset));
       props.setAssetsModalIsOpen(false);
       dispatch(
@@ -56,7 +57,6 @@ export default function AddCustomModal(props: {
           balance: await getTokenBalance(newAsset, walletData.addr),
         })
       );
-      setSavedAssets([...savedAssets, newAddress]);
     }
   }
 

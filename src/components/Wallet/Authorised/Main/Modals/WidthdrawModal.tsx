@@ -42,7 +42,7 @@ export default function WithdrawModal(props: {
 
   const [isWithdrawalMenuOpen, setIsWithdrawalMenuOpen] = useState(false);
   const [withdrawAddress, setWithdrawAddress] = useState('');
-  const [withdrawSum, setWithdrawSum] = useState<number>(0);
+  const [withdrawSum, setWithdrawSum] = useState<number | undefined>(undefined);
   const [withdrawAsset, setWithdrawAsset] = useState<Asset>(assets[0]);
   const [fees, setFees] = useState<BigNumber>(BigNumber.from(0));
 
@@ -56,10 +56,6 @@ export default function WithdrawModal(props: {
       setFees(comission || BigNumber.from(0));
     })();
   }, []);
-
-  useEffect(() => {
-    console.log(fees);
-  }, [fees]);
 
   function handleClose() {
     props.setWithdrawModalIsOpen(false);
@@ -102,8 +98,8 @@ export default function WithdrawModal(props: {
                     className={styles.modalAssetImage}
                     src={withdrawAsset.logoURI}
                     alt={`${withdrawAsset.symbol}`}
-                    width={40}
-                    height={40}
+                    width={32}
+                    height={32}
                   />
                   {withdrawAsset.name}
                 </div>
@@ -126,8 +122,8 @@ export default function WithdrawModal(props: {
                           className={styles.modalAssetImage}
                           src={el.logoURI}
                           alt={`${el.address} logo`}
-                          width={40}
-                          height={40}
+                          width={32}
+                          height={32}
                         />
                         {el.name}
                       </div>
@@ -165,7 +161,10 @@ export default function WithdrawModal(props: {
               className={styles.withdrawAiAmount}
               name="withdrawal"
               placeholder={`${t('Minimum amount')}: 0.34124331 BTC`}
-              onChange={(e) => setWithdrawSum(+e.target.value)}
+              onChange={(e) => {
+                if (+e.target.value === 0) setWithdrawSum(undefined);
+                else setWithdrawSum(+e.target.value);
+              }}
               value={withdrawSum}
             ></input>
           </div>
@@ -187,13 +186,19 @@ export default function WithdrawModal(props: {
             BNB
           </div>
         </div>
-        <div className={styles.sum}>0.34124331 BTC</div>
-        <button
-          className={styles.submit}
-          onClick={() => withdraw(withdrawAsset!, withdrawAddress, withdrawSum!, wallet)}
-        >
-          {t('to withdraw')}
-        </button>
+        {withdrawSum ? (
+          <>
+            <div className={styles.sum}>0.34124331 BTC</div>
+            <button
+              className={styles.submit}
+              onClick={() => withdraw(withdrawAsset!, withdrawAddress, withdrawSum!, wallet)}
+            >
+              {t('to withdraw')}
+            </button>
+          </>
+        ) : (
+          ''
+        )}
       </form>
     </Modal>
   );

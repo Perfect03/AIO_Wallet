@@ -18,6 +18,7 @@ export default function Assets() {
   // здесь создать стейт для отслеживания загрузки токенов, наверное true по дефолту
   const dispatch = useDispatch();
   const assets = useSelector((state: { assets: AppState }) => state.assets.assets);
+  const { t } = useTranslation();
 
   const walletData = useLocalStorage<TWallet>('wallet', {
     pk: '',
@@ -47,15 +48,34 @@ export default function Assets() {
     })();
   }, []);
 
-  const { t } = useTranslation();
+  async function handleRefreshBalances() {
+    for (const storedAsset of store.getState().assets.assets) {
+      let assetBalance;
+      if (storedAsset.symbol === 'BNB') assetBalance = await getNativeBalance(walletData.addr);
+      else assetBalance = await getTokenBalance(storedAsset, walletData.addr);
+      dispatch(updateAssetBalance({ address: storedAsset.address, balance: assetBalance }));
+    }
+  }
 
   return (
     <>
       <div className={styles.yourAssets}>
         <h1 className={styles.title}>{t('Your assets')}</h1>
-        <div className={styles.describe}>
-          {t('Here you can safely store, send and receive assets')}
+        <div>
+          <div className={styles.describe}>
+            {t('Here you can safely store, send and receive assets')}
+          </div>
+
+          <div>
+            {/*{^ див для кнопки плюс надписи}*/}
+            <button onClick={async () => handleRefreshBalances()}>
+              <img src={refresh} alt="" />
+            </button>
+            {/* локализовать */}
+            <span>Refresh balances</span>
+          </div>
         </div>
+
         <div className={styles.assets}>
           {assets.map((el, index) => {
             return (
@@ -67,9 +87,6 @@ export default function Assets() {
                   <div className={styles.firstLine}>
                     <div className={styles.currency}>{el.name}</div>
                     <div className={styles.sum}>
-                      <button>
-                        <img src={refresh} alt="" />
-                      </button>
                       {el.balance} {el.symbol}
                     </div>
                   </div>

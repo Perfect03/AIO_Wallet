@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import addNewAsset from '../helpers/addNewAsset';
 import getTokenBalance from '../../../../../scripts/quoting/getTokenBalance';
 import { TWallet } from '../../../../../scripts/getWallet';
+import getTokenContract from '../../../../../scripts/quoting/token-lists/getTokenContract';
 
 const assetsModalStyles = {
   overlay: {
@@ -39,7 +40,10 @@ export default function AddCustomModal(props: {
   const [searchValue, setSearchValue] = useState('');
   const [savedAssets, setSavedAssets] = useLocalStorage<string[]>('assets', []);
   const [tokenList, setTokenList] = useState<Asset[]>([]);
+  const [isCustom, setIsCustom] = useState(false);
+  const [isValidCustomToken, setIsValidCustomToken] = useState(true);
   const dispatch = useDispatch();
+
   const walletData = useLocalStorage<TWallet>('wallet', {
     pk: '',
     addr: '',
@@ -60,6 +64,51 @@ export default function AddCustomModal(props: {
     }
   }
 
+  async function handleAddCustom() {
+    if (!savedAssets.includes(searchValue)) {
+      try {
+        const token = getTokenContract(searchValue);
+        console.log(token);
+        const name = await token.name();
+        const symbol = await token.symbol();
+        const decimals = await token.decimals();
+
+        console.log(typeof 'asd');
+
+        if (
+          typeof name === 'string' &&
+          typeof symbol === 'string' &&
+          typeof decimals === 'number'
+        ) {
+          setSavedAssets([...savedAssets, searchValue]);
+
+          const asset = {
+            name,
+            symbol,
+            address: searchValue,
+            chainId: 56,
+            decimals,
+            logoURI: '',
+          };
+
+          dispatch(addAsset(asset));
+
+          props.setAssetsModalIsOpen(false);
+
+          dispatch(
+            updateAssetBalance({
+              address: asset?.address,
+              balance: await getTokenBalance(asset, walletData.addr),
+            })
+          );
+        } else throw 'invalid address';
+      } catch {
+        setIsValidCustomToken(false);
+        setTimeout(() => setIsValidCustomToken(true), 3000);
+      }
+    }
+  }
+
   useEffect(() => {
     setTokenList(ext);
   }, []);
@@ -69,6 +118,10 @@ export default function AddCustomModal(props: {
       createFilterToken(searchValue, () => isEthereumAddress(searchValue) == 'valid')
     );
     setTokenList(newTokenList);
+
+    if (!newTokenList.length && isEthereumAddress(searchValue) == 'valid') {
+      setIsCustom(true);
+    }
   }, [searchValue]);
 
   return (
@@ -108,6 +161,15 @@ export default function AddCustomModal(props: {
               </div>
             );
           })}
+          {isCustom ? (
+            isValidCustomToken ? (
+              <span onClick={handleAddCustom}>Add custom token</span>
+            ) : (
+              'Error! This address is not a token'
+            )
+          ) : (
+            ''
+          )}
         </div>
       </form>
     </Modal>

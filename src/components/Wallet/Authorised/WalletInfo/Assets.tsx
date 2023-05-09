@@ -12,11 +12,10 @@ import { loadAssets } from '../../store';
 import getTokenBalance from '../../../../scripts/quoting/getTokenBalance';
 import { store } from '../../store';
 import getNativeBalance from '../../../../scripts/quoting/getNativeBalance';
-import defaultProvider from '../../../../scripts/rpc/defaultProvider';
-import { ethers } from 'ethers';
 
 export default function Assets() {
   const [assetsModalIsOpen, setAssetsModalIsOpen] = React.useState(false);
+  // здесь создать стейт для отслеживания загрузки токенов, наверное true по дефолту
   const dispatch = useDispatch();
   const assets = useSelector((state: { assets: AppState }) => state.assets.assets);
 
@@ -26,14 +25,19 @@ export default function Assets() {
   })[0];
 
   useEffect(() => {
+    //здесь мы получам из localstorage список токенов, которые нужно подгрузить
     const savedAssets = window.localStorage.getItem('assets');
     const parsed: string[] = JSON.parse(savedAssets ? savedAssets : '[]');
-
-    const userAssets = checkSavedAssets(parsed ? parsed : []);
-
-    dispatch(loadAssets(userAssets));
+    // поэтому если parsed пустой, то лоадер не трогаем
+    // если он оказался не пустой, то ставим isLoaded = false
 
     (async () => {
+      // здесь начинается подгрузка просто списка токенов (checkSavedAssets())
+      const userAssets = await checkSavedAssets(parsed ? parsed : []);
+      // здесь загрузка закончилась, isLoaded можно ставить на true
+      dispatch(loadAssets(userAssets));
+      // ^ здесь мы в store из redux загружаем то, что подгрузили, и при рендеринге как раз итерируемся по assets
+
       for (const storedAsset of store.getState().assets.assets) {
         let assetBalance;
         if (storedAsset.symbol === 'BNB') assetBalance = await getNativeBalance(walletData.addr);

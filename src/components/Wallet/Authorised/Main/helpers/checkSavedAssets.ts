@@ -1,3 +1,4 @@
+import getTokenContract from '../../../../../scripts/quoting/token-lists/getTokenContract';
 import ext from '../../../../../scripts/quoting/token-lists/pancakeswap-extended.json';
 
 export interface Asset {
@@ -10,15 +11,29 @@ export interface Asset {
   balance?: number;
 }
 
-export default function checkSavedAssets(assets: string[]) {
+export default async function checkSavedAssets(assets: string[]) {
   const renderAssets: Asset[] = [];
 
-  if (assets.length)
-    for (const asset of ext) {
-      if (assets.includes(asset.address)) {
-        renderAssets.push(asset);
-      }
+  const extAssetsArray = ext.map((el) => el.address);
+
+  for (const asset of assets) {
+    const assetIndex = extAssetsArray.findIndex((el) => el === asset);
+    if (assetIndex >= 0) {
+      renderAssets.push(ext[assetIndex]);
+    } else {
+      const customToken = getTokenContract(asset);
+      try {
+        renderAssets.push({
+          name: await customToken.name(),
+          symbol: await customToken.symbol(),
+          address: asset,
+          chainId: 56,
+          decimals: await customToken.decimals(),
+          logoURI: '',
+        });
+      } catch {}
     }
+  }
 
   return renderAssets;
 }

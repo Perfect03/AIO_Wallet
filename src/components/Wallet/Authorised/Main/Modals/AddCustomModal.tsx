@@ -3,6 +3,7 @@ import ext from '../../../../../scripts/quoting/token-lists/pancakeswap-extended
 import { useTranslation } from 'react-i18next';
 import useLocalStorage from '../../../../../hooks/useLocalStorage';
 import checkSavedAssets, { Asset } from '../helpers/checkSavedAssets';
+import { toast } from 'react-toastify';
 import Modal from 'react-modal';
 import { useEffect, useState } from 'react';
 import { createFilterToken } from '../helpers/filtering';
@@ -10,6 +11,7 @@ import isEthereumAddress from '../helpers/isEthereumAddress';
 import { addAsset, updateAssetBalance } from '../../../store';
 import { useDispatch } from 'react-redux';
 import addNewAsset from '../helpers/addNewAsset';
+import back from '../../../../../assets/back.svg';
 import getTokenBalance from '../../../../../scripts/quoting/getTokenBalance';
 import { TWallet } from '../../../../../scripts/getWallet';
 import getTokenContract from '../../../../../scripts/quoting/token-lists/getTokenContract';
@@ -51,7 +53,9 @@ export default function AddCustomModal(props: {
   })[0];
 
   async function handleAddCustomClick(newAddress: string) {
-    if (!savedAssets.includes(newAddress)) {
+    if (savedAssets.includes(newAddress)) {
+      toast['error'](t('This asset is already exists'));
+    } else {
       const newAsset = addNewAsset(newAddress)!;
       setSavedAssets([...savedAssets, newAddress]);
       dispatch(addAsset(newAsset));
@@ -133,8 +137,11 @@ export default function AddCustomModal(props: {
       className={styles.modal}
       appElement={document.getElementById('root') || undefined}
     >
-      <form name="assets" method="post" action="">
+      <div className={styles.modalWindow}>
         <h1 className={styles.modalTitle}>{t('Select asset')}</h1>
+        <button className={styles.modalBack} onClick={() => props.setAssetsModalIsOpen(false)}>
+          <img src={back} alt="" />
+        </button>
         <div className={styles.searchWrapper}>
           <input
             className={styles.search}
@@ -172,7 +179,7 @@ export default function AddCustomModal(props: {
             ''
           )}
         </div>
-      </form>
+      </div>
     </Modal>
   );
 }

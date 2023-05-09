@@ -78,7 +78,7 @@ export default function WithdrawModal(props: {
       className={`${styles.modal} ${styles.modalWithdraw}`}
       appElement={document.getElementById('root') || undefined}
     >
-      <form name="withdraw">
+      <div className={styles.modalWindow}>
         <button className={styles.modalBack} onClick={() => props.setWithdrawModalIsOpen(false)}>
           <img src={back} alt="" />
         </button>
@@ -200,7 +200,7 @@ export default function WithdrawModal(props: {
         ) : (
           ''
         )}
-      </form>
+      </div>
     </Modal>
   );
 }

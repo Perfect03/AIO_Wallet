@@ -16,6 +16,12 @@
   }
 }
 
+@mixin _470 {
+  @media (max-width: 470px) {
+    @content;
+  }
+}
+
 @mixin _400 {
   @media (max-width: 400px) {
     @content;
@@ -118,8 +124,11 @@
   padding: 24px;
   &.modalWithdraw {
     padding-right: 0;
-    form {
+    .modalWindow {
       margin-right: calc(24px - (399px - 100%));
+      @include _470 {
+        margin-right: calc(24px - (90vw - 24px - 100%));
+      }
     }
     &::-webkit-scrollbar-thumb {
       background-color: black;
@@ -147,7 +156,7 @@
     }
   }
 
-  form {
+  .modalWindow {
     .modalTitle {
       font-weight: 500;
       font-size: 24px;

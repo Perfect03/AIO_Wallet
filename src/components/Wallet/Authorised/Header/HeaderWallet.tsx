@@ -38,6 +38,17 @@ const HeaderWallet = () => {
   };
   const [burgerStatus, setBurgerStatus] = useState(false);
 
+  function handleCopyClick() {
+    navigator.clipboard
+      .writeText(walletInfo.addr)
+      .then(() => {
+        toast['info'](t('Copy address'));
+      })
+      .catch((err) => {
+        toast['error'](t('Copy address error'));
+      });
+  }
+
   const { t } = useTranslation();
 
   return (
@@ -109,7 +120,7 @@ const HeaderWallet = () => {
             </div>
             <div className={styles.wallet}>
               <img src={wallet} alt="AIO" className={styles.logo} />
-              <span className={styles.id}>
+              <span title={t('Copy') as string} className={styles.id} onClick={handleCopyClick}>
                 {walletInfo.addr.slice(0, 6)}…{walletInfo.addr.slice(-4)}
               </span>
             </div>

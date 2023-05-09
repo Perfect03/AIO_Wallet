@@ -84,7 +84,10 @@
   "Network comission": "Комиссия сети",
   "Balance": "Баланс",
   "Transactions": "Транзакции",
-  "Select coin for transaction type": "Выберите валюту для транзакции",
+  "Select coin for transaction type": "Выберите актив для отображения определенных транзакций",
   "From": "От",
-  "To": "К"
+  "To": "К",
+  "Refresh balances": "Обновить балансы",
+  "Copy": "Скопировать",
+  "This asset is already exists": "Такой актив уже присутствует"
 }

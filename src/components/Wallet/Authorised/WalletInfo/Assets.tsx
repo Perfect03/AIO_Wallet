@@ -61,21 +61,12 @@ export default function Assets() {
     <>
       <div className={styles.yourAssets}>
         <h1 className={styles.title}>{t('Your assets')}</h1>
-        <div>
-          <div className={styles.describe}>
-            {t('Here you can safely store, send and receive assets')}
-          </div>
-
-          <div>
-            {/*{^ див для кнопки плюс надписи}*/}
-            <button onClick={async () => handleRefreshBalances()}>
-              <img src={refresh} alt="" />
-            </button>
-            {/* локализовать */}
-            <span>Refresh balances</span>
-          </div>
+        <div className={styles.describe}>
+          {t('Here you can safely store, send and receive assets')}
         </div>
-
+        <span className={styles.refresh} onClick={async () => handleRefreshBalances()}>
+          {t('Refresh balances')}
+        </span>
         <div className={styles.assets}>
           {assets.map((el, index) => {
             return (

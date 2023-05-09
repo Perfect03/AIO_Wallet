@@ -25,6 +25,7 @@ const withdrawModalStyles = {
   },
   content: {
     width: '423px',
+    maxWidth: '90vw',
     background: 'rgba(29, 25, 37, 0.92)',
     backdropFilter: 'blur(11px)',
     borderRadius: '6px',

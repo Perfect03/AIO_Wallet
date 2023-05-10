@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import WithdrawModal from './Modals/WidthdrawModal';
 import { toast } from 'react-toastify';
-import { isLoadingReducer } from '../../store';
+import { isLoadingReducer, store } from '../../store';
 import DepositModal from './Modals/DepositModal';
 import Transactions from '../WalletInfo/Transactions';
 import Assets from '../WalletInfo/Assets';
@@ -25,6 +25,7 @@ const MainWallet = () => {
 
   const [nativeBalance, usdBalance] = useTotalBalance(assets);
   const isLoad = useSelector((state: { assets: AppState }) => state.assets.load);
+
   useEffect(() => {
     console.log(isLoad);
     if (!isLoad) {

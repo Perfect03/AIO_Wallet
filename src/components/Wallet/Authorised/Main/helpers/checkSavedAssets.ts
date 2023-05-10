@@ -1,5 +1,6 @@
 import getTokenContract from '../../../../../scripts/quoting/token-lists/getTokenContract';
 import ext from '../../../../../scripts/quoting/token-lists/pancakeswap-extended.json';
+import custom from '../../../../../assets/CustomToken.svg';
 
 export interface Asset {
   name: string;
@@ -29,7 +30,7 @@ export default async function checkSavedAssets(assets: string[]) {
           address: asset,
           chainId: 56,
           decimals: await customToken.decimals(),
-          logoURI: '',
+          logoURI: custom,
         });
       } catch {}
     }

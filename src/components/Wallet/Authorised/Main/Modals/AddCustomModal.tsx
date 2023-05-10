@@ -15,6 +15,7 @@ import back from '../../../../../assets/back.svg';
 import getTokenBalance from '../../../../../scripts/quoting/getTokenBalance';
 import { TWallet } from '../../../../../scripts/getWallet';
 import getTokenContract from '../../../../../scripts/quoting/token-lists/getTokenContract';
+import custom from '../../../../../assets/CustomToken.svg';
 
 const assetsModalStyles = {
   overlay: {
@@ -54,7 +55,7 @@ export default function AddCustomModal(props: {
 
   async function handleAddCustomClick(newAddress: string) {
     if (savedAssets.includes(newAddress)) {
-      toast['error'](t('This asset is already exists'));
+      toast['error'](t('This asset already exists'));
     } else {
       const newAsset = addNewAsset(newAddress)!;
       setSavedAssets([...savedAssets, newAddress]);
@@ -79,8 +80,6 @@ export default function AddCustomModal(props: {
         const symbol = await token.symbol();
         const decimals = await token.decimals();
 
-        console.log(typeof 'asd');
-
         if (
           typeof name === 'string' &&
           typeof symbol === 'string' &&
@@ -94,7 +93,7 @@ export default function AddCustomModal(props: {
             address: searchValue,
             chainId: 56,
             decimals,
-            logoURI: '',
+            logoURI: custom,
           };
 
           dispatch(addAsset(asset));

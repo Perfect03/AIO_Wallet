@@ -89,5 +89,7 @@
   "To": "К",
   "Refresh balances": "Обновить балансы",
   "Copy": "Скопировать",
-  "This asset is already exists": "Такой актив уже присутствует"
+  "This asset is already exists": "Такой актив уже присутствует",
+  "Check internet connecion": "Проверьте подключение к интернету",
+  "Accept withdraw": "Подтвердить перевод"
 }

@@ -89,5 +89,7 @@
     "To": "To",
     "Refresh balances": "Refresh balances",
     "Copy": "Copy",
-    "This asset is already exists": "This asset is already exists"
+    "This asset is already exists": "This asset is already exists",
+    "Check internet connecion": "Check internet connecion",
+    "Accept withdraw": "Accept withdraw"
 }

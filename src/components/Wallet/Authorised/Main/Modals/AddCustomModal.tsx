@@ -8,7 +8,7 @@ import Modal from 'react-modal';
 import { useEffect, useState } from 'react';
 import { createFilterToken } from '../helpers/filtering';
 import isEthereumAddress from '../helpers/isEthereumAddress';
-import { addAsset, updateAssetBalance } from '../../../store';
+import { addAsset, isLoadingReducer, updateAssetBalance } from '../../../store';
 import { useDispatch } from 'react-redux';
 import addNewAsset from '../helpers/addNewAsset';
 import back from '../../../../../assets/back.svg';
@@ -127,6 +127,7 @@ export default function AddCustomModal(props: {
     if (!newTokenList.length && isEthereumAddress(searchValue) == 'valid') {
       setIsCustom(true);
     }
+    dispatch(isLoadingReducer(true));
   }, [searchValue]);
 
   return (

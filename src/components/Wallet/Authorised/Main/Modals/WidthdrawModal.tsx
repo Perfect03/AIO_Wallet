@@ -44,6 +44,7 @@ export default function WithdrawModal(props: {
   const [isWithdrawalMenuOpen, setIsWithdrawalMenuOpen] = useState(false);
   const [withdrawAddress, setWithdrawAddress] = useState('');
   const [withdrawSum, setWithdrawSum] = useState<number | undefined>(undefined);
+  const [withdrawAccept, setWithdrawAccept] = useState(false);
   const [withdrawAsset, setWithdrawAsset] = useState<Asset>(assets[0]);
   const [fees, setFees] = useState<BigNumber>(BigNumber.from(0));
 
@@ -190,13 +191,20 @@ export default function WithdrawModal(props: {
         {withdrawSum ? (
           <>
             <div className={styles.sum}>0.34124331 BTC</div>
-            <div
-              className={styles.submit}
-              onClick={() => withdraw(withdrawAsset!, withdrawAddress, withdrawSum!, wallet)}
-            >
+            <div className={styles.submit} onClick={() => setWithdrawAccept(true)}>
               {t('to withdraw')}
             </div>
           </>
+        ) : (
+          ''
+        )}
+        {withdrawAccept ? (
+          <div
+            className={`${styles.submit} ${styles.accept}`}
+            onClick={() => withdraw(withdrawAsset!, withdrawAddress, withdrawSum!, wallet)}
+          >
+            {t('Accept withdraw')}
+          </div>
         ) : (
           ''
         )}

@@ -7,7 +7,7 @@ import useLocalStorage from '../../../../hooks/useLocalStorage';
 import { TWallet } from '../../../../scripts/getWallet';
 import AddCustomModal from '../Main/Modals/AddCustomModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState, updateAssetBalance } from '../../store';
+import { AppState, updateAssetBalance, isLoadingReducer } from '../../store';
 import { loadAssets } from '../../store';
 import getTokenBalance from '../../../../scripts/quoting/getTokenBalance';
 import { store } from '../../store';
@@ -29,12 +29,14 @@ export default function Assets() {
     //здесь мы получам из localstorage список токенов, которые нужно подгрузить
     const savedAssets = window.localStorage.getItem('assets');
     const parsed: string[] = JSON.parse(savedAssets ? savedAssets : '[]');
+    if (parsed.length) dispatch(isLoadingReducer(true));
     // поэтому если parsed пустой, то лоадер не трогаем
     // если он оказался не пустой, то ставим isLoaded = false
 
     (async () => {
       // здесь начинается подгрузка просто списка токенов (checkSavedAssets())
       const userAssets = await checkSavedAssets(parsed ? parsed : []);
+      dispatch(isLoadingReducer(false));
       // здесь загрузка закончилась, isLoaded можно ставить на true
       dispatch(loadAssets(userAssets));
       // ^ здесь мы в store из redux загружаем то, что подгрузили, и при рендеринге как раз итерируемся по assets

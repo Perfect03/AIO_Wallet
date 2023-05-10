@@ -91,5 +91,9 @@
   "Copy": "Скопировать",
   "This asset is already exists": "Такой актив уже присутствует",
   "Check internet connecion": "Проверьте подключение к интернету",
-  "Accept withdraw": "Подтвердить перевод"
+  "Accept withdraw": "Подтвердить перевод",
+  "Search by address": "Поиск по адресу",
+  "Add custom": "Добавить",
+  "Error! This address is not a token": "Ошибка: введён некорректный адрес",
+  "Token added": "Токен добавлен"
 }

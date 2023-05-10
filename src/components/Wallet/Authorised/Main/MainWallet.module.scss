@@ -180,10 +180,12 @@
       margin-top: 25px;
       overflow-y: auto;
       max-height: 67vh;
+      transition: all 0.3s;
       .modalAsset {
         display: flex;
         gap: 12px;
         padding: 7px;
+        transition: all 0.3s;
         cursor: pointer;
         &:hover {
           background: #272332;
@@ -245,6 +247,24 @@
         }
       }
     }
+    .custom {
+      height: 52px;
+      background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+      box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
+      border-radius: 4px;
+      width: 100%;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 21px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 16px;
+      cursor: pointer;
+      &:hover {
+        background: linear-gradient(90deg, #D75596 0%, #3838CD 100%);
+      }
+}
   }
 
   .modalTitle {
@@ -403,6 +423,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
+      &:hover {
+        background: linear-gradient(90deg, #D75596 0%, #3838CD 100%);
+      }
   }
   .accept {
     margin-top: 12px;

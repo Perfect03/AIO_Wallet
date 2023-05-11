@@ -1,7 +1,7 @@
 import styles from './MainWallet.module.scss';
 import deposit from '../../../../assets/deposit.svg';
 import withdraw from '../../../../assets/withdraw.svg';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import WithdrawModal from './Modals/WidthdrawModal';
 import DepositModal from './Modals/DepositModal';
@@ -10,6 +10,8 @@ import Assets from '../WalletInfo/Assets';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import useTotalBalance from '../../../../hooks/useTotalBalance';
+import useAddressTransactions from '../../../../hooks/useAddressTransactions';
+import useLocalStorage from '../../../../hooks/useLocalStorage';
 
 const MainWallet = () => {
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);
@@ -19,6 +21,12 @@ const MainWallet = () => {
   const assets = useSelector((state: { assets: AppState }) => state.assets.assets);
 
   const [nativeBalance, usdBalance] = useTotalBalance(assets);
+
+  const [walletData, setWalletData] = useLocalStorage('wallet', {
+    pk: '',
+    addr: '',
+  });
+  useAddressTransactions(walletData.addr);
 
   const { t } = useTranslation();
 
@@ -41,7 +49,7 @@ const MainWallet = () => {
               </button>
             </div>
           </div>
-          {assetsWindow == 'assets' ? <Assets /> : <Transactions />}
+          {assetsWindow !== 'assets' ? <Assets /> : <Transactions />}
         </div>
         <DepositModal
           depositModalIsOpen={depositModalIsOpen}

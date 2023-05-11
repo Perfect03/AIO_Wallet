@@ -5,6 +5,7 @@ import Assets from './Authorised/WalletInfo/Assets';
 // Define the shape of our state
 export interface AppState {
   assets: Asset[];
+  load: boolean;
 }
 
 // Define our initial state
@@ -20,6 +21,7 @@ const initialState: AppState = {
         'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_BNB.png',
     },
   ],
+  load: false,
 };
 
 const appSlice = createSlice({
@@ -42,10 +44,14 @@ const appSlice = createSlice({
     deleteAsset: (state, action: PayloadAction<string>) => {
       state.assets = state.assets.filter((a) => a.address !== action.payload);
     },
+    isLoadingReducer(state, action: PayloadAction<boolean>) {
+      state.load = action.payload;
+    },
   },
 });
 
-export const { loadAssets, updateAssetBalance, addAsset, deleteAsset } = appSlice.actions;
+export const { loadAssets, updateAssetBalance, addAsset, deleteAsset, isLoadingReducer } =
+  appSlice.actions;
 
 // Create the store
 export const store = configureStore({

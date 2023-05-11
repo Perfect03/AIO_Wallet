@@ -223,6 +223,9 @@
                 display: flex;
                 align-items: center;
                 gap: 8px;
+                .id {
+                    cursor: pointer;
+                }
             }
         }
         @include _500 {

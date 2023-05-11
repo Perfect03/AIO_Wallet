@@ -86,5 +86,14 @@
     "Transactions": "Transactions",
     "Select coin for transaction type": "Select coin for transaction type",
     "From": "From",
-    "To": "To"
+    "To": "To",
+    "Refresh balances": "Refresh balances",
+    "Copy": "Copy",
+    "This asset is already exists": "This asset is already exists",
+    "Check internet connecion": "Check internet connecion",
+    "Accept withdraw": "Accept withdraw",
+    "Search by address": "Search by address",
+    "Add custom": "Add custom token",
+    "Error! This address is not a token": "Error! This address is not a token",
+    "Token added": "Token added"
 }

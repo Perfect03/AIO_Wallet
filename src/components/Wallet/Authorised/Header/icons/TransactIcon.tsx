@@ -1,10 +1,19 @@
+import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import styles from '../HeaderWallet.module.scss';
 
 export default function TransactIcon() {
+  const { t } = useTranslation();
+
   return (
-    <NavLink to="/">
-      <button className={styles.leftLink}>
+    <NavLink to=".">
+      <button
+        className={styles.leftLink}
+        onClick={() => {
+          toast['info'](t('In development'));
+        }}
+      >
         <svg
           width="24"
           height="24"

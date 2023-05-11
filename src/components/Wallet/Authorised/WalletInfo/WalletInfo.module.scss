@@ -34,14 +34,34 @@
     font-size: 24px;
     line-height: 28px;
   }
-  .describe {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 22px;
-    color: #7a7b7c;
-    margin-top: 16px;
-    margin-bottom: 27px;
-  }
+    .describe {
+      margin-bottom: 8px;
+      margin-top: 16px;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 22px;
+      color: #7a7b7c;
+    }
+    .refresh {
+      display: flex;
+      justify-content: end;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+      color: white;
+      transition: color 0.15s ease-in;
+      @include _540 {
+        font-size: 13px;
+        line-height: 14px;
+        max-width: 100px;
+        margin-left: auto;
+        text-align: right;
+      }
+      &:hover {
+        cursor: pointer;
+        color: #7a7b7c;
+      }
+    }
   .assets {
     margin-bottom: 24px;
     overflow-y: auto;

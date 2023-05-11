@@ -7,7 +7,7 @@ import useLocalStorage from '../../../../hooks/useLocalStorage';
 import { TWallet } from '../../../../scripts/getWallet';
 import AddCustomModal from '../Main/Modals/AddCustomModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState, updateAssetBalance } from '../../store';
+import { AppState, updateAssetBalance, isLoadingReducer } from '../../store';
 import { loadAssets } from '../../store';
 import getTokenBalance from '../../../../scripts/quoting/getTokenBalance';
 import { store } from '../../store';
@@ -26,18 +26,14 @@ export default function Assets() {
   })[0];
 
   useEffect(() => {
-    //здесь мы получам из localstorage список токенов, которые нужно подгрузить
     const savedAssets = window.localStorage.getItem('assets');
     const parsed: string[] = JSON.parse(savedAssets ? savedAssets : '[]');
-    // поэтому если parsed пустой, то лоадер не трогаем
-    // если он оказался не пустой, то ставим isLoaded = false
+    if (parsed.length) dispatch(isLoadingReducer(true));
 
     (async () => {
-      // здесь начинается подгрузка просто списка токенов (checkSavedAssets())
       const userAssets = await checkSavedAssets(parsed ? parsed : []);
-      // здесь загрузка закончилась, isLoaded можно ставить на true
+      dispatch(isLoadingReducer(false));
       dispatch(loadAssets(userAssets));
-      // ^ здесь мы в store из redux загружаем то, что подгрузили, и при рендеринге как раз итерируемся по assets
 
       for (const storedAsset of store.getState().assets.assets) {
         let assetBalance;
@@ -61,21 +57,12 @@ export default function Assets() {
     <>
       <div className={styles.yourAssets}>
         <h1 className={styles.title}>{t('Your assets')}</h1>
-        <div>
-          <div className={styles.describe}>
-            {t('Here you can safely store, send and receive assets')}
-          </div>
-
-          <div>
-            {/*{^ див для кнопки плюс надписи}*/}
-            <button onClick={async () => handleRefreshBalances()}>
-              <img src={refresh} alt="" />
-            </button>
-            {/* локализовать */}
-            <span>Refresh balances</span>
-          </div>
+        <div className={styles.describe}>
+          {t('Here you can safely store, send and receive assets')}
         </div>
-
+        <span className={styles.refresh} onClick={async () => handleRefreshBalances()}>
+          {t('Refresh balances')}
+        </span>
         <div className={styles.assets}>
           {assets.map((el, index) => {
             return (
@@ -90,10 +77,7 @@ export default function Assets() {
                       {el.balance} {el.symbol}
                     </div>
                   </div>
-                  <div className={styles.secondLine}>
-                    <span className={styles.address}>Show address</span>
-                    <span className={styles.usd}>{`${''}`.slice(0, 6)} USD</span>
-                  </div>
+                  <div className={styles.secondLine}></div>
                 </div>
               </div>
             );

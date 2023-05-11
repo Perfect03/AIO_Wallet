@@ -33,7 +33,7 @@ const CreateWallet = () => {
       setStep(i);
       setAnimation('middle');
 
-      if (i === 4) {
+      if (i === 2) {
         const newWallet = getWallet();
         setWalletData({
           pk: newWallet.privateKey,
@@ -57,7 +57,7 @@ const CreateWallet = () => {
 
   return (
     <>
-      {step < 5 ? (
+      {step < 4 ? (
         <>
           <Header />
           <main>
@@ -84,29 +84,6 @@ const CreateWallet = () => {
                   </div>
                 )}
                 {step == 2 && (
-                  <div
-                    className={`${styles.info} 
-            ${animation == 'middle' && styles.animation} 
-            ${animation == 'start' && styles.animation_start} 
-            ${animation == 'end' && styles.animation_end}`}
-                  >
-                    <h1>{t('Your seed phrase')}</h1>
-                    <div className={styles.infoText}>{t('Write these words')}</div>
-                    <div className={styles.buttons}>
-                      <button
-                        className={styles.understand}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          setAnimation('end');
-                          changeStep(4);
-                        }}
-                      >
-                        {t('Next')}
-                      </button>
-                    </div>
-                  </div>
-                )}
-                {step == 3 && (
                   <div
                     className={`${styles.info} 
             ${animation == 'middle' && styles.animation} 
@@ -140,7 +117,7 @@ const CreateWallet = () => {
                     </div>
                   </div>
                 )}
-                {step === 4 && (
+                {step === 3 && (
                   <div
                     className={`${styles.info} 
             ${animation == 'middle' && styles.animation} 
@@ -160,11 +137,11 @@ const CreateWallet = () => {
                     <SeedInput setAnimation={setAnimation} setStep={setStep} />
                   </div>
                 )}
-                {step !== 4 && (
+                {step !== 3 && (
                   <a
                     className={styles.restore}
                     onClick={() => {
-                      changeStep(5);
+                      changeStep(3);
                       setAnimation('end');
                     }}
                   >

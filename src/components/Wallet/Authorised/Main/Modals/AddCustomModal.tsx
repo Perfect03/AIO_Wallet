@@ -3,16 +3,19 @@ import ext from '../../../../../scripts/quoting/token-lists/pancakeswap-extended
 import { useTranslation } from 'react-i18next';
 import useLocalStorage from '../../../../../hooks/useLocalStorage';
 import checkSavedAssets, { Asset } from '../helpers/checkSavedAssets';
+import { toast } from 'react-toastify';
 import Modal from 'react-modal';
 import { useEffect, useState } from 'react';
 import { createFilterToken } from '../helpers/filtering';
 import isEthereumAddress from '../helpers/isEthereumAddress';
-import { addAsset, updateAssetBalance } from '../../../store';
+import { addAsset, isLoadingReducer, updateAssetBalance } from '../../../store';
 import { useDispatch } from 'react-redux';
 import addNewAsset from '../helpers/addNewAsset';
+import back from '../../../../../assets/back.svg';
 import getTokenBalance from '../../../../../scripts/quoting/getTokenBalance';
 import { TWallet } from '../../../../../scripts/getWallet';
 import getTokenContract from '../../../../../scripts/quoting/token-lists/getTokenContract';
+import custom from '../../../../../assets/CustomToken.svg';
 
 const assetsModalStyles = {
   overlay: {
@@ -51,7 +54,9 @@ export default function AddCustomModal(props: {
   })[0];
 
   async function handleAddCustomClick(newAddress: string) {
-    if (!savedAssets.includes(newAddress)) {
+    if (savedAssets.includes(newAddress)) {
+      toast['error'](t('This asset already exists'));
+    } else {
       const newAsset = addNewAsset(newAddress)!;
       setSavedAssets([...savedAssets, newAddress]);
       dispatch(addAsset(newAsset));
@@ -66,6 +71,7 @@ export default function AddCustomModal(props: {
   }
 
   async function handleAddCustom() {
+    console.log(searchValue);
     if (!savedAssets.includes(searchValue)) {
       try {
         const token = getTokenContract(searchValue);
@@ -73,8 +79,6 @@ export default function AddCustomModal(props: {
         const name = await token.name();
         const symbol = await token.symbol();
         const decimals = await token.decimals();
-
-        console.log(typeof 'asd');
 
         if (
           typeof name === 'string' &&
@@ -89,12 +93,12 @@ export default function AddCustomModal(props: {
             address: searchValue,
             chainId: 56,
             decimals,
-            logoURI: '',
+            logoURI: custom,
           };
 
           dispatch(addAsset(asset));
-
           props.setAssetsModalIsOpen(false);
+          toast['success'](t('Token added'));
 
           dispatch(
             updateAssetBalance({
@@ -105,9 +109,14 @@ export default function AddCustomModal(props: {
         } else throw 'invalid address';
       } catch {
         setIsValidCustomToken(false);
-        setTimeout(() => setIsValidCustomToken(true), 3000);
+        //setTimeout(() => setIsValidCustomToken(true), 3000);
+        toast['error'](t('Error! This address is not a token'));
       }
+    } else {
+      toast['info'](t('Error! This address is not a token'));
     }
+    setIsCustom(false);
+    setSearchValue('');
   }
 
   useEffect(() => {
@@ -133,8 +142,11 @@ export default function AddCustomModal(props: {
       className={styles.modal}
       appElement={document.getElementById('root') || undefined}
     >
-      <form name="assets" method="post" action="">
+      <div className={styles.modalWindow}>
         <h1 className={styles.modalTitle}>{t('Select asset')}</h1>
+        <button className={styles.modalBack} onClick={() => props.setAssetsModalIsOpen(false)}>
+          <img src={back} alt="" />
+        </button>
         <div className={styles.searchWrapper}>
           <input
             className={styles.search}
@@ -144,35 +156,44 @@ export default function AddCustomModal(props: {
             onChange={(e) => setSearchValue(e.target.value)}
           />
         </div>
-        <div className={styles.modalAssets}>
-          {tokenList.map((el, index) => {
-            return (
-              <div
-                className={styles.modalAsset}
-                key={index}
-                onClick={async () => await handleAddCustomClick(el.address)}
-              >
-                <div className={styles.logo}>
-                  <img src={el.logoURI} alt={`${el.symbol} logo`} width={44} height={44} />
+        {!isCustom ? (
+          <div className={styles.modalAssets}>
+            {tokenList.map((el, index) => {
+              return (
+                <div
+                  className={styles.modalAsset}
+                  key={index}
+                  onClick={async () => await handleAddCustomClick(el.address)}
+                >
+                  <div className={styles.logo}>
+                    <img src={el.logoURI} alt={`${el.symbol} logo`} width={44} height={44} />
+                  </div>
+                  <div className={styles.asset}>
+                    <span className={styles.assetTitle}>{el.symbol}</span>
+                    <span className={styles.assetName}>{el.name}</span>
+                  </div>
                 </div>
-                <div className={styles.asset}>
-                  <span className={styles.assetTitle}>{el.symbol}</span>
-                  <span className={styles.assetName}>{el.name}</span>
-                </div>
-              </div>
-            );
-          })}
-          {isCustom ? (
-            isValidCustomToken ? (
-              <span onClick={handleAddCustom}>Add custom token</span>
-            ) : (
-              'Error! This address is not a token'
-            )
-          ) : (
-            ''
-          )}
-        </div>
-      </form>
+              );
+            })}
+          </div>
+        ) : (
+          ''
+        )}
+        {isCustom ? (
+          <div className={styles.custom} onClick={handleAddCustom}>
+            {t('Add custom')}
+          </div>
+        ) : (
+          <div
+            className={styles.custom}
+            onClick={() => {
+              setIsCustom(true);
+            }}
+          >
+            {t('Search by address')}
+          </div>
+        )}
+      </div>
     </Modal>
   );
 }

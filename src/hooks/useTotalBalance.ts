@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Asset } from '../components/Wallet/Authorised/Main/helpers/checkSavedAssets';
+import getNativeBalance from '../scripts/quoting/getNativeBalance';
 import getQuoteToNative from '../scripts/quoting/getQuoteToNative';
-import getQuoteToUSD from '../scripts/quoting/getQuoteToUSD';
+import getNativeToUSD from '../scripts/quoting/getNativeToUSD';
 
 export default function useTotalBalance(assets: Asset[]) {
   const [nativeBalance, setNativeBalance] = useState(0);
@@ -15,16 +16,14 @@ export default function useTotalBalance(assets: Asset[]) {
       }
     }
     if (loaded) {
-      (async () => {
-        let newNativeBalance = 0;
-        for (const asset of assets.slice(1)) {
-          if (asset.balance !== 0) newNativeBalance += await getQuoteToNative(asset);
-        }
-        setNativeBalance(newNativeBalance);
+      let newNativeBalance = 0;
+      for (const asset of assets.slice(1)) {
+        console.log(asset.address);
+        newNativeBalance += getQuoteToNative(asset);
+      }
 
-        const newUsdBalance = await getQuoteToUSD(newNativeBalance + assets[0].balance!);
-        setUsdBalance(newUsdBalance);
-      })();
+      setNativeBalance(newNativeBalance);
+      setUsdBalance(getNativeToUSD(newNativeBalance));
     }
   });
 

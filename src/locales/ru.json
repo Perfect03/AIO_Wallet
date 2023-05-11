@@ -84,7 +84,16 @@
   "Network comission": "Комиссия сети",
   "Balance": "Баланс",
   "Transactions": "Транзакции",
-  "Select coin for transaction type": "Выберите валюту для транзакции",
+  "Select coin for transaction type": "Выберите актив для отображения определенных транзакций",
   "From": "От",
-  "To": "К"
+  "To": "К",
+  "Refresh balances": "Обновить балансы",
+  "Copy": "Скопировать",
+  "This asset is already exists": "Такой актив уже присутствует",
+  "Check internet connecion": "Проверьте подключение к интернету",
+  "Accept withdraw": "Подтвердить перевод",
+  "Search by address": "Поиск по адресу",
+  "Add custom": "Добавить",
+  "Error! This address is not a token": "Ошибка: введён некорректный адрес",
+  "Token added": "Токен добавлен"
 }

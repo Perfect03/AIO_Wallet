@@ -2,18 +2,18 @@ import { ethers } from 'ethers';
 import { computePoolAddress } from '@uniswap/v3-sdk';
 import Quoter from '@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json';
 import IUniswapV3PoolABI from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json';
-import { POOL_FACTORY_CONTRACT_ADDRESS, QUOTER_CONTRACT_ADDRESS } from '../libs/constants';
+import { POOL_FACTORY_CONTRACT_ADDRESS, QUOTER_CONTRACT_ADDRESS } from './constants';
 import defaultProvider from '../../rpc/defaultProvider';
-import { toReadableAmount, fromReadableAmount } from '../libs/conversion';
+import { toReadableAmount, fromReadableAmount } from './conversion';
 import { Token } from '@uniswap/sdk-core';
 
-export type Config = {
+export type ConfigV3 = {
   amountIn: number;
   in: Token;
   out: Token;
 };
 
-export async function quote(params: Config): Promise<string> {
+export async function quoteV3(params: ConfigV3): Promise<string> {
   const quoterContract = new ethers.Contract(QUOTER_CONTRACT_ADDRESS, Quoter.abi, defaultProvider);
   const poolConstants = await getPoolConstants(params);
 
@@ -28,7 +28,7 @@ export async function quote(params: Config): Promise<string> {
   return toReadableAmount(quotedAmountOut, params.out.decimals);
 }
 
-async function getPoolConstants(params: Config): Promise<{
+async function getPoolConstants(params: ConfigV3): Promise<{
   token0: string;
   token1: string;
   fee: number;
@@ -39,7 +39,6 @@ async function getPoolConstants(params: Config): Promise<{
     tokenB: params.out,
     fee: 500,
   });
-  console.log(currentPoolAddress);
 
   const poolContract = new ethers.Contract(
     currentPoolAddress,
@@ -47,7 +46,6 @@ async function getPoolConstants(params: Config): Promise<{
     defaultProvider
   );
 
-  console.log(poolContract);
   const [token0, token1, fee] = await Promise.all([
     poolContract.token0(),
     poolContract.token1(),

@@ -41,7 +41,7 @@ export default function SeedInput(props: {
         pk: wallet.privateKey,
         addr: wallet.address,
       });
-      props.setStep(6);
+      props.setStep(4);
       props.setAnimation('end');
       e.preventDefault();
     } catch {

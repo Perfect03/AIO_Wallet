@@ -18,7 +18,6 @@ export default function useTotalBalance(assets: Asset[]) {
     if (loaded) {
       let newNativeBalance = 0;
       for (const asset of assets.slice(1)) {
-        console.log(asset.address);
         newNativeBalance += getQuoteToNative(asset);
       }
 

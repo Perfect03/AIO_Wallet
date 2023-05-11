@@ -2,7 +2,7 @@ import styles from './CreateWallet.module.scss';
 import copy from '../../../assets/copy.svg';
 import back from '../../../assets/back.svg';
 import Header from './Header/Header';
-import { HTMLInputTypeAttribute, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getWallet, TWallet } from '../../../scripts/getWallet';
 import { useTranslation } from 'react-i18next';
 import SeedInput from './SeedInput';

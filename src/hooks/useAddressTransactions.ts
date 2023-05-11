@@ -8,6 +8,7 @@ import erc20abi from '../scripts/quoting/token-lists/erc20.json';
 import { toReadableAmount } from '../scripts/quoting/libs/conversion';
 import getQuoteToUSD from '../scripts/quoting/getQuoteToUSD';
 import getQuoteToNative from '../scripts/quoting/getQuoteToNative';
+//import getNativeToUSD from '../scripts/quoting/getNativeToUSD';
 
 export enum TransactionType {
   WITHDRAW,
@@ -46,10 +47,11 @@ export default async function useAddressTransactions(address: string) {
 
         for (const transaction of transactions) {
           const receipt = await transaction.wait();
+          //console.log('receipt:', receipt);
           if (receipt.from === address) {
             const foramtedDate = formateDate(blockWithTransactions.timestamp);
             const readableValue = +toReadableAmount(transaction.value, 18);
-            //const usdValue = await getQuoteToUSD(readableValue);
+            //const usdValue = await getNativeToUSD(transaction.value.toNumber());
 
             const tx: Transaction = {
               type: 'withdraw',
@@ -58,6 +60,7 @@ export default async function useAddressTransactions(address: string) {
               client: receipt.to,
               date: foramtedDate,
             };
+
             const txsMapLatest = Object.assign([], txsMap);
             txsMapLatest.push(tx);
             setTxsMap(txsMapLatest);
@@ -65,7 +68,7 @@ export default async function useAddressTransactions(address: string) {
           } else if (receipt.to === address) {
             const formatedDate = formateDate(blockWithTransactions.timestamp);
             const readableValue = +toReadableAmount(transaction.value, 18);
-            //const usdValue = await getQuoteToUSD(readableValue);
+            //const usdValue = await getNativeToUSD(transaction.value.toNumber());
 
             const tx: Transaction = {
               type: 'deposit',
@@ -81,10 +84,6 @@ export default async function useAddressTransactions(address: string) {
             console.log('txsMap:', txsMap);
           }
         }
-
-        // transactions.forEach((transaction) => {
-
-        // });
       });
 
       /* asset checking */
@@ -92,23 +91,17 @@ export default async function useAddressTransactions(address: string) {
       for (const asset of assets) {
         const contractAddres = asset.address;
         const contract = new ethers.Contract(contractAddres, erc20abi, defaultProvider);
-        contract.on('Transfer', async (from, to, amount, event) => {
+        contract.on('Transfer', async (from, to, amount: BigNumber, event) => {
           if (from === address || to === address) {
-            const tStamp = (await defaultProvider.getTransaction(event.transactionHash)).timestamp;
-            const date = new Date(tStamp ? tStamp * 1000 : 0);
-            const month = new Intl.DateTimeFormat('en-EN', { month: 'long' }).format(date);
-            const day = date.getDate();
-            const formattedDate = `${day} ${month.toLowerCase()}`;
-
-            const nativeQuoting = await getQuoteToNative(asset);
-            const nativeValue = nativeQuoting * amount;
-            const usdValue = await getQuoteToUSD(nativeValue);
+            const tStamp = (await defaultProvider.getBlock(event.blockNumber)).timestamp;
+            const formatedDate = formateDate(tStamp);
+            const value = toReadableAmount(amount, asset.decimals);
 
             const tx: Transaction = {
               type: 'transfer',
-              value: nativeValue,
-              usd: usdValue,
-              date: formattedDate,
+              value: value,
+              usd: '',
+              date: formatedDate,
               client: address,
             };
             const txsMapLatest = Object.assign([], txsMap);

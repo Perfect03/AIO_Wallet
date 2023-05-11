@@ -15,6 +15,7 @@ import { Triangle } from 'react-loader-spinner';
 import useTotalBalance from '../../../../hooks/useTotalBalance';
 import useAddressTransactions from '../../../../hooks/useAddressTransactions';
 import useLocalStorage from '../../../../hooks/useLocalStorage';
+import { useEffect } from 'react';
 
 const MainWallet = () => {
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);

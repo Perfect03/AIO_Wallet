@@ -21,6 +21,7 @@
     "axios": "^1.4.0",
     "buffer": "^6.0.3",
     "cors": "^2.8.5",
+    "crypto-es": "^1.2.7",
     "dotenv": "^16.0.3",
     "ethers": "^5.7.2",
     "ethjs-provider-signer": "^0.1.4",
@@ -84,7 +85,8 @@
     "fs": false,
     "os": false,
     "path": false,
-    "assert": false
+    "assert": false,
+    "crypto": false
   },
   "devDependencies": {
     "@types/react-modal": "^3.16.0",

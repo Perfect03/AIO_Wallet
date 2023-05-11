@@ -32,13 +32,20 @@ const MainWallet = () => {
   useEffect(() => {
     console.log(isLoad);
     if (!isLoad) {
-      clearTimeout(loaderTimer);
+      console.log('a');
+      return () => {
+        clearTimeout(loaderTimer);
+      };
     } else {
+      console.log('b');
       const timer = setTimeout(() => {
         toast['error'](t('Check internet connecion'));
         dispatch(isLoadingReducer(false));
       }, 15000);
       setLoaderTimer(timer);
+      return () => {
+        clearTimeout(timer);
+      };
     }
   }, [isLoad]);
 

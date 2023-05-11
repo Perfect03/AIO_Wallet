@@ -1,13 +1,13 @@
 import { BUSD, WBNB } from './libs/constants';
 import quoteV2 from './libs/quoteV2';
 
-export default function getNativeToUSD(amount: number) {
-  let quote = 0;
+export default async function getNativeToUSD(amount: number) {
+  console.log(amount);
 
-  quoteV2({
+  const price = await quoteV2({
     in: WBNB,
     out: BUSD,
-  }).then((res) => (quote = amount * res));
+  });
 
-  return quote;
+  return price * amount;
 }

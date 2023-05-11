@@ -65,7 +65,7 @@ const MainWallet = () => {
           <div className={styles.yourBalance}>
             <h1 className={styles.title}>{t('Your balance')}</h1>
             <div className={styles.usd}>{`${usdBalance}`} USD</div>
-            <div className={styles.btc}>{`${nativeBalance}`} BTC</div>
+            <div className={styles.btc}>{`${nativeBalance}`} BNB</div>
             <div className={styles.buttons}>
               <button className={styles.deposit} onClick={() => setDepositModalIsOpen(true)}>
                 <img src={deposit} alt="" />

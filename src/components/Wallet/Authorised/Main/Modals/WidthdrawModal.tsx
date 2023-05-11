@@ -59,6 +59,15 @@ export default function WithdrawModal(props: {
     })();
   }, []);
 
+  useEffect(() => {
+    if (!props.withdrawModalIsOpen) {
+      setWithdrawAddress('');
+      setWithdrawSum(undefined);
+      setWithdrawAccept(false);
+      setWithdrawAsset(assets[0]);
+    }
+  }, [props.withdrawModalIsOpen]);
+
   function handleClose() {
     props.setWithdrawModalIsOpen(false);
     setWithdrawAddress('');
@@ -69,6 +78,10 @@ export default function WithdrawModal(props: {
     const bnb = store.getState().assets.assets[0];
     if (bnb.balance !== withdrawAsset.balance) setWithdrawAsset(bnb);
     unsubscribe();
+  }
+
+  function handleSubmitClick() {
+    withdrawAccept ? () => {} : setWithdrawAccept(true);
   }
 
   return (
@@ -162,10 +175,13 @@ export default function WithdrawModal(props: {
             <input
               className={styles.withdrawAiAmount}
               name="withdrawal"
+              type="number"
               placeholder={`${t('Minimum amount')}: 0.34124331 BTC`}
               onChange={(e) => {
-                if (+e.target.value === 0) setWithdrawSum(undefined);
-                else setWithdrawSum(+e.target.value);
+                const newValue = e.target.value;
+                const sanitizedValue = +newValue.replace(/,/g, '.');
+                if (sanitizedValue === 0) setWithdrawSum(undefined);
+                else setWithdrawSum(sanitizedValue);
               }}
               value={withdrawSum}
             ></input>
@@ -191,8 +207,11 @@ export default function WithdrawModal(props: {
         {withdrawSum ? (
           <>
             <div className={styles.sum}>0.34124331 BTC</div>
-            <div className={styles.submit} onClick={() => setWithdrawAccept(true)}>
-              {t('to withdraw')}
+            <div
+              className={withdrawAccept ? styles.submitInactive : styles.submit}
+              onClick={handleSubmitClick}
+            >
+              {t('Withdraw')}
             </div>
           </>
         ) : (

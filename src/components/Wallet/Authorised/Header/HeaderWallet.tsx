@@ -90,7 +90,6 @@ const HeaderWallet = () => {
               <TradesIcon />
             </div>
             <div className={styles.bottom}>
-              <SettingsIcon />
               <ExitIcon />
             </div>
           </nav>
@@ -100,7 +99,7 @@ const HeaderWallet = () => {
             <div className={styles.coin}>
               <img src={coin} alt="AIO" />
             </div>
-            <div className={styles.balance}>$ ------- </div>
+            <div className={styles.balance}>$ ............. </div>
           </div>
           <div className={styles.right}>
             <div className={styles.langs}>

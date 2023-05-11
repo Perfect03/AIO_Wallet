@@ -77,10 +77,7 @@ export default function Assets() {
                       {el.balance} {el.symbol}
                     </div>
                   </div>
-                  <div className={styles.secondLine}>
-                    <span className={styles.address}>Show address</span>
-                    <span className={styles.usd}>{`${''}`.slice(0, 6)} USD</span>
-                  </div>
+                  <div className={styles.secondLine}></div>
                 </div>
               </div>
             );

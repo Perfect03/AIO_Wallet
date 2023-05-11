@@ -23,5 +23,6 @@ export default async function withdraw(asset: Asset, to: string, sum: number, wa
     }
   } catch (err) {
     console.log(err);
+    throw err;
   }
 }

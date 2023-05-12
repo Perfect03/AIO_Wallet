@@ -16,7 +16,11 @@ export default function ExitIcon() {
 
   return (
     <NavLink to="/">
-      <button className={styles.leftLink} onClick={handleExitClick}>
+      <button
+        className={styles.leftLink}
+        onClick={handleExitClick}
+        title={t('Exit and forget wallet').toString()}
+      >
         <svg
           width="24"
           height="24"

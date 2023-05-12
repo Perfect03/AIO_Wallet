@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import checkSavedAssets from '../components/Wallet/Authorised/Main/helpers/checkSavedAssets';
 import {
-  AppState,
   isLoadingReducer,
   loadAssets,
   store,

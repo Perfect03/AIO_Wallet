@@ -88,7 +88,12 @@ export default async function useAddressTransactions(address: string) {
       for (const asset of assets) {
         const contractAddres = asset.address;
         const contract = new ethers.Contract(contractAddres, erc20abi, defaultProvider);
-        contract.on('Transfer', async (from, to, amount: BigNumber, event) => {
+        const listener = async (
+          from: string,
+          to: string,
+          amount: BigNumber,
+          event: { blockNumber: ethers.providers.BlockTag | Promise<ethers.providers.BlockTag> }
+        ) => {
           if (from === address || to === address) {
             const tStamp = (await defaultProvider.getBlock(event.blockNumber)).timestamp;
             const formatedDate = formateDate(tStamp);
@@ -105,11 +110,16 @@ export default async function useAddressTransactions(address: string) {
             txsMapLatest.push(tx);
             setTxsMap(txsMapLatest);
           }
-        });
+        };
+        contract.on('Transfer', listener);
       }
     } catch (error) {
       console.error(error);
     }
+
+    return () => {
+      defaultProvider.removeAllListeners();
+    };
   }, [txsMap]);
 
   return [txsMap];

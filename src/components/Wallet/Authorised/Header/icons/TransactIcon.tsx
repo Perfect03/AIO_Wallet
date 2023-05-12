@@ -3,18 +3,18 @@ import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from '../HeaderWallet.module.scss';
-import { changeWallet, walletPart } from '../../../store';
+import { AppState, changeWallet, walletPart } from '../../../store';
 
 export default function TransactIcon() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const walletWindow = useSelector((state: { wallet: walletPart }) => state.wallet);
+  // const walletWindow = useSelector((state: { assets: AppState }) => state.assets.wallet);
 
   return (
     <button
-      className={`${styles.leftLink} ${walletWindow == 'transactions' ? styles.active : ''}`}
+      className={`${styles.leftLink}`}
       onClick={() => {
-        dispatch(changeWallet('transactions'));
+        toast['info'](t('In development'));
       }}
     >
       <svg

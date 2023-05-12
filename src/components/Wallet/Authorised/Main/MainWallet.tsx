@@ -25,7 +25,7 @@ const MainWallet = () => {
   const dispatch = useDispatch();
 
   const assets = useSelector((state: { assets: AppState }) => state.assets.assets);
-  const walletWindow = useSelector((state: { wallet: walletPart }) => state.wallet);
+  // const walletWindow = useSelector((state: { assets: AppState }) => state.assets.wallet);
 
   const [nativeBalance, usdBalance] = useTotalBalance(assets);
   const isLoad = useSelector((state: { assets: AppState }) => state.assets.load);
@@ -48,12 +48,6 @@ const MainWallet = () => {
       };
     }
   }, [isLoad]);
-
-  const walletData = useLocalStorage('wallet', {
-    pk: '',
-    addr: '',
-  })[0];
-  useAddressTransactions(walletData.addr);
 
   const { t } = useTranslation();
 
@@ -96,19 +90,19 @@ const MainWallet = () => {
           <div className={styles.yourAssets}>
             <div className={styles.titles}>
               <h1
-                className={`${styles.title} ${walletWindow == 'assets' ? styles.active : ''}`}
+                className={`${styles.title}  ${styles.active}`}
                 onClick={() => dispatch(changeWallet('assets'))}
               >
                 {t('Your assets')}
               </h1>
-              <h1
+              {/* <h1
                 className={`${styles.title} ${walletWindow !== 'assets' ? styles.active : ''}`}
                 onClick={() => dispatch(changeWallet('transactions'))}
               >
                 {t('Transactions')}
-              </h1>
+              </h1> */}
             </div>
-            {walletWindow == 'assets' ? <Assets /> : <Transactions />}
+            <Assets />
           </div>
         </div>
         <DepositModal

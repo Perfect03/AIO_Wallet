@@ -101,5 +101,6 @@
   "You are logged out": "Вы вышли из аккаунта",
   "Withdrawal completed": "Вывод завершён",
   "Withdrawal failed": "Вывод не выполнен",
-  "Transaction sent": "Транзакция отправлена"
+  "Transaction sent": "Транзакция отправлена",
+  "Exit and forget wallet": "Выйти и забыть кошелек"
 }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Asset } from '../components/Wallet/Authorised/Main/helpers/checkSavedAssets';
-import getNativeBalance from '../scripts/quoting/getNativeBalance';
 import getQuoteToNative from '../scripts/quoting/getQuoteToNative';
 import getNativeToUSD from '../scripts/quoting/getNativeToUSD';
 

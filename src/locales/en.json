@@ -101,5 +101,6 @@
   "You are logged out": "You are logged out",
   "Withdrawal failed": "Withdrawal failed",
   "Withdrawal completed": "Withdrawal completed",
-  "Transaction sent": "Transaction sent"
+  "Transaction sent": "Transaction sent",
+  "Exit and forget wallet": "Exit and forget wallet"
 }

@@ -4,13 +4,20 @@ import withdraw from '../../../../assets/withdraw.svg';
 import { useTranslation } from 'react-i18next';
 import useResize from '../../../../hooks/use-resize';
 import useLocalStorage from '../../../../hooks/useLocalStorage';
-import { Transaction } from '../../../../hooks/useAddressTransactions';
+import useAddressTransactions, { Transaction } from '../../../../hooks/useAddressTransactions';
 
 export default function Transactions() {
   const { t } = useTranslation();
   const width = useResize();
 
   const [transactions, setTransactions] = useLocalStorage<Array<Transaction>>('txsMap', []);
+
+  const walletData = useLocalStorage('wallet', {
+    pk: '',
+    addr: '',
+  })[0];
+
+  useAddressTransactions(walletData.addr);
 
   return (
     <>

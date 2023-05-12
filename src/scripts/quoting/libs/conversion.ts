@@ -1,6 +1,6 @@
 import { BigNumber, ethers } from 'ethers';
 
-const READABLE_FORM_LEN = 7;
+const READABLE_FORM_LEN = 8;
 
 export function fromReadableAmount(amount: number, decimals: number): BigNumber {
   return ethers.utils.parseUnits(amount.toString(), decimals);

@@ -93,7 +93,7 @@ const MainWallet = () => {
               </button>
             </div>
           </div>
-          {assetsWindow !== 'assets' ? <Assets /> : <Transactions />}
+          {assetsWindow === 'assets' ? <Assets /> : ''}
         </div>
         <DepositModal
           depositModalIsOpen={depositModalIsOpen}

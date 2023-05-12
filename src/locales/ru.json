@@ -100,5 +100,6 @@
   "Incorrect": "Неверно",
   "You are logged out": "Вы вышли из аккаунта",
   "Withdrawal completed": "Вывод завершён",
-  "Withdrawal failed": "Вывод не выполнен"
+  "Withdrawal failed": "Вывод не выполнен",
+  "Transaction sent": "Транзакция отправлена"
 }

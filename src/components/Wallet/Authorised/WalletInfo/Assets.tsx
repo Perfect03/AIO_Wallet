@@ -12,7 +12,6 @@ import getNativeBalance from '../../../../scripts/quoting/getNativeBalance';
 
 export default function Assets() {
   const [assetsModalIsOpen, setAssetsModalIsOpen] = React.useState(false);
-  // здесь создать стейт для отслеживания загрузки токенов, наверное true по дефолту
   const dispatch = useDispatch();
   const assets = useSelector((state: { assets: AppState }) => state.assets.assets);
   const { t } = useTranslation();

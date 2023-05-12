@@ -55,38 +55,35 @@ export default function Assets() {
 
   return (
     <>
-      <div className={styles.yourAssets}>
-        <h1 className={styles.title}>{t('Your assets')}</h1>
-        <div className={styles.describe}>
-          {t('Here you can safely store, send and receive assets')}
-        </div>
-        <span className={styles.refresh} onClick={async () => handleRefreshBalances()}>
-          {t('Refresh balances')}
-        </span>
-        <div className={styles.assets}>
-          {assets.map((el, index) => {
-            return (
-              <div className={styles.asset} key={index}>
-                <div className={styles.coin}>
-                  <img src={el.logoURI} alt="" width={44} height={44} />
-                </div>
-                <div className={styles.coinAbout}>
-                  <div className={styles.firstLine}>
-                    <div className={styles.currency}>{el.name}</div>
-                    <div className={styles.sum}>
-                      {el.balance} {el.symbol}
-                    </div>
-                  </div>
-                  <div className={styles.secondLine}></div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <button className={styles.addToken} onClick={() => setAssetsModalIsOpen(true)}>
-          {t('Add custom tokens')}
-        </button>
+      <div className={styles.describe}>
+        {t('Here you can safely store, send and receive assets')}
       </div>
+      <span className={styles.refresh} onClick={async () => handleRefreshBalances()}>
+        {t('Refresh balances')}
+      </span>
+      <div className={styles.assets}>
+        {assets.map((el, index) => {
+          return (
+            <div className={styles.asset} key={index}>
+              <div className={styles.coin}>
+                <img src={el.logoURI} alt="" width={44} height={44} />
+              </div>
+              <div className={styles.coinAbout}>
+                <div className={styles.firstLine}>
+                  <div className={styles.currency}>{el.name}</div>
+                  <div className={styles.sum}>
+                    {el.balance} {el.symbol}
+                  </div>
+                </div>
+                <div className={styles.secondLine}></div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <button className={styles.addToken} onClick={() => setAssetsModalIsOpen(true)}>
+        {t('Add custom tokens')}
+      </button>
       <AddCustomModal
         assetsModalIsOpen={assetsModalIsOpen}
         setAssetsModalIsOpen={setAssetsModalIsOpen}

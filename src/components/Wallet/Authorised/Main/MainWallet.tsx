@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import WithdrawModal from './Modals/WidthdrawModal';
 import { toast } from 'react-toastify';
-import { isLoadingReducer, store } from '../../store';
+import { changeWallet, isLoadingReducer, store, walletPart } from '../../store';
 import DepositModal from './Modals/DepositModal';
 import Transactions from '../WalletInfo/Transactions';
 import Assets from '../WalletInfo/Assets';
@@ -20,24 +20,21 @@ import { useEffect } from 'react';
 const MainWallet = () => {
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false);
-  const [assetsWindow, setAssetsWindow] = useState('assets');
   const [loaderTimer, setLoaderTimer] = useState<NodeJS.Timeout>();
   const dispatch = useDispatch();
 
   const assets = useSelector((state: { assets: AppState }) => state.assets.assets);
+  const walletWindow = useSelector((state: { wallet: walletPart }) => state.wallet);
 
   const [nativeBalance, usdBalance] = useTotalBalance(assets);
   const isLoad = useSelector((state: { assets: AppState }) => state.assets.load);
 
   useEffect(() => {
-    console.log(isLoad);
     if (!isLoad) {
-      console.log('a');
       return () => {
         clearTimeout(loaderTimer);
       };
     } else {
-      console.log('b');
       const timer = setTimeout(() => {
         toast['error'](t('Check internet connecion'));
         dispatch(isLoadingReducer(false));
@@ -93,7 +90,23 @@ const MainWallet = () => {
               </button>
             </div>
           </div>
-          {assetsWindow !== 'assets' ? <Assets /> : <Transactions />}
+          <div className={styles.yourAssets}>
+            <div className={styles.titles}>
+              <h1
+                className={`${styles.title} ${walletWindow == 'assets' ? styles.active : ''}`}
+                onClick={() => dispatch(changeWallet('assets'))}
+              >
+                {t('Your assets')}
+              </h1>
+              <h1
+                className={`${styles.title} ${walletWindow !== 'assets' ? styles.active : ''}`}
+                onClick={() => dispatch(changeWallet('transactions'))}
+              >
+                {t('Transactions')}
+              </h1>
+            </div>
+            {walletWindow == 'assets' ? <Assets /> : <Transactions />}
+          </div>
         </div>
         <DepositModal
           depositModalIsOpen={depositModalIsOpen}

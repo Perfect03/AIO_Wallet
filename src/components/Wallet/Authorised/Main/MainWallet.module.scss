@@ -125,6 +125,39 @@
         }
       }
     }
+    .yourAssets {
+      background: rgba(29, 25, 37, 0.75);
+      backdrop-filter: blur(11px);
+      border-radius: 6px;
+      padding: 24px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      max-height: 80vh;
+      @include _400 {
+        padding: 24px 14px;
+        width: calc(100vw - 34px);
+      }
+      .titles {
+        display: flex;
+        justify-content: space-between;
+        .title {
+          font-weight: 500;
+          font-size: 24px;
+          line-height: 28px;
+          cursor: pointer;
+          transition: color 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+          color: #7a7b7c;
+          &:hover {
+            color: white;
+          }
+          &.active {
+            color: white;
+          }
+        }
+      }
+    }
   }
 }
 

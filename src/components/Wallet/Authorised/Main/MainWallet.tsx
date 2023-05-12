@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import { Triangle } from 'react-loader-spinner';
 import useTotalBalance from '../../../../hooks/useTotalBalance';
-import useAddressTransactions from '../../../../hooks/useAddressTransactions';
+import useAddressTransactions, { Transaction } from '../../../../hooks/useAddressTransactions';
 import useLocalStorage from '../../../../hooks/useLocalStorage';
 import { useEffect } from 'react';
 
@@ -29,15 +29,14 @@ const MainWallet = () => {
   const [nativeBalance, usdBalance] = useTotalBalance(assets);
   const isLoad = useSelector((state: { assets: AppState }) => state.assets.load);
 
+  //const [transactions, setTransactions] = useLocalStorage<Array<Transaction>>('txsMap', []);
+
   useEffect(() => {
-    console.log(isLoad);
     if (!isLoad) {
-      console.log('a');
       return () => {
         clearTimeout(loaderTimer);
       };
     } else {
-      console.log('b');
       const timer = setTimeout(() => {
         toast['error'](t('Check internet connecion'));
         dispatch(isLoadingReducer(false));

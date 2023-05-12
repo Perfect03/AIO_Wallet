@@ -1,14 +1,14 @@
 import { BigNumber, BigNumberish, ethers } from 'ethers';
-import defaultProvider from '../scripts/rpc/defaultProvider';
+
 import useLocalStorage from './useLocalStorage';
 import { useEffect } from 'react';
 import { AppState } from '../components/Wallet/store';
 import { useSelector } from 'react-redux';
 import erc20abi from '../scripts/quoting/token-lists/erc20.json';
 import { toReadableAmount } from '../scripts/quoting/libs/conversion';
-import getQuoteToUSD from '../scripts/quoting/getQuoteToUSD';
-import getQuoteToNative from '../scripts/quoting/getQuoteToNative';
-//import getNativeToUSD from '../scripts/quoting/getNativeToUSD';
+import defaultProvider from '../scripts/rpc/defaultProvider';
+
+const provider = defaultProvider;
 
 export enum TransactionType {
   WITHDRAW,
@@ -19,9 +19,9 @@ export enum TransactionType {
 export interface Transaction {
   type: TransactionType | string;
   value: BigNumberish;
-  usd: BigNumberish;
   date: number | string;
   client: string;
+  assetSymbol?: string;
 }
 
 function formateDate(timestamp: number) {
@@ -41,41 +41,34 @@ export default async function useAddressTransactions(address: string) {
     try {
       /* EOA checking */
 
-      defaultProvider.on('block', async (blockNumber) => {
-        const blockWithTransactions = await defaultProvider.getBlockWithTransactions(blockNumber);
+      provider.on('block', async (blockNumber) => {
+        const blockWithTransactions = await provider.getBlockWithTransactions(blockNumber);
         const transactions = blockWithTransactions.transactions;
-
         for (const transaction of transactions) {
-          const receipt = await transaction.wait();
-          //console.log('receipt:', receipt);
-          if (receipt.from === address) {
+          if (transaction.from === address) {
             const foramtedDate = formateDate(blockWithTransactions.timestamp);
             const readableValue = +toReadableAmount(transaction.value, 18);
-            //const usdValue = await getNativeToUSD(transaction.value.toNumber());
 
             const tx: Transaction = {
               type: 'withdraw',
               value: readableValue,
-              usd: '',
-              client: receipt.to,
+              client: transaction.to ? transaction.to : '',
               date: foramtedDate,
+              assetSymbol: 'BNB',
             };
 
             const txsMapLatest = Object.assign([], txsMap);
             txsMapLatest.push(tx);
             setTxsMap(txsMapLatest);
-            //
-          } else if (receipt.to === address) {
+          } else if (transaction.to === address) {
             const formatedDate = formateDate(blockWithTransactions.timestamp);
             const readableValue = +toReadableAmount(transaction.value, 18);
-            //const usdValue = await getNativeToUSD(transaction.value.toNumber());
 
             const tx: Transaction = {
               type: 'deposit',
               value: readableValue,
-              usd: '',
               date: formatedDate,
-              client: receipt.from,
+              client: transaction.from,
             };
 
             const txsMapLatest = Object.assign([], txsMap);
@@ -90,19 +83,21 @@ export default async function useAddressTransactions(address: string) {
 
       for (const asset of assets) {
         const contractAddres = asset.address;
-        const contract = new ethers.Contract(contractAddres, erc20abi, defaultProvider);
+        const contract = new ethers.Contract(contractAddres, erc20abi, provider);
+
         contract.on('Transfer', async (from, to, amount: BigNumber, event) => {
           if (from === address || to === address) {
-            const tStamp = (await defaultProvider.getBlock(event.blockNumber)).timestamp;
+            const tStamp = (await provider.getBlock(event.blockNumber)).timestamp;
             const formatedDate = formateDate(tStamp);
             const value = toReadableAmount(amount, asset.decimals);
-
+            const symbol = await contract.symbol();
+            console.log('symbol', symbol);
             const tx: Transaction = {
               type: 'transfer',
               value: value,
-              usd: '',
               date: formatedDate,
               client: address,
+              assetSymbol: symbol,
             };
             const txsMapLatest = Object.assign([], txsMap);
             txsMapLatest.push(tx);

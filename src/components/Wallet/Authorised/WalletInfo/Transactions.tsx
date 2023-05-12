@@ -40,8 +40,9 @@ export default function Transactions() {
               </div>
             </div>
             <div className={styles.sums}>
-              <div className={styles.btc}>{`${el.value}`.slice(0, 6)} BNB</div>
-              <div className={styles.usd}>{`${el.usd}`.slice(0, 6)} USD</div>
+              <div className={styles.btc}>
+                {`${el.value}`.slice(0, 6)} {el.assetSymbol}
+              </div>
             </div>
           </div>
         ))}

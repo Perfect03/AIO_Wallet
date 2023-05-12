@@ -15,5 +15,7 @@ export default async function getQuoteToNative(asset: Asset) {
   if (asset.address === WBNB.address) return asset.balance!;
   const price = await quoteV2(cfg);
 
-  return price * asset.balance!;
+  console.log(price);
+
+  return +(price * asset.balance!).toFixed(6);
 }

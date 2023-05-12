@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import { Asset } from '../components/Wallet/Authorised/Main/helpers/checkSavedAssets';
 import getQuoteToNative from '../scripts/quoting/getQuoteToNative';
 import getNativeToUSD from '../scripts/quoting/getNativeToUSD';
+import defaultProvider from '../scripts/rpc/defaultProvider';
 
 export default function useTotalBalance(assets: Asset[]) {
   const [nativeBalance, setNativeBalance] = useState(0);
   const [usdBalance, setUsdBalance] = useState(0);
   const [balanceLoaded, setBalanceLoaded] = useState(false);
+
+  console.log();
 
   useEffect(() => {
     let loaded = true;

@@ -11,5 +11,5 @@ export default async function quoteV2(params: ConfigV2) {
 
   const route = new Route([pair], params.in, params.out);
 
-  return +route.midPrice.toFixed(4);
+  return +route.midPrice.toFixed(30);
 }

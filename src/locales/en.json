@@ -19,10 +19,10 @@
   "Phase1_7": "First wave of marketing",
   "Phase1_8": "Launch of a large-scale contest for early AIO participants",
   "Phase2_1": "Launch AIO-Wallet on the BSC network as a DAPP",
-  "Phase2_2": "Launch of AIO-Swap on the BSC network as a DAPP",
-  "Phase2_3": "Launch of Ambassador Programs",
-  "Phase2_4": "Second wave of marketing",
-  "Phase2_5": "AIO token presale announcement",
+  "Phase2_2": "Second wave of marketing",
+  "Phase2_3": "AIO token presale announcement",
+  "Phase2_4": "Launch of Ambassador Programs",
+  "Phase2_5": "Launch of AIO-Swap on the BSC network as a DAPP",
   "Phase3_1": "Launch of AIO token presale",
   "Phase3_2": "Third wave of marketing",
   "Phase3_3": "AIO token listing on DEX exchanges",
@@ -73,7 +73,7 @@
   "Enter your seed phrase": "Enter your seed phrase",
   "Proceed": "Proceed",
   "Address": "Address",
-  "Select assets": "Select assets",
+  "Select asset": "Select asset",
   "Only BEP-20 assets can be withdrawn": "Only BEP-20 assets can be withdrawn",
   "Only BEP-20 assets can be deposited": "Only BEP-20 assets can be deposited",
   "Network": "Network",
@@ -102,5 +102,7 @@
   "Withdrawal failed": "Withdrawal failed",
   "Withdrawal completed": "Withdrawal completed",
   "Transaction sent": "Transaction sent",
-  "Exit and forget wallet": "Exit and forget wallet"
+  "Exit and forget wallet": "Exit and forget wallet",
+  "Loading...": "Loading...",
+  "Insufficient transaction": "Insufficient transaction"
 }

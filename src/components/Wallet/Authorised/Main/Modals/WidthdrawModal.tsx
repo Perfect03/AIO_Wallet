@@ -79,8 +79,9 @@ export default function WithdrawModal(props: {
   }, [withdrawAsset]);
 
   useEffect(() => {
+    if (withdrawSum! < 0) setWithdrawSum(0);
     setWithdrawAccept(false);
-    setSummary('Loading...');
+    setSummary(t('Loading...').toString());
     setValid(false);
     (async () => {
       if (withdrawAsset.address && withdrawSum) {
@@ -95,7 +96,7 @@ export default function WithdrawModal(props: {
           );
         } catch {
           setValid(false);
-          setSummary('Insufficient transaction');
+          setSummary(t('Insufficient transaction').toString());
         }
       } else if (
         !withdrawAsset.address &&
@@ -114,7 +115,7 @@ export default function WithdrawModal(props: {
           .gt(BigNumber.from(fromReadableAmount(withdrawAsset.balance!, 18)))
       ) {
         setValid(false);
-        setSummary('Insufficient transaction');
+        setSummary(t('Insufficient transaction').toString());
       }
     })();
   }, [withdrawSum]);
@@ -160,7 +161,7 @@ export default function WithdrawModal(props: {
         <h1 className={styles.modalTitle}>{t('Withdraw')}</h1>
         <h2 className={styles.modalSubTitle}>{t('Only BEP-20 assets can be withdrawn')}</h2>
         <div className={`${styles.field} ${isWithdrawalMenuOpen ? styles.listOpen : ''}`}>
-          <div className={styles.fieldTitle}>{t('Select assets')}</div>
+          <div className={styles.fieldTitle}>{t('Select asset')}</div>
           <div className={styles.dropdownBlock}>
             <ul>
               <li

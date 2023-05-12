@@ -16,6 +16,7 @@ import useTotalBalance from '../../../../hooks/useTotalBalance';
 import useAddressTransactions from '../../../../hooks/useAddressTransactions';
 import useLocalStorage from '../../../../hooks/useLocalStorage';
 import { useEffect } from 'react';
+import useLoadAssets from '../../../../hooks/useLoadAssets';
 
 const MainWallet = () => {
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);
@@ -28,6 +29,8 @@ const MainWallet = () => {
 
   const [nativeBalance, usdBalance] = useTotalBalance(assets);
   const isLoad = useSelector((state: { assets: AppState }) => state.assets.load);
+
+  useLoadAssets();
 
   useEffect(() => {
     if (!isLoad) {
@@ -46,10 +49,10 @@ const MainWallet = () => {
     }
   }, [isLoad]);
 
-  const [walletData, setWalletData] = useLocalStorage('wallet', {
+  const walletData = useLocalStorage('wallet', {
     pk: '',
     addr: '',
-  });
+  })[0];
   useAddressTransactions(walletData.addr);
 
   const { t } = useTranslation();

@@ -1,4 +1,3 @@
-import { AppState } from '../store';
 import HeaderWallet from './Header/HeaderWallet';
 import MainWallet from './Main/MainWallet';
 

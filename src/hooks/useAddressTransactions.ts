@@ -6,9 +6,6 @@ import { AppState } from '../components/Wallet/store';
 import { useSelector } from 'react-redux';
 import erc20abi from '../scripts/quoting/token-lists/erc20.json';
 import { toReadableAmount } from '../scripts/quoting/libs/conversion';
-import getQuoteToUSD from '../scripts/quoting/getQuoteToUSD';
-import getQuoteToNative from '../scripts/quoting/getQuoteToNative';
-//import getNativeToUSD from '../scripts/quoting/getNativeToUSD';
 
 export enum TransactionType {
   WITHDRAW,

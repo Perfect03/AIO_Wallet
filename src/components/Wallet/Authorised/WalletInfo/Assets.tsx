@@ -1,14 +1,11 @@
 import styles from './WalletInfo.module.scss';
-import refresh from '../../../../assets/refresh.svg';
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import checkSavedAssets, { Asset } from '../Main/helpers/checkSavedAssets';
 import useLocalStorage from '../../../../hooks/useLocalStorage';
 import { TWallet } from '../../../../scripts/getWallet';
 import AddCustomModal from '../Main/Modals/AddCustomModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState, updateAssetBalance, isLoadingReducer } from '../../store';
-import { loadAssets } from '../../store';
+import { AppState, updateAssetBalance } from '../../store';
 import getTokenBalance from '../../../../scripts/quoting/getTokenBalance';
 import { store } from '../../store';
 import getNativeBalance from '../../../../scripts/quoting/getNativeBalance';
@@ -24,25 +21,6 @@ export default function Assets() {
     pk: '',
     addr: '',
   })[0];
-
-  useEffect(() => {
-    const savedAssets = window.localStorage.getItem('assets');
-    const parsed: string[] = JSON.parse(savedAssets ? savedAssets : '[]');
-    if (parsed.length) dispatch(isLoadingReducer(true));
-
-    (async () => {
-      const userAssets = await checkSavedAssets(parsed ? parsed : []);
-      dispatch(isLoadingReducer(false));
-      dispatch(loadAssets(userAssets));
-
-      for (const storedAsset of store.getState().assets.assets) {
-        let assetBalance;
-        if (storedAsset.symbol === 'BNB') assetBalance = await getNativeBalance(walletData.addr);
-        else assetBalance = await getTokenBalance(storedAsset, walletData.addr);
-        dispatch(updateAssetBalance({ address: storedAsset.address, balance: assetBalance }));
-      }
-    })();
-  }, []);
 
   async function handleRefreshBalances() {
     for (const storedAsset of store.getState().assets.assets) {

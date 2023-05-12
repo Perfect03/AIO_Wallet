@@ -7,6 +7,7 @@ import getNativeToUSD from '../scripts/quoting/getNativeToUSD';
 export default function useTotalBalance(assets: Asset[]) {
   const [nativeBalance, setNativeBalance] = useState(0);
   const [usdBalance, setUsdBalance] = useState(0);
+  const [balanceLoaded, setBalanceLoaded] = useState(false);
 
   useEffect(() => {
     let loaded = true;
@@ -24,9 +25,10 @@ export default function useTotalBalance(assets: Asset[]) {
 
         setNativeBalance(newNativeBalance);
         setUsdBalance(+(await getNativeToUSD(newNativeBalance)).toFixed(4));
+        setBalanceLoaded(true);
       })();
     }
   });
 
-  return [nativeBalance, usdBalance];
+  return [nativeBalance, usdBalance, balanceLoaded];
 }

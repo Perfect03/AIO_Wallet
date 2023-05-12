@@ -438,20 +438,11 @@
     &:hover {
       background: linear-gradient(90deg, #d75596 0%, #3838cd 100%);
     }
-  }
-  .submitInactive {
-    height: 52px;
-    background: #272332;
-    box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
-    border-radius: 4px;
-    width: 100%;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 21px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+    &.inActive {
+      box-shadow: 0px 0px 0px;
+      background: #272332;
+      cursor: default;
+    }
   }
   .accept {
     margin-top: 12px;

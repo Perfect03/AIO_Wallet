@@ -97,5 +97,8 @@
   "Error! This address is not a token": "Error! This address is not a token",
   "Token added": "Token added",
   "Seed phrase check": "Seed phrase check",
-  "Incorrect": "Incorrect"
+  "Incorrect": "Incorrect",
+  "You are logged out": "You are logged out",
+  "Withdrawal failed": "Withdrawal failed",
+  "Withdrawal completed": "Withdrawal completed"
 }

@@ -97,5 +97,8 @@
   "Error! This address is not a token": "Ошибка: введён некорректный адрес",
   "Token added": "Токен добавлен",
   "Seed phrase check": "Проверка сид-фразы",
-  "Incorrect": "Неверно"
+  "Incorrect": "Неверно",
+  "You are logged out": "Вы вышли из аккаунта",
+  "Withdrawal completed": "Вывод завершён",
+  "Withdrawal failed": "Вывод не выполнен"
 }

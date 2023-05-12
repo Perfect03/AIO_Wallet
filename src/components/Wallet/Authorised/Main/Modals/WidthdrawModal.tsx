@@ -11,6 +11,7 @@ import isEthereumAddress from '../helpers/isEthereumAddress';
 import withdraw from '../../../../../scripts/widthdraw';
 import useLocalStorage from '../../../../../hooks/useLocalStorage';
 import { TWallet } from '../../../../../scripts/getWallet';
+import { toast } from 'react-toastify';
 import getFees from '../../../../../scripts/quoting/getFees';
 import {
   fromReadableAmount,
@@ -123,6 +124,7 @@ export default function WithdrawModal(props: {
     props.setWithdrawModalIsOpen(false);
     setWithdrawAddress('');
     setWithdrawSum(0);
+    setIsWithdrawalMenuOpen(false);
   }
 
   function handleSubscribe() {
@@ -267,7 +269,7 @@ export default function WithdrawModal(props: {
         {withdrawSum && valid ? (
           <>
             <div
-              className={withdrawAccept ? styles.submitInactive : styles.submit}
+              className={`${styles.submit} ${withdrawAccept ? styles.inActive : ''}`}
               onClick={handleSubmitClick}
             >
               {t('Withdraw')}
@@ -280,7 +282,14 @@ export default function WithdrawModal(props: {
           <div
             className={`${styles.submit} ${styles.accept}`}
             onClick={async () => {
-              await withdraw(withdrawAsset!, withdrawAddress, withdrawSum!, wallet);
+              try {
+                await withdraw(withdrawAsset!, withdrawAddress, withdrawSum!, wallet);
+                setIsWithdrawalMenuOpen(false);
+                props.setWithdrawModalIsOpen(false);
+                toast['success'](t('Withdrawal completed'));
+              } catch (err) {
+                toast['error'](t('Withdrawal failed'));
+              }
             }}
           >
             {t('Accept withdraw')}

@@ -58,9 +58,7 @@ const Developments = () => {
                 className={styles.to}
                 onClick={(event) => {
                   event.preventDefault();
-                  language == 'ru'
-                    ? window.open('https://t.me/AIO_OFFICIAL_CIS')
-                    : window.open('https://t.me/AIO_OFFICIAL_EN');
+                  window.open('https://t.me/AIO_Chat_Bot');
                 }}
               >
                 AIO-Chat

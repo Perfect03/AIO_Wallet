@@ -1,7 +1,7 @@
 {
   "name": "aio-wallet",
   "version": "1.0.0",
-  "homepage": "./",
+  "homepage": "https://aio-ecosystem.xyz",
   "private": true,
   "dependencies": {
     "@metamask/eth-json-rpc-provider": "^1.0.0",

@@ -6,7 +6,10 @@ import Assets from './Authorised/WalletInfo/Assets';
 export interface AppState {
   assets: Asset[];
   load: boolean;
+  wallet: walletPart;
 }
+
+export type walletPart = 'assets' | 'transactions';
 
 // Define our initial state
 const initialState: AppState = {
@@ -22,6 +25,7 @@ const initialState: AppState = {
     },
   ],
   load: false,
+  wallet: 'transactions',
 };
 
 const appSlice = createSlice({
@@ -47,11 +51,20 @@ const appSlice = createSlice({
     isLoadingReducer(state, action: PayloadAction<boolean>) {
       state.load = action.payload;
     },
+    changeWallet: (state, action: PayloadAction<walletPart>) => {
+      state.wallet = action.payload;
+    },
   },
 });
 
-export const { loadAssets, updateAssetBalance, addAsset, deleteAsset, isLoadingReducer } =
-  appSlice.actions;
+export const {
+  loadAssets,
+  updateAssetBalance,
+  addAsset,
+  deleteAsset,
+  isLoadingReducer,
+  changeWallet,
+} = appSlice.actions;
 
 // Create the store
 export const store = configureStore({

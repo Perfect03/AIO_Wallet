@@ -1,6 +1,5 @@
 import { ethers } from 'ethers';
 import { Asset } from '../components/Wallet/Authorised/Main/helpers/checkSavedAssets';
-import useLocalStorage from '../hooks/useLocalStorage';
 import { TWallet } from './getWallet';
 import { fromReadableAmount } from './quoting/libs/conversion';
 import getTokenContract from './quoting/token-lists/getTokenContract';
@@ -23,5 +22,6 @@ export default async function withdraw(asset: Asset, to: string, sum: number, wa
     }
   } catch (err) {
     console.log(err);
+    throw err;
   }
 }

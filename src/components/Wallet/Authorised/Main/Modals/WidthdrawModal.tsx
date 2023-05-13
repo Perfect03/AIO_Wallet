@@ -11,6 +11,7 @@ import isEthereumAddress from '../helpers/isEthereumAddress';
 import withdraw from '../../../../../scripts/widthdraw';
 import useLocalStorage from '../../../../../hooks/useLocalStorage';
 import { TWallet } from '../../../../../scripts/getWallet';
+import { toast } from 'react-toastify';
 import getFees from '../../../../../scripts/quoting/getFees';
 import {
   fromReadableAmount,
@@ -57,6 +58,7 @@ export default function WithdrawModal(props: {
   const [fees, setFees] = useState<BigNumber>(BigNumber.from(0));
   const [valid, setValid] = useState(false);
   const [summary, setSummary] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const wallet = useLocalStorage<TWallet>('wallet')[0];
 
@@ -77,8 +79,9 @@ export default function WithdrawModal(props: {
   }, [withdrawAsset]);
 
   useEffect(() => {
+    if (withdrawSum! < 0) setWithdrawSum(0);
     setWithdrawAccept(false);
-    setSummary('');
+    setSummary(t('Loading...').toString());
     setValid(false);
     (async () => {
       if (withdrawAsset.address && withdrawSum) {
@@ -91,11 +94,9 @@ export default function WithdrawModal(props: {
               withdrawAsset.decimals
             )} BNB`
           );
-        } catch (err) {
-          // попадем сюда если симуляция трансфера прошла не успешно (то есть запретим такой трансфер)
-          // в типе TransactionError есть поле reason (выше), с ним можно что нибудь придумать
-          console.log(err);
+        } catch {
           setValid(false);
+          setSummary(t('Insufficient transaction').toString());
         }
       } else if (
         !withdrawAsset.address &&
@@ -106,6 +107,15 @@ export default function WithdrawModal(props: {
       ) {
         setValid(true);
         setSummary(`${withdrawSum + +toReadableAmount(fees.mul(21000), 18)} BNB`);
+      } else if (
+        !withdrawAsset.address &&
+        withdrawSum &&
+        BigNumber.from(fromReadableAmount(withdrawSum, 18))
+          .add(fees.mul(21000))
+          .gt(BigNumber.from(fromReadableAmount(withdrawAsset.balance!, 18)))
+      ) {
+        setValid(false);
+        setSummary(t('Insufficient transaction').toString());
       }
     })();
   }, [withdrawSum]);
@@ -123,6 +133,7 @@ export default function WithdrawModal(props: {
     props.setWithdrawModalIsOpen(false);
     setWithdrawAddress('');
     setWithdrawSum(0);
+    setIsWithdrawalMenuOpen(false);
   }
 
   function handleSubscribe() {
@@ -150,7 +161,7 @@ export default function WithdrawModal(props: {
         <h1 className={styles.modalTitle}>{t('Withdraw')}</h1>
         <h2 className={styles.modalSubTitle}>{t('Only BEP-20 assets can be withdrawn')}</h2>
         <div className={`${styles.field} ${isWithdrawalMenuOpen ? styles.listOpen : ''}`}>
-          <div className={styles.fieldTitle}>{t('Select assets')}</div>
+          <div className={styles.fieldTitle}>{t('Select asset')}</div>
           <div className={styles.dropdownBlock}>
             <ul>
               <li
@@ -173,7 +184,7 @@ export default function WithdrawModal(props: {
               </li>
               {isWithdrawalMenuOpen &&
                 assets
-                  .filter((el) => el != withdrawAsset)
+                  .filter((el) => el !== withdrawAsset)
                   .map((el, index) => (
                     <li
                       className={styles.modalAsset}
@@ -222,7 +233,9 @@ export default function WithdrawModal(props: {
                   setWithdrawSum(
                     withdrawAsset?.balance
                       ? withdrawAsset?.balance -
-                          (withdrawAsset.address ? 0 : +toReadableAmount(fees.mul(25000), 18))
+                          (withdrawAsset.address
+                            ? 0
+                            : +(+toReadableAmount(fees.mul(22000), 18)).toFixed(5))
                       : 0
                   )
                 }
@@ -259,15 +272,11 @@ export default function WithdrawModal(props: {
             BNB
           </div>
         </div>
-        {withdrawSum ? (
-          <div className={styles.sum}>{valid ? summary : 'Insufficient transaction'}</div>
-        ) : (
-          ''
-        )}
-        {withdrawSum && valid ? (
+        {withdrawSum ? <div className={styles.sum}>{summary}</div> : ''}
+        {valid ? (
           <>
             <div
-              className={withdrawAccept ? styles.submitInactive : styles.submit}
+              className={`${styles.submit} ${withdrawAccept ? styles.inActive : ''}`}
               onClick={handleSubmitClick}
             >
               {t('Withdraw')}
@@ -280,7 +289,15 @@ export default function WithdrawModal(props: {
           <div
             className={`${styles.submit} ${styles.accept}`}
             onClick={async () => {
-              await withdraw(withdrawAsset!, withdrawAddress, withdrawSum!, wallet);
+              try {
+                setIsWithdrawalMenuOpen(false);
+                toast['info'](t('Transaction is sent'));
+                await withdraw(withdrawAsset!, withdrawAddress, withdrawSum!, wallet);
+                props.setWithdrawModalIsOpen(false);
+                toast['success'](t('Withdrawal completed'));
+              } catch {
+                toast['error'](t('Withdrawal failed'));
+              }
             }}
           >
             {t('Accept withdraw')}

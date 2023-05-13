@@ -1,4 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import styles from '../HeaderWallet.module.scss';
 
 export default function ExitIcon() {
@@ -6,12 +8,19 @@ export default function ExitIcon() {
     try {
       window.localStorage.removeItem('wallet');
       window.localStorage.removeItem('assets');
+      toast['info'](t('You are logged out'));
     } catch (e) {}
   }
 
+  const { t } = useTranslation();
+
   return (
     <NavLink to="/">
-      <button className={styles.leftLink} onClick={handleExitClick}>
+      <button
+        className={styles.leftLink}
+        onClick={handleExitClick}
+        title={t('Exit and forget wallet').toString()}
+      >
         <svg
           width="24"
           height="24"

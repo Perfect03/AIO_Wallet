@@ -4,7 +4,7 @@ import withdraw from '../../../../assets/withdraw.svg';
 import { useTranslation } from 'react-i18next';
 import useResize from '../../../../hooks/use-resize';
 import useLocalStorage from '../../../../hooks/useLocalStorage';
-import { Transaction } from '../../../../hooks/useAddressTransactions';
+import useAddressTransactions, { Transaction } from '../../../../hooks/useAddressTransactions';
 
 export default function Transactions() {
   const { t } = useTranslation();
@@ -12,9 +12,15 @@ export default function Transactions() {
 
   const [transactions, setTransactions] = useLocalStorage<Array<Transaction>>('txsMap', []);
 
+  const walletData = useLocalStorage('wallet', {
+    pk: '',
+    addr: '',
+  })[0];
+
+  useAddressTransactions(walletData.addr);
+
   return (
-    <div className={styles.yourAssets}>
-      <h1 className={styles.title}>{t('Transactions')}</h1>
+    <>
       <div className={styles.describe}>{t('Select coin for transaction type')}</div>
       <div className={styles.transactions}>
         {transactions.map((el, index) => (
@@ -47,6 +53,6 @@ export default function Transactions() {
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 }

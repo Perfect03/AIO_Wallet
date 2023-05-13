@@ -1,4 +1,4 @@
-import { ChainId, Token, Fetcher, Route } from '@pancakeswap/sdk';
+import { Token, Fetcher, Route } from '@pancakeswap/sdk';
 import defaultProvider from '../../rpc/defaultProvider';
 
 export type ConfigV2 = {

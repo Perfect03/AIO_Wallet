@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Modal from 'react-modal';
 import styles from '../MainWallet.module.scss';
 import { useTranslation } from 'react-i18next';
@@ -46,7 +45,7 @@ export default function DepositModal(props: {
       .then(() => {
         toast['info'](t('Copy address'));
       })
-      .catch((err) => {
+      .catch(() => {
         toast['error'](t('Copy address error'));
       });
   }

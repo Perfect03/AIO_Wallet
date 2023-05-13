@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import WithdrawModal from './Modals/WidthdrawModal';
 import { toast } from 'react-toastify';
-import { isLoadingReducer, store } from '../../store';
+import { changeWallet, isLoadingReducer, store, walletPart } from '../../store';
 import DepositModal from './Modals/DepositModal';
 import Transactions from '../WalletInfo/Transactions';
 import Assets from '../WalletInfo/Assets';
@@ -16,20 +16,21 @@ import useTotalBalance from '../../../../hooks/useTotalBalance';
 import useAddressTransactions, { Transaction } from '../../../../hooks/useAddressTransactions';
 import useLocalStorage from '../../../../hooks/useLocalStorage';
 import { useEffect } from 'react';
+import useLoadAssets from '../../../../hooks/useLoadAssets';
 
 const MainWallet = () => {
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false);
-  const [assetsWindow, setAssetsWindow] = useState('assets');
   const [loaderTimer, setLoaderTimer] = useState<NodeJS.Timeout>();
   const dispatch = useDispatch();
 
   const assets = useSelector((state: { assets: AppState }) => state.assets.assets);
+  // const walletWindow = useSelector((state: { assets: AppState }) => state.assets.wallet);
 
   const [nativeBalance, usdBalance] = useTotalBalance(assets);
   const isLoad = useSelector((state: { assets: AppState }) => state.assets.load);
 
-  //const [transactions, setTransactions] = useLocalStorage<Array<Transaction>>('txsMap', []);
+  useLoadAssets();
 
   useEffect(() => {
     if (!isLoad) {
@@ -47,12 +48,6 @@ const MainWallet = () => {
       };
     }
   }, [isLoad]);
-
-  const [walletData, setWalletData] = useLocalStorage('wallet', {
-    pk: '',
-    addr: '',
-  });
-  useAddressTransactions(walletData.addr);
 
   const { t } = useTranslation();
 
@@ -92,7 +87,23 @@ const MainWallet = () => {
               </button>
             </div>
           </div>
-          {assetsWindow !== 'assets' ? <Assets /> : <Transactions />}
+          <div className={styles.yourAssets}>
+            <div className={styles.titles}>
+              <h1
+                className={`${styles.title}  ${styles.active}`}
+                onClick={() => dispatch(changeWallet('assets'))}
+              >
+                {t('Your assets')}
+              </h1>
+              {/* <h1
+                className={`${styles.title} ${walletWindow !== 'assets' ? styles.active : ''}`}
+                onClick={() => dispatch(changeWallet('transactions'))}
+              >
+                {t('Transactions')}
+              </h1> */}
+            </div>
+            <Assets />
+          </div>
         </div>
         <DepositModal
           depositModalIsOpen={depositModalIsOpen}

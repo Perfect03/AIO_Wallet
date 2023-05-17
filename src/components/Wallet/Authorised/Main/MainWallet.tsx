@@ -30,7 +30,13 @@ const MainWallet = () => {
   const [nativeBalance, usdBalance] = useTotalBalance(assets);
   const isLoad = useSelector((state: { assets: AppState }) => state.assets.load);
 
+  const walletData = useLocalStorage('wallet', {
+    pk: '',
+    addr: '',
+  })[0];
+
   useLoadAssets();
+  useAddressTransactions(walletData.addr, assets);
 
   useEffect(() => {
     if (!isLoad) {

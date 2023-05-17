@@ -4,7 +4,8 @@ import withdraw from '../../../../assets/withdraw.svg';
 import { useTranslation } from 'react-i18next';
 import useResize from '../../../../hooks/use-resize';
 import useLocalStorage from '../../../../hooks/useLocalStorage';
-import useAddressTransactions, { Transaction } from '../../../../hooks/useAddressTransactions';
+import useAddressTransactions from '../../../../hooks/useAddressTransactions';
+import { Transaction } from '../../../../hooks/AddressTransactions';
 
 export default function Transactions() {
   const { t } = useTranslation();
@@ -16,8 +17,6 @@ export default function Transactions() {
     pk: '',
     addr: '',
   })[0];
-
-  useAddressTransactions(walletData.addr);
 
   return (
     <>
@@ -46,8 +45,9 @@ export default function Transactions() {
               </div>
             </div>
             <div className={styles.sums}>
-              <div className={styles.btc}>{`${el.value}`.slice(0, 6)} BNB</div>
-              <div className={styles.usd}>{`${el.usd}`.slice(0, 6)} USD</div>
+              <div className={styles.btc}>
+                {`${el.value}`.slice(0, 6)} {el.assetSymbol}
+              </div>
             </div>
           </div>
         ))}

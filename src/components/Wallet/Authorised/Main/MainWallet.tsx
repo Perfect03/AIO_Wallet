@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import { Triangle } from 'react-loader-spinner';
 import useTotalBalance from '../../../../hooks/useTotalBalance';
-import useAddressTransactions, { Transaction } from '../../../../hooks/useAddressTransactions';
+import useAddressTransactions from '../../../../hooks/useAddressTransactions';
 import useLocalStorage from '../../../../hooks/useLocalStorage';
 import { useEffect } from 'react';
 import useLoadAssets from '../../../../hooks/useLoadAssets';
@@ -30,7 +30,13 @@ const MainWallet = () => {
   const [nativeBalance, usdBalance] = useTotalBalance(assets);
   const isLoad = useSelector((state: { assets: AppState }) => state.assets.load);
 
+  const walletData = useLocalStorage('wallet', {
+    pk: '',
+    addr: '',
+  })[0];
+
   useLoadAssets();
+  useAddressTransactions(walletData.addr, assets);
 
   useEffect(() => {
     if (!isLoad) {

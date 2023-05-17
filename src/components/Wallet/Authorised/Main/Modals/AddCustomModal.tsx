@@ -71,11 +71,9 @@ export default function AddCustomModal(props: {
   }
 
   async function handleAddCustom() {
-    console.log(searchValue);
     if (!savedAssets.includes(searchValue)) {
       try {
         const token = getTokenContract(searchValue);
-        console.log(token);
         const name = await token.name();
         const symbol = await token.symbol();
         const decimals = await token.decimals();

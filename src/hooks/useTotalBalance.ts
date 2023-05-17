@@ -9,8 +9,6 @@ export default function useTotalBalance(assets: Asset[]) {
   const [usdBalance, setUsdBalance] = useState(0);
   const [balanceLoaded, setBalanceLoaded] = useState(false);
 
-  console.log();
-
   useEffect(() => {
     let loaded = true;
     for (const asset of assets) {

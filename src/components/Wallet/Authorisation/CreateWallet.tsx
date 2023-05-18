@@ -82,8 +82,6 @@ const CreateWallet = () => {
   }
 
   function handleInput(index: number, e: React.ChangeEvent<HTMLInputElement>) {
-    console.log(checkValues);
-    console.log(e.target.value);
     const newCheck = [...checkValues];
     newCheck[index] = e.target.value.toLowerCase();
     setCheckValues(newCheck);

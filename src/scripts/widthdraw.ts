@@ -14,7 +14,6 @@ export default async function withdraw(asset: Asset, to: string, sum: number, wa
         to,
         value: fromReadableAmount(sum, 18),
       });
-      console.log(resp);
     } else {
       const token = getTokenContract(asset.address);
       await token.connect(wallet).transfer(to, fromReadableAmount(sum, asset.decimals));

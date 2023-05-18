@@ -106,5 +106,6 @@
   "Loading...": "Загрузка...",
   "Insufficient transaction": "Транзакция невозможна",
   "Deposits and withdrawals of tokens and BNB": "Депозиты и выводы токенов и BNB",
-  "Enter address": "Введите адрес"
+  "Enter address": "Введите адрес",
+  "No transactions found": "Транзакций не найдено"
 }

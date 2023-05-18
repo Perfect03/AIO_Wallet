@@ -106,5 +106,6 @@
   "Loading...": "Loading...",
   "Insufficient transaction": "Insufficient transaction",
   "Deposits and withdrawals of tokens and BNB": "Deposits and withdrawals of tokens and BNB",
-  "Enter address": "Enter address"
+  "Enter address": "Enter address",
+  "No transactions found": "No transactions found"
 }

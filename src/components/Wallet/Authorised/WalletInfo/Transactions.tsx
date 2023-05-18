@@ -5,18 +5,19 @@ import { useTranslation } from 'react-i18next';
 import useResize from '../../../../hooks/use-resize';
 import useLoadTransactions from '../../../../hooks/useLoadTransactions';
 import { Triangle } from 'react-loader-spinner';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../store';
 
-export default function Transactions() {
+export default function Transactions(props: { isLoading: boolean }) {
   const { t } = useTranslation();
   const width = useResize();
-
-  const [transactions, isLoading] = useLoadTransactions();
+  const transactions = useSelector((state: { assets: AppState }) => state.assets.transactions);
 
   return (
     <>
       <div className={styles.describe}>{t('Deposits and withdrawals of tokens and BNB')}</div>
       <div className={styles.transactions}>
-        {isLoading && (
+        {props.isLoading && (
           <div className={styles.loader}>
             <Triangle
               height="80"
@@ -26,6 +27,11 @@ export default function Transactions() {
               visible={true}
             />
           </div>
+        )}
+        {!props.isLoading && !transactions.length ? (
+          <div className={styles.sign}>{t('No transactions found')}</div>
+        ) : (
+          <></>
         )}
         {transactions.map((el, index) => (
           <div

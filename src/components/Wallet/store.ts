@@ -1,4 +1,5 @@
 import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { WalletTransaction } from '../../hooks/useLoadTransactions';
 import { Asset } from './Authorised/Main/helpers/checkSavedAssets';
 import Assets from './Authorised/WalletInfo/Assets';
 
@@ -7,6 +8,7 @@ export interface AppState {
   assets: Asset[];
   load: boolean;
   wallet: walletPart;
+  transactions: WalletTransaction[];
 }
 
 export type walletPart = 'assets' | 'transactions';
@@ -26,6 +28,7 @@ const initialState: AppState = {
   ],
   load: false,
   wallet: 'assets',
+  transactions: [],
 };
 
 const appSlice = createSlice({
@@ -54,6 +57,9 @@ const appSlice = createSlice({
     changeWallet: (state, action: PayloadAction<walletPart>) => {
       state.wallet = action.payload;
     },
+    setTransactions: (state, action: PayloadAction<WalletTransaction[]>) => {
+      state.transactions = action.payload;
+    },
   },
 });
 
@@ -64,6 +70,7 @@ export const {
   deleteAsset,
   isLoadingReducer,
   changeWallet,
+  setTransactions,
 } = appSlice.actions;
 
 // Create the store

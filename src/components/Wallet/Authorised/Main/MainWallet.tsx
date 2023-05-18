@@ -15,6 +15,7 @@ import { Triangle } from 'react-loader-spinner';
 import useTotalBalance from '../../../../hooks/useTotalBalance';
 import { useEffect } from 'react';
 import useLoadAssets from '../../../../hooks/useLoadAssets';
+import useLoadTransactions from '../../../../hooks/useLoadTransactions';
 
 const MainWallet = () => {
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);
@@ -29,6 +30,7 @@ const MainWallet = () => {
   const isLoad = useSelector((state: { assets: AppState }) => state.assets.load);
 
   useLoadAssets();
+  const isLoading = useLoadTransactions();
 
   useEffect(() => {
     if (!isLoad) {
@@ -94,7 +96,7 @@ const MainWallet = () => {
                 {t('Transactions')}
               </h1>
             </div>
-            {walletWindow === 'assets' ? <Assets /> : <Transactions />}
+            {walletWindow === 'assets' ? <Assets /> : <Transactions isLoading={isLoading} />}
           </div>
         </div>
         <DepositModal

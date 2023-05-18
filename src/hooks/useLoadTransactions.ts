@@ -39,8 +39,10 @@ export default function useLoadTransactions(): [WalletTransaction[], boolean] {
         const transactions = (await axios.get(txUrl)).data.result;
 
         for (const transaction of transactions) {
-          const parsedTransaction = parseTransaction(transaction, walletData.addr);
-          parsedTransactions.push(parsedTransaction);
+          if (transaction.functionName === '') {
+            const parsedTransaction = parseTransaction(transaction, walletData.addr);
+            parsedTransactions.push(parsedTransaction);
+          }
         }
       } catch {}
 

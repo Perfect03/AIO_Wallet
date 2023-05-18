@@ -57,8 +57,10 @@ const CreateWallet = () => {
           index1 = getRandomInt(1, 13);
           index2 = getRandomInt(1, 13);
           index3 = getRandomInt(1, 13);
-          if (index1 !== index2 && index2 !== index3) break;
+          if (index1 !== index2 && index2 !== index3 && index1 !== index3) break;
         }
+
+        [index1, index2, index3] = [index1, index2, index3].sort((a, b) => a - b);
 
         const splited = mnemonic.split(' ');
 

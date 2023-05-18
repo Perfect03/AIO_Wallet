@@ -36,47 +36,49 @@ export default function Assets() {
 
   return (
     <>
-      <div className={styles.describe}>
-        {t('Here you can safely store, send and receive assets')}
-      </div>
-      <span className={styles.refresh} onClick={async () => handleRefreshBalances()}>
-        {t('Refresh balances')}
-      </span>
-      <div className={styles.assets}>
-        {isLoad ? (
-          <div className={styles.loader}>
-            <Triangle
-              height="80"
-              width="80"
-              color="#B35BCE"
-              ariaLabel="triangle-loading"
-              visible={true}
-            />
+      {isLoad ? (
+        <div className={styles.loader}>
+          <Triangle
+            height="80"
+            width="80"
+            color="#B35BCE"
+            ariaLabel="triangle-loading"
+            visible={true}
+          />
+        </div>
+      ) : (
+        <>
+          <div className={styles.describe}>
+            {t('Here you can safely store, send and receive assets')}
           </div>
-        ) : (
-          assets.map((el, index) => {
-            return (
-              <div className={styles.asset} key={index}>
-                <div className={styles.coin}>
-                  <img src={el.logoURI} alt="" width={44} height={44} />
-                </div>
-                <div className={styles.coinAbout}>
-                  <div className={styles.firstLine}>
-                    <div className={styles.currency}>{el.name}</div>
-                    <div className={styles.sum}>
-                      {el.balance} {el.symbol}
-                    </div>
+          <span className={styles.refresh} onClick={async () => handleRefreshBalances()}>
+            {t('Refresh balances')}
+          </span>
+          <div className={styles.assets}>
+            {assets.map((el, index) => {
+              return (
+                <div className={styles.asset} key={index}>
+                  <div className={styles.coin}>
+                    <img src={el.logoURI} alt="" width={44} height={44} />
                   </div>
-                  <div className={styles.secondLine}></div>
+                  <div className={styles.coinAbout}>
+                    <div className={styles.firstLine}>
+                      <div className={styles.currency}>{el.name}</div>
+                      <div className={styles.sum}>
+                        {el.balance} {el.symbol}
+                      </div>
+                    </div>
+                    <div className={styles.secondLine}></div>
+                  </div>
                 </div>
-              </div>
-            );
-          })
-        )}
-      </div>
-      <button className={styles.addToken} onClick={() => setAssetsModalIsOpen(true)}>
-        {t('Add custom tokens')}
-      </button>
+              );
+            })}
+          </div>
+          <button className={styles.addToken} onClick={() => setAssetsModalIsOpen(true)}>
+            {t('Add custom tokens')}
+          </button>
+        </>
+      )}
       <AddCustomModal
         assetsModalIsOpen={assetsModalIsOpen}
         setAssetsModalIsOpen={setAssetsModalIsOpen}

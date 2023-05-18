@@ -135,6 +135,7 @@
       flex-direction: column;
       overflow-y: auto;
       max-height: 80vh;
+      min-height: 271px;
       @include _400 {
         padding: 24px 14px;
         width: calc(100vw - 34px);
@@ -282,8 +283,26 @@
     }
     .custom {
       height: 52px;
+      box-shadow: 0px 0px 0px;
+      background: #272332;
+      border-radius: 4px;
+      width: 100%;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 21px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 16px;
+      cursor: pointer;
+      &:hover {
+        background: #28262f;
+      }
+    }
+    .addCustom {
+      height: 52px;
+      box-shadow: 0px 0px 0px;
       background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
-      box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
       border-radius: 4px;
       width: 100%;
       font-weight: 500;

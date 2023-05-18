@@ -16,7 +16,7 @@ const resources = {
 i18n.use(initReactI18next).init({
   resources,
   lng: JSON.parse(localStorage.getItem('language') as string),
-  fallbackLng: 'en',
+  fallbackLng: 'ru',
 });
 
 export default i18n;

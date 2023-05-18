@@ -141,7 +141,7 @@ export default function AddCustomModal(props: {
       appElement={document.getElementById('root') || undefined}
     >
       <div className={styles.modalWindow}>
-        <h1 className={styles.modalTitle}>{t('Select asset')}</h1>
+        <h1 className={styles.modalTitle}>{isCustom ? t('Enter address') : t('Select asset')}</h1>
         <button
           className={styles.modalBack}
           onClick={() => {
@@ -184,8 +184,8 @@ export default function AddCustomModal(props: {
           ''
         )}
         {isCustom ? (
-          <div className={styles.custom} onClick={handleAddCustom}>
-            {t('Enter address')}
+          <div className={styles.addCustom} onClick={handleAddCustom}>
+            {t('Add custom')}
           </div>
         ) : (
           <div

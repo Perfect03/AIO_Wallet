@@ -92,7 +92,7 @@
   "This asset is already exists": "This asset is already exists",
   "Check internet connecion": "Check internet connecion",
   "Accept withdraw": "Accept withdraw",
-  "Search by address": "Search by address",
+  "Or search with contract address": "Or search with contract address",
   "Add custom": "Add custom token",
   "Error! This address is not a token": "Error! This address is not a token",
   "Token added": "Token added",
@@ -104,5 +104,7 @@
   "Transaction sent": "Transaction sent",
   "Exit and forget wallet": "Exit and forget wallet",
   "Loading...": "Loading...",
-  "Insufficient transaction": "Insufficient transaction"
+  "Insufficient transaction": "Insufficient transaction",
+  "Deposits and withdrawals of tokens and BNB": "Deposits and withdrawals of tokens and BNB",
+  "Enter address": "Enter address"
 }

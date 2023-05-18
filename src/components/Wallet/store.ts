@@ -25,7 +25,7 @@ const initialState: AppState = {
     },
   ],
   load: false,
-  wallet: 'transactions',
+  wallet: 'assets',
 };
 
 const appSlice = createSlice({

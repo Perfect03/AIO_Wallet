@@ -9,11 +9,15 @@ import { AppState, updateAssetBalance } from '../../store';
 import getTokenBalance from '../../../../scripts/quoting/getTokenBalance';
 import { store } from '../../store';
 import getNativeBalance from '../../../../scripts/quoting/getNativeBalance';
+import { Triangle } from 'react-loader-spinner';
 
 export default function Assets() {
   const [assetsModalIsOpen, setAssetsModalIsOpen] = React.useState(false);
-  const dispatch = useDispatch();
   const assets = useSelector((state: { assets: AppState }) => state.assets.assets);
+  const isLoad = useSelector((state: { assets: AppState }) => state.assets.load);
+
+  const dispatch = useDispatch();
+
   const { t } = useTranslation();
 
   const walletData = useLocalStorage<TWallet>('wallet', {
@@ -39,24 +43,36 @@ export default function Assets() {
         {t('Refresh balances')}
       </span>
       <div className={styles.assets}>
-        {assets.map((el, index) => {
-          return (
-            <div className={styles.asset} key={index}>
-              <div className={styles.coin}>
-                <img src={el.logoURI} alt="" width={44} height={44} />
-              </div>
-              <div className={styles.coinAbout}>
-                <div className={styles.firstLine}>
-                  <div className={styles.currency}>{el.name}</div>
-                  <div className={styles.sum}>
-                    {el.balance} {el.symbol}
-                  </div>
+        {isLoad ? (
+          <div className={styles.loader}>
+            <Triangle
+              height="80"
+              width="80"
+              color="#B35BCE"
+              ariaLabel="triangle-loading"
+              visible={true}
+            />
+          </div>
+        ) : (
+          assets.map((el, index) => {
+            return (
+              <div className={styles.asset} key={index}>
+                <div className={styles.coin}>
+                  <img src={el.logoURI} alt="" width={44} height={44} />
                 </div>
-                <div className={styles.secondLine}></div>
+                <div className={styles.coinAbout}>
+                  <div className={styles.firstLine}>
+                    <div className={styles.currency}>{el.name}</div>
+                    <div className={styles.sum}>
+                      {el.balance} {el.symbol}
+                    </div>
+                  </div>
+                  <div className={styles.secondLine}></div>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
       <button className={styles.addToken} onClick={() => setAssetsModalIsOpen(true)}>
         {t('Add custom tokens')}

@@ -19,6 +19,8 @@ import {
 } from '../../../../../scripts/quoting/libs/conversion';
 import { BigNumber } from 'ethers';
 import simulateTransfer from '../../../../../scripts/quoting/simulateTransaction';
+import defaultProvider from '../../../../../scripts/rpc/defaultProvider';
+import estimateGas from '../../../../../scripts/quoting/simulateTransaction';
 
 const withdrawModalStyles = {
   overlay: {
@@ -86,13 +88,11 @@ export default function WithdrawModal(props: {
     (async () => {
       if (withdrawAsset.address && withdrawSum) {
         try {
-          console.log(await simulateTransfer(withdrawAsset, withdrawAddress, withdrawSum, wallet));
+          const gas = await simulateTransfer(withdrawAsset, withdrawAddress, withdrawSum, wallet);
+          if ((await defaultProvider.getBalance(wallet.addr)).lt(fees.mul(gas))) throw 'Gas';
           setValid(true);
           setSummary(
-            `${withdrawSum} ${withdrawAsset.symbol} & ${toReadableAmount(
-              fees.mul(65000),
-              withdrawAsset.decimals
-            )} BNB`
+            `${withdrawSum} ${withdrawAsset.symbol} + ${toReadableAmount(fees.mul(gas), 18)} BNB`
           );
         } catch {
           setValid(false);
@@ -144,6 +144,20 @@ export default function WithdrawModal(props: {
 
   function handleSubmitClick() {
     withdrawAccept ? () => {} : setWithdrawAccept(true);
+  }
+
+  function handleAllClick() {
+    let newSum;
+    if (withdrawAsset.balance && withdrawAsset.address) {
+      newSum = withdrawAsset.balance;
+    } else if (
+      withdrawAsset.balance &&
+      !withdrawAsset.address &&
+      withdrawAsset.balance > +toReadableAmount(fees.mul(21000), 18)
+    ) {
+      newSum = +(withdrawAsset.balance - +toReadableAmount(fees.mul(21000), 18)).toFixed(5);
+    } else newSum = 0;
+    setWithdrawSum(newSum);
   }
 
   return (
@@ -227,19 +241,7 @@ export default function WithdrawModal(props: {
           <div className={styles.field}>
             <div className={styles.fieldTitles}>
               <div className={styles.fieldTitle}>{t('Withdrawal amount')}</div>
-              <div
-                className={styles.fieldSubTitle}
-                onClick={() =>
-                  setWithdrawSum(
-                    withdrawAsset?.balance
-                      ? withdrawAsset?.balance -
-                          (withdrawAsset.address
-                            ? 0
-                            : +(+toReadableAmount(fees.mul(22000), 18)).toFixed(5))
-                      : 0
-                  )
-                }
-              >
+              <div className={styles.fieldSubTitle} onClick={handleAllClick}>
                 All
               </div>
             </div>

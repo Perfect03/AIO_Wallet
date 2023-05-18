@@ -23,7 +23,7 @@ export default function useTotalBalance(assets: Asset[]) {
           newNativeBalance += await getQuoteToNative(asset);
         }
 
-        setNativeBalance(newNativeBalance);
+        setNativeBalance(+newNativeBalance.toFixed(6));
         setUsdBalance(+(await getNativeToUSD(newNativeBalance)).toFixed(4));
         setBalanceLoaded(true);
       })();

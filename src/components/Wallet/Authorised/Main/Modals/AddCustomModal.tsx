@@ -142,7 +142,13 @@ export default function AddCustomModal(props: {
     >
       <div className={styles.modalWindow}>
         <h1 className={styles.modalTitle}>{t('Select asset')}</h1>
-        <button className={styles.modalBack} onClick={() => props.setAssetsModalIsOpen(false)}>
+        <button
+          className={styles.modalBack}
+          onClick={() => {
+            if (isCustom) setIsCustom(false);
+            else props.setAssetsModalIsOpen(false);
+          }}
+        >
           <img src={back} alt="" />
         </button>
         <div className={styles.searchWrapper}>
@@ -179,7 +185,7 @@ export default function AddCustomModal(props: {
         )}
         {isCustom ? (
           <div className={styles.custom} onClick={handleAddCustom}>
-            {t('Add custom')}
+            {t('Enter address')}
           </div>
         ) : (
           <div
@@ -188,7 +194,7 @@ export default function AddCustomModal(props: {
               setIsCustom(true);
             }}
           >
-            {t('Search by address')}
+            {t('Or search with contract address')}
           </div>
         )}
       </div>

@@ -5,18 +5,25 @@ import defaultProvider from '../rpc/defaultProvider';
 import { fromReadableAmount } from './libs/conversion';
 import getTokenContract from './token-lists/getTokenContract';
 
-export default async function simulateTransfer(
+export default async function estimateGas(
   asset: Asset,
   to: string,
   sum: number,
   walletData: TWallet
 ) {
-  const token = getTokenContract(asset.address);
-  const wallet = new ethers.Wallet(walletData.pk, defaultProvider);
+  if (!!asset.address) {
+    const token = getTokenContract(asset.address);
+    const wallet = new ethers.Wallet(walletData.pk, defaultProvider);
 
-  const resp = await token
-    .connect(wallet)
-    .callStatic.transfer(to, fromReadableAmount(sum, asset.decimals));
+    const resp = await token
+      .connect(wallet)
+      .estimateGas.transfer(to, fromReadableAmount(sum, asset.decimals));
 
-  return resp;
+    return resp;
+  } else {
+    return defaultProvider.estimateGas({
+      to,
+      value: fromReadableAmount(sum, 18),
+    });
+  }
 }

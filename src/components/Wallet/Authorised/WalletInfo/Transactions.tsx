@@ -3,50 +3,59 @@ import deposit from '../../../../assets/deposit.svg';
 import withdraw from '../../../../assets/withdraw.svg';
 import { useTranslation } from 'react-i18next';
 import useResize from '../../../../hooks/use-resize';
-import useLocalStorage from '../../../../hooks/useLocalStorage';
-import useAddressTransactions from '../../../../hooks/useAddressTransactions';
-import { Transaction } from '../../../../hooks/AddressTransactions';
+import useLoadTransactions from '../../../../hooks/useLoadTransactions';
+import { Triangle } from 'react-loader-spinner';
 
 export default function Transactions() {
   const { t } = useTranslation();
   const width = useResize();
 
-  const [transactions, setTransactions] = useLocalStorage<Array<Transaction>>('txsMap', []);
-
-  const walletData = useLocalStorage('wallet', {
-    pk: '',
-    addr: '',
-  })[0];
+  const [transactions, isLoading] = useLoadTransactions();
 
   return (
     <>
-      <div className={styles.describe}>{t('Select coin for transaction type')}</div>
+      <div className={styles.describe}>{t('Deposits and withdrawals of tokens and BNB')}</div>
       <div className={styles.transactions}>
+        {isLoading && (
+          <div className={styles.loader}>
+            <Triangle
+              height="80"
+              width="80"
+              color="#B35BCE"
+              ariaLabel="triangle-loading"
+              visible={true}
+            />
+          </div>
+        )}
         {transactions.map((el, index) => (
           <div
             className={styles.transaction}
             key={index}
-            title={width < 540 ? `${el.type == 'deposit' ? t('From') : t('To')}: ${el.client}` : ''}
+            title={
+              width < 540
+                ? `${el.transactionType == 'deposit' ? t('From') : t('To')}: ${el.client}`
+                : ''
+            }
           >
             <div className={styles.left}>
               <div className={styles.icon}>
-                <img src={el.type == 'withdraw' ? withdraw : deposit} alt="" />
+                <img src={el.transactionType == 'withdraw' ? withdraw : deposit} alt="" />
               </div>
               <div className={styles.about}>
-                <div className={styles.type}>{el.type}</div>
+                <div className={styles.type}>{el.transactionType}</div>
                 <div className={styles.info}>
                   <span className={styles.date}>{el.date}</span>
                   <div className={styles.ellipse}></div>
                   <span className={styles.client} title={width > 539 ? el.client : ''}>
-                    {el.type == 'deposit' ? t('From') : t('To')}: {el.client?.slice(0, 4)}…
-                    {el.client?.slice(-2)}
+                    {el.transactionType == 'deposit' ? t('From') : t('To')}:{' '}
+                    {el.client?.slice(0, 6)}…{el.client?.slice(-4)}
                   </span>
                 </div>
               </div>
             </div>
             <div className={styles.sums}>
               <div className={styles.btc}>
-                {`${el.value}`.slice(0, 6)} {el.assetSymbol}
+                {`${el.value}`.slice(0, 6)} {el.symbol}
               </div>
             </div>
           </div>

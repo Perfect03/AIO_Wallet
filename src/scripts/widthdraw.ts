@@ -10,10 +10,9 @@ export default async function withdraw(asset: Asset, to: string, sum: number, wa
 
   try {
     if (!asset.address) {
-      console.log(to, fromReadableAmount(sum, asset.decimals));
       const resp = await wallet.sendTransaction({
         to,
-        value: fromReadableAmount(sum, asset.decimals),
+        value: fromReadableAmount(sum, 18),
       });
       console.log(resp);
     } else {
@@ -22,6 +21,5 @@ export default async function withdraw(asset: Asset, to: string, sum: number, wa
     }
   } catch (err) {
     console.log(err);
-    throw err;
   }
 }

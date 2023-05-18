@@ -92,7 +92,7 @@
   "This asset is already exists": "Такой актив уже отслеживается",
   "Check internet connecion": "Проверьте подключение к интернету",
   "Accept withdraw": "Подтвердить перевод",
-  "Search by address": "Поиск по адресу",
+  "Or search with contract address": "Или найдите по адресу контракта",
   "Add custom": "Добавить",
   "Error! This address is not a token": "Ошибка: введён некорректный адрес",
   "Token added": "Токен добавлен",
@@ -104,5 +104,7 @@
   "Transaction sent": "Транзакция отправлена",
   "Exit and forget wallet": "Выйти и забыть кошелек",
   "Loading...": "Загрузка...",
-  "Insufficient transaction": "Транзакция невозможна"
+  "Insufficient transaction": "Транзакция невозможна",
+  "Deposits and withdrawals of tokens and BNB": "Депозиты и выводы токенов и BNB",
+  "Enter address": "Введите адрес"
 }

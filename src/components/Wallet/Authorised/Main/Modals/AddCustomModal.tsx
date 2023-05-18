@@ -184,7 +184,7 @@ export default function AddCustomModal(props: {
           ''
         )}
         {isCustom ? (
-          <div className={styles.custom} onClick={handleAddCustom}>
+          <div className={styles.custom} onClick={async () => await handleAddCustom()}>
             {t('Enter address')}
           </div>
         ) : (

@@ -1,0 +1,111 @@
+@mixin _540 {
+    @media (max-width: 540px) {
+      @content;
+    }
+  }
+
+.title {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+}
+
+.time {
+    margin-top: 24px;
+    margin-bottom: 29px;
+    margin-left: 18px;
+    margin-bottom: 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 3px 16px;
+    display: flex;
+    justify-content: space-between;
+    .timeOne {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        .count {
+            font-weight: 500;
+            font-size: 58px;
+            line-height: 69px;
+            @include _540 {
+                font-size: 40px;
+                line-height: 50px;
+            }
+        }
+        .measure {
+            font-weight: 500;
+            font-size: 15px;
+            line-height: 18px;
+            color: #7A7B7C;
+        }
+    }
+}
+
+.info {
+    margin-top: 30px;
+    margin-bottom: 12px;
+    padding: 0;
+    li {
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+        margin-top: 14px;
+        .value {
+            background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent; 
+        }
+        @include _540 {
+            font-size: 12px;
+            line-height: 14px;
+        }
+    }
+}
+
+.connect {
+    font-weight: 500;
+font-size: 15px;
+line-height: 18px;
+text-align: center;
+background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
+border-radius: 4px;
+padding: 12px 0;
+width: 100%;
+&:hover {
+    background: linear-gradient(90deg, #D75596 0%, #3838CD 100%);
+    box-shadow: 0;
+}
+}
+
+.yourLink {
+    font-weight: 500;
+font-size: 12px;
+line-height: 14px;
+color: #7A7B7C;
+margin-bottom: 2px;
+}
+
+.link {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    .linkText {
+      background: #272332;
+      border-radius: 4px;
+      flex-grow: 1;
+      padding: 0px 12px;
+    }
+    .copy {
+      width: 42px;
+      height: 42px;
+      background: #272332;
+      border-radius: 4px;
+    }
+  }

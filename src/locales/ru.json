@@ -107,5 +107,14 @@
   "Insufficient transaction": "Транзакция невозможна",
   "Deposits and withdrawals of tokens and BNB": "Депозиты и выводы токенов и BNB",
   "Enter address": "Введите адрес",
-  "No transactions found": "Транзакций не найдено"
+  "No transactions found": "Транзакций не найдено",
+  "Presale Starts In:": "Presale начнется через:",
+  "DAYS": "ДНЕЙ",
+  "HOURS": "ЧАСОВ",
+  "MINS": "МИНУТ",
+  "SEC": "СЕК",
+  "CONNECT WALLET": "ПОДКЛЮЧИТЬ КОШЕЛЕК",
+  "Your Referral Link": "Your Referral Link",
+  "Presale Information": "Presale Information",
+  "BUY": "КУПИТЬ"
 }

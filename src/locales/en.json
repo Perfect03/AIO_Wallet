@@ -107,5 +107,14 @@
   "Insufficient transaction": "Insufficient transaction",
   "Deposits and withdrawals of tokens and BNB": "Deposits and withdrawals of tokens and BNB",
   "Enter address": "Enter address",
-  "No transactions found": "No transactions found"
+  "No transactions found": "No transactions found",
+  "Presale Starts In:": "Presale Starts In:",
+  "DAYS": "DAYS",
+  "HOURS": "HOURS",
+  "MINS": "MINS",
+  "SEC": "SEC",
+  "CONNECT WALLET": "CONNECT WALLET",
+  "Your Referral Link": "Your Referral Link",
+  "Presale Information": "Presale Information",
+  "BUY": "BUY"
 }

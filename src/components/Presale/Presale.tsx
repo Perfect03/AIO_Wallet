@@ -54,7 +54,7 @@ const Presale = () => {
             <Logo></Logo>
             <div className={styles.about}>{t('Innovative crypto-project')}</div>
             <div className={styles.presale}>
-              {isTimeout ? (
+              {!isTimeout ? (
                 <PresaleStarted></PresaleStarted>
               ) : (
                 <PresalePlanned

@@ -15,17 +15,22 @@
     margin-top: 24px;
     margin-bottom: 29px;
     margin-left: 18px;
-    margin-bottom: 18px;
+    margin-right: 18px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 15px;
-    padding: 3px 16px;
+    padding: 6px 16px;
     display: flex;
     justify-content: space-between;
+    @include _540 {
+        margin-left: 4px;
+        margin-right: 4px;
+    }
     .timeOne {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
+        width: 51px;
         .count {
             font-weight: 500;
             font-size: 58px;

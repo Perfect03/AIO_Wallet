@@ -5,9 +5,9 @@ import useLocalStorage from '../../../../hooks/useLocalStorage';
 import { TWallet } from '../../../../scripts/getWallet';
 import AddCustomModal from '../Main/Modals/AddCustomModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState, updateAssetBalance } from '../../store';
+import { AppState, updateAssetBalance } from '../../../../store';
 import getTokenBalance from '../../../../scripts/quoting/getTokenBalance';
-import { store } from '../../store';
+import { store } from '../../../../store';
 import getNativeBalance from '../../../../scripts/quoting/getNativeBalance';
 import { Triangle } from 'react-loader-spinner';
 

@@ -5,7 +5,7 @@ import Home from './components/Home/Home';
 import { Context } from './languageContext';
 import Wallet from './components/Wallet/Authorisation/CreateWallet';
 import { Provider } from 'react-redux';
-import { store } from './components/Wallet/store';
+import { store } from './store';
 import Presale from './components/Presale/Presale';
 
 function App() {

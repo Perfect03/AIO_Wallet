@@ -2,12 +2,10 @@ import styles from './Presale.module.scss';
 import Header from './Header/Header';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useLocalStorage from '../../hooks/useLocalStorage';
-import { TWallet } from '../../scripts/getWallet';
-import { Wallet as typeWallet } from 'ethers';
 import Logo from '../Logo/Logo';
 import PresaleStarted from './PresaleStarted/PresaleStarted';
 import PresalePlanned from './PresalePlanned/PresalePlanned';
+import useConnectWallet from '../../hooks/useConnectWallet';
 
 const Presale = () => {
   const { t } = useTranslation();
@@ -17,6 +15,19 @@ const Presale = () => {
   const [tick, setTick] = useState(false);
   const [isTimeout, setIsTimeout] = useState(false);
   const [timerId, setTimerID] = useState(setInterval(() => {}));
+
+  useEffect(() => {
+    (async () => {
+      // load presale start date
+      // load ref
+
+      // console.log(window.location.search);
+      // refLink =
+      new URLSearchParams();
+    })();
+  }, []);
+
+  useConnectWallet();
 
   useEffect(() => {
     const diff = (finishTime - new Date().getTime()) / 1000;

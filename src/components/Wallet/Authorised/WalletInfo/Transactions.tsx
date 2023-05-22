@@ -6,7 +6,7 @@ import useResize from '../../../../hooks/use-resize';
 import useLoadTransactions from '../../../../hooks/useLoadTransactions';
 import { Triangle } from 'react-loader-spinner';
 import { useSelector } from 'react-redux';
-import { AppState } from '../../store';
+import { AppState } from '../../../../store';
 
 export default function Transactions(props: { isLoading: boolean }) {
   const { t } = useTranslation();

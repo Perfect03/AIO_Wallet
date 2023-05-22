@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import styles from '../HeaderWallet.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState, changeWallet, walletPart } from '../../../store';
+import { AppState, changeWallet, walletPart } from '../../../../../store';
 
 export default function HomeIcon() {
   const dispatch = useDispatch();

@@ -1,12 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import checkSavedAssets from '../components/Wallet/Authorised/Main/helpers/checkSavedAssets';
-import {
-  isLoadingReducer,
-  loadAssets,
-  store,
-  updateAssetBalance,
-} from '../components/Wallet/store';
+import { isLoadingReducer, loadAssets, store, updateAssetBalance } from '../store';
 import { TWallet } from '../scripts/getWallet';
 import getNativeBalance from '../scripts/quoting/getNativeBalance';
 import getTokenBalance from '../scripts/quoting/getTokenBalance';

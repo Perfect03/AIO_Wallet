@@ -1,7 +1,6 @@
 import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { WalletTransaction } from '../../hooks/useLoadTransactions';
-import { Asset } from './Authorised/Main/helpers/checkSavedAssets';
-import Assets from './Authorised/WalletInfo/Assets';
+import { WalletTransaction } from './hooks/useLoadTransactions';
+import { Asset } from './components/Wallet/Authorised/Main/helpers/checkSavedAssets';
 
 // Define the shape of our state
 export interface AppState {
@@ -9,6 +8,7 @@ export interface AppState {
   load: boolean;
   wallet: walletPart;
   transactions: WalletTransaction[];
+  isWaleltConnected: boolean;
 }
 
 export type walletPart = 'assets' | 'transactions';
@@ -29,6 +29,7 @@ const initialState: AppState = {
   load: false,
   wallet: 'assets',
   transactions: [],
+  isWaleltConnected: true,
 };
 
 const appSlice = createSlice({
@@ -60,6 +61,9 @@ const appSlice = createSlice({
     setTransactions: (state, action: PayloadAction<WalletTransaction[]>) => {
       state.transactions = action.payload;
     },
+    setIsWalletConnected: (state, action: PayloadAction<boolean>) => {
+      state.isWaleltConnected = action.payload;
+    },
   },
 });
 
@@ -71,6 +75,7 @@ export const {
   isLoadingReducer,
   changeWallet,
   setTransactions,
+  setIsWalletConnected,
 } = appSlice.actions;
 
 // Create the store

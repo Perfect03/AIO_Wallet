@@ -1,9 +1,9 @@
 import styles from './PresalePlanned.module.scss';
-import copy from '../../../assets/copy.svg';
 import { useTranslation } from 'react-i18next';
-import { Link, animateScroll as scroll } from 'react-scroll';
-import { Context, ContextType } from '../../../languageContext';
-import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState } from '../../../store';
+import RefLink from '../RefLink';
+import ConnectButton from '../ConnectButton';
 
 interface ITime {
   diffDays: number;
@@ -14,17 +14,9 @@ interface ITime {
 
 const PresalePlanned = ({ diffDays, diffH, diffM, diffS }: ITime) => {
   const { t } = useTranslation();
-
-  function handleCopyClick() {
-    // navigator.clipboard
-    //   .writeText(mnemonic)
-    //   .then(() => {
-    //     toast['success'](t('Copy seed'));
-    //   })
-    //   .catch(() => {
-    //     toast['error'](t('Copy seed error'));
-    //   });
-  }
+  const isWalletConnected = useSelector(
+    (state: { assets: AppState }) => state.assets.isWaleltConnected
+  );
 
   return (
     <>
@@ -61,20 +53,7 @@ const PresalePlanned = ({ diffDays, diffH, diffM, diffS }: ITime) => {
           <span className={styles.value}>0.0000125 $BNB = 1 $AIO</span>
         </li>
       </ul>
-      <button className={styles.connect}>{t('CONNECT WALLET')}</button>
-      <span className={styles.yourLink}>{t('Your Referral Link')}</span>
-      <div className={styles.link}>
-        <input
-          className={styles.linkText}
-          type="text"
-          onChange={(event) => {
-            event.preventDefault();
-          }}
-        ></input>
-        <button className={styles.copy} onClick={handleCopyClick}>
-          <img src={copy} alt="" />
-        </button>
-      </div>
+      {!isWalletConnected ? <ConnectButton /> : <RefLink styles={styles} />}
     </>
   );
 };

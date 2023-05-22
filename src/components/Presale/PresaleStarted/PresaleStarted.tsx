@@ -1,24 +1,75 @@
 import styles from './PresaleStarted.module.scss';
-import copy from '../../../assets/copy.svg';
 import { useTranslation } from 'react-i18next';
-import { Link, animateScroll as scroll } from 'react-scroll';
-import { Context, ContextType } from '../../../languageContext';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../store';
+import RefLink from '../RefLink';
+import ConnectButton from '../ConnectButton';
+import { ChangeEvent, useEffect, useState } from 'react';
+import getPresaleContract from '../../../scripts/quoting/presale/getPresaleContract';
+import { BigNumber, ethers } from 'ethers';
+import { fromReadableAmount } from '../../../scripts/quoting/libs/conversion';
 
 const PresaleStarted = () => {
+  const [nativeValue, setNativeValue] = useState<number>();
+  const [aioValue, setAioValue] = useState(0);
+  const [supplyLeft, setSupplyLeft] = useState<BigNumber>();
+  const [refAddress, setRefAddress] = useState('');
   const { t } = useTranslation();
 
-  const sum = 99;
+  const isWalletConnected = useSelector(
+    (state: { assets: AppState }) => state.assets.isWaleltConnected
+  );
 
-  function handleCopyClick() {
-    // navigator.clipboard
-    //   .writeText(mnemonic)
-    //   .then(() => {
-    //     toast['success'](t('Copy seed'));
-    //   })
-    //   .catch(() => {
-    //     toast['error'](t('Copy seed error'));
-    //   });
+  useEffect(() => {
+    (async () => {
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop: string) => searchParams.get(prop),
+      });
+
+      setRefAddress(params.ref);
+
+      const contract = getPresaleContract();
+      const endTime = await contract.END_TIME();
+      const supplyLeft = (await contract.amountLeft()).div(10 ** 9);
+      setSupplyLeft(supplyLeft);
+    })();
+  }, []);
+
+  function handleSumInput(e: ChangeEvent<HTMLInputElement>) {
+    e.preventDefault();
+    if (+e.target.value > 0) {
+      setNativeValue(+e.target.value);
+      setAioValue(+(+e.target.value / 0.0000125).toFixed(8));
+    } else if (+e.target.value === 0) {
+      setNativeValue(undefined);
+      setAioValue(0);
+    } else {
+      setNativeValue(0);
+      setAioValue(0);
+    }
+  }
+
+  async function handleBuyClick() {
+    const contract = getPresaleContract();
+
+    if (nativeValue !== undefined && nativeValue > 0) {
+      if (ethers.utils.isAddress(refAddress)) {
+        try {
+          await contract.buy(refAddress, { value: fromReadableAmount(nativeValue, 18) });
+          toast['success'](t('Successful purchase'));
+        } catch {
+          toast['error'](t('Something went wrong'));
+        }
+      } else {
+        try {
+          await contract.buy({ value: fromReadableAmount(nativeValue, 18) });
+          toast['success'](t('Successful purchase'));
+        } catch {
+          toast['error'](t('Something went wrong'));
+        }
+      }
+    }
   }
 
   return (
@@ -38,47 +89,40 @@ const PresaleStarted = () => {
           <span className={styles.value}>0.0000125 $BNB = 1 $AIO</span>
         </li>
         <li>
-          <span>End Time: </span>
+          <span>Time to the end: </span>
           <span className={styles.value}>00:00:00</span>
         </li>
       </ul>
       <div className={styles.sum}>
         <div className={styles.strip}>
-          <div className={styles.thereIs} style={{ width: `${(sum / 3) * 2}%` }}></div>
+          <div className={styles.thereIs} style={{ width: `${(5000000 / 12000000) * 100}%` }}></div>
         </div>
         <div className={styles.numbers}>
           <span>0</span>
           <span>150</span>
         </div>
       </div>
-      <span className={styles.yourLink}>{t('Your Referral Link')}</span>
-      <div className={styles.link}>
-        <input
-          className={styles.linkText}
-          type="text"
-          onChange={(event) => {
-            event.preventDefault();
-          }}
-        ></input>
-        <button className={styles.copy} onClick={handleCopyClick}>
-          <img src={copy} alt="" />
-        </button>
-      </div>
-      <span className={styles.amountTitle}>{t('Amount %BNB')}</span>
-      <div className={styles.amount}>
-        <input
-          className={styles.amountSum}
-          type="text"
-          placeholder="0.00..."
-          onChange={(event) => {
-            event.preventDefault();
-          }}
-        ></input>
-        <button className={styles.buy} onClick={handleCopyClick}>
-          {t('BUY')}
-        </button>
-      </div>
-      <button className={styles.connect}>{t('CONNECT WALLET')}</button>
+      {isWalletConnected ? (
+        <>
+          <RefLink styles={styles} />
+          <span className={styles.amountTitle}>{t('Amount $BNB')}</span>
+          <div className={styles.amount}>
+            <input
+              className={styles.amountSum}
+              type="number"
+              placeholder="0.00..."
+              value={nativeValue}
+              onChange={handleSumInput}
+            ></input>
+            <button
+              className={styles.buy}
+              onClick={async () => await handleBuyClick()}
+            >{`Buy ${aioValue} AIO`}</button>
+          </div>
+        </>
+      ) : (
+        <ConnectButton />
+      )}
     </>
   );
 };

@@ -7,7 +7,7 @@ import getTransferURL from './helpers/getTransfersUrl';
 import parseTokenTransaction from './helpers/parseTokenTransaction';
 import parseTransaction from './helpers/parseTransaction';
 import useLocalStorage from './useLocalStorage';
-import { setTransactions } from '../components/Wallet/store';
+import { setTransactions } from '../store';
 
 export interface WalletTransaction {
   transactionType: 'withdraw' | 'deposit';

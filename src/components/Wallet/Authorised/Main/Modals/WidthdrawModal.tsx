@@ -6,7 +6,7 @@ import more from '../../../../../assets/more.svg';
 import { useTranslation } from 'react-i18next';
 import { Asset } from '../helpers/checkSavedAssets';
 import { useSelector } from 'react-redux';
-import { AppState, store } from '../../../store';
+import { AppState, store } from '../../../../../store';
 import isEthereumAddress from '../helpers/isEthereumAddress';
 import withdraw from '../../../../../scripts/widthdraw';
 import useLocalStorage from '../../../../../hooks/useLocalStorage';
@@ -294,8 +294,8 @@ export default function WithdrawModal(props: {
               try {
                 setIsWithdrawalMenuOpen(false);
                 toast['info'](t('Transaction is sent'));
-                await withdraw(withdrawAsset!, withdrawAddress, withdrawSum!, wallet);
                 props.setWithdrawModalIsOpen(false);
+                await withdraw(withdrawAsset!, withdrawAddress, withdrawSum!, wallet);
                 toast['success'](t('Withdrawal completed'));
               } catch {
                 toast['error'](t('Withdrawal failed'));

@@ -113,11 +113,19 @@
   "HOURS": "HOURS",
   "MINS": "MINS",
   "SEC": "SEC",
-  "CONNECT WALLET": "CONNECT WALLET",
+  "Connect wallet": "Connect wallet",
   "Your Referral Link": "Your Referral Link",
   "Presale Information": "Presale Information",
-  "BUY": "BUY",
+  "Buy": "Buy",
   "Copy referral link": "Copy referral link",
   "Successful purchase": "Successful purchase",
-  "Something went wrong": "Something went wrong"
+  "Something went wrong": "Something went wrong",
+  "Token address": "Token address",
+  "Your vesting data": "Your vesting data",
+  "Total amount locked: ": "Total amount locked: ",
+  "Claimable: ": "Claimable: ",
+  "Token name: ": "Token name: ",
+  "Presale supply: ": "Presale supply: ",
+  "Presale price: ": "Presale price: ",
+  "Amount $BNB": "Amount $BNB"
 }

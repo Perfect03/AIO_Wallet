@@ -41,15 +41,15 @@ const PresalePlanned = ({ diffDays, diffH, diffM, diffS }: ITime) => {
       </div>
       <ul className={styles.info}>
         <li>
-          <span>Token name: </span>
+          <span>{t('Token name: ')}</span>
           <span className={styles.value}>$AIO</span>
         </li>
         <li>
-          <span>Presale Supply: </span>
+          <span>{t('Presale supply: ')}</span>
           <span className={styles.value}>12.000.000 $AIO</span>
         </li>
         <li>
-          <span>Presale Price: </span>
+          <span>{t('Presale price: ')}</span>
           <span className={styles.value}>0.0000125 $BNB = 1 $AIO</span>
         </li>
       </ul>

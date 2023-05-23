@@ -29,15 +29,6 @@ const Presale = () => {
 
       const presaaleStartTime = (await contract['START_TIME']()).toNumber();
       setFinishTime(presaaleStartTime * 1000);
-
-      const referral = window.location.search.slice(5);
-
-      // load presale start date
-      // load ref
-
-      // console.log(window.location.search);
-      // refLink =
-      new URLSearchParams();
     })();
   }, []);
 
@@ -94,7 +85,7 @@ const Presale = () => {
                 ></PresalePlanned>
               )}
             </div>
-            {isWalletConnected && <YourAssets></YourAssets>}
+            {isWalletConnected && isTimeout && <YourAssets></YourAssets>}
           </div>
           <div className={styles.ellipse}></div>
         </div>

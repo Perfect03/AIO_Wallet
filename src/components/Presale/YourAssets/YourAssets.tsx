@@ -1,15 +1,17 @@
 import styles from './YourAssets.module.scss';
 import copy from '../../../assets/copy.svg';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
+import useFetchVestingData from '../../../hooks/useFetchVestingData';
+import getPresaleContract from '../../../scripts/quoting/presale/getPresaleContract';
 
 const YourAssets = () => {
-  const [refLink, setRefLink] = useState('');
+  const [tokenAddress, setTokenAddress] = useState('');
   function handleCopyClick() {
     navigator.clipboard
-      .writeText(refLink)
+      .writeText(process.env.REACT_APP_PRESALE_CONTRACT_ADDRESS as string)
       .then(() => {
         toast['success'](t('Copy referral link'));
       })
@@ -17,28 +19,37 @@ const YourAssets = () => {
         toast['error'](t('Copy referral link error'));
       });
   }
+
+  useEffect(() => {
+    (async () => {
+      const contract = getPresaleContract();
+      setTokenAddress(await contract['TOKEN']());
+    })();
+  }, []);
   const { t } = useTranslation();
+
+  const [locked, claimable] = useFetchVestingData();
 
   return (
     <div className={styles.assets}>
-      <h1 className={styles.title}>{t('Your Assets')}</h1>
+      <h1 className={styles.title}>{t('Your vesting data')}</h1>
       <ul className={styles.info}>
         <li>
-          <span>You have: </span>
-          <span className={styles.value}>0 $AIO</span>
+          <span>{t('Total amount locked: ')}</span>
+          <span className={styles.value}>{locked} $AIO</span>
         </li>
         <li>
-          <span>Claimable: </span>
-          <span className={styles.value}>0 $AIO</span>
+          <span>{t('Claimable: ')}</span>
+          <span className={styles.value}>{claimable} $AIO</span>
         </li>
       </ul>
-      <span className={styles.yourLink}>{t('Your Referral Link')}</span>
+      <span className={styles.yourLink}>{t('Token address')}</span>
       <div className={styles.link}>
         <input
           className={styles.linkText}
           type="text"
           disabled
-          value=""
+          value={tokenAddress}
           onChange={(event) => {
             event.preventDefault();
           }}

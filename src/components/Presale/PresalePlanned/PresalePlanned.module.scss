@@ -93,7 +93,6 @@
   font-size: 12px;
   line-height: 14px;
   color: #7a7b7c;
-  margin-bottom: 2px;
 }
 
 .link {
@@ -101,6 +100,7 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
+  margin-top: 8px;
   .linkText {
     background: #272332;
     border-radius: 4px;

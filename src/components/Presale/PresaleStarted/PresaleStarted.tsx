@@ -40,8 +40,17 @@ const PresaleStarted = () => {
       const endTime = await contract.END_TIME();
       setFinishTime(endTime * 1000);
       const supplyLeft = (await contract.amountLeft()).div(10 ** 9).toNumber() as number;
-      console.log(supplyLeft);
       setSupplyLeft(supplyLeft);
+
+      const listener = async () => {
+        console.log('1');
+        const supplyLeft = (await contract.amountLeft()).div(10 ** 9).toNumber() as number;
+        setSupplyLeft(supplyLeft);
+      };
+
+      contract.on('Purchase', listener);
+
+      return () => contract.off('Purchase', listener);
     })();
   }, []);
 
@@ -54,7 +63,7 @@ const PresaleStarted = () => {
     }
 
     setDiff([
-      Math.floor((diff / 3600) % 24), // часы
+      Math.floor(diff / 3600), // часы
       Math.floor((diff / 60) % 60),
       Math.floor(diff % 60),
     ]);
@@ -76,7 +85,7 @@ const PresaleStarted = () => {
     e.preventDefault();
     if (+e.target.value > 0) {
       setNativeValue(+e.target.value);
-      setAioValue(+(+e.target.value / 0.0000125).toFixed(8));
+      setAioValue(+(+e.target.value / 0.000000125).toFixed(8));
     } else if (+e.target.value === 0) {
       setNativeValue(undefined);
       setAioValue(0);
@@ -93,9 +102,10 @@ const PresaleStarted = () => {
       if (nativeValue !== undefined && nativeValue > 0) {
         if (ethers.utils.isAddress(refAddress)) {
           try {
-            await contract['buy(address)'](refAddress, {
+            const tx = await contract['buy(address)'](refAddress, {
               value: fromReadableAmount(nativeValue, 18),
             });
+            await tx.wait();
             toast['success'](t('Successful purchase'));
           } catch (err) {
             console.log(err);
@@ -103,7 +113,9 @@ const PresaleStarted = () => {
           }
         } else {
           try {
-            await contract['buy()']({ value: fromReadableAmount(nativeValue, 18) });
+            const tx = await contract['buy()']({ value: fromReadableAmount(nativeValue, 18) });
+            await tx.wait();
+
             toast['success'](t('Successful purchase'));
           } catch {
             toast['error'](t('Something went wrong'));
@@ -118,15 +130,15 @@ const PresaleStarted = () => {
       <h1 className={styles.title}>{t('Presale Information')}</h1>
       <ul className={styles.info}>
         <li>
-          <span>Token name: </span>
+          <span>{t('Token name: ')}</span>
           <span className={styles.value}>$AIO</span>
         </li>
         <li>
-          <span>Presale Supply: </span>
+          <span>{t('Presale supply: ')}</span>
           <span className={styles.value}>12.000.000 $AIO</span>
         </li>
         <li>
-          <span>Presale Price: </span>
+          <span>{t('Presale price: ')}</span>
           <span className={styles.value}>0.0000125 $BNB = 1 $AIO</span>
         </li>
         <li>
@@ -144,7 +156,9 @@ const PresaleStarted = () => {
         <div className={styles.strip}>
           <div
             className={styles.thereIs}
-            style={{ width: `${supplyLeft ? (1 - supplyLeft / 12000000) * 100 : 0}%` }}
+            style={{
+              width: `${supplyLeft !== undefined ? (1 - supplyLeft / 12000000) * 100 : 0}%`,
+            }}
           ></div>
         </div>
         <div className={styles.numbers}>
@@ -153,23 +167,26 @@ const PresaleStarted = () => {
         </div>
       </div>
       {isWalletConnected ? (
-        <>
-          <RefLink styles={styles} />
-          <span className={styles.amountTitle}>{t('Amount $BNB')}</span>
-          <div className={styles.amount}>
-            <input
-              className={styles.amountSum}
-              type="number"
-              placeholder="0.00..."
-              value={nativeValue}
-              onChange={handleSumInput}
-            ></input>
-            <button
-              className={styles.buy}
-              onClick={async () => await handleBuyClick()}
-            >{`Buy ${aioValue} AIO`}</button>
-          </div>
-        </>
+        isTimeout ? (
+          <>
+            <RefLink styles={styles} />
+            <span className={styles.amountTitle}>{t('Amount $BNB')}</span>
+            <div className={styles.amount}>
+              <input
+                className={styles.amountSum}
+                type="number"
+                placeholder="0.00..."
+                value={nativeValue}
+                onChange={handleSumInput}
+              ></input>
+              <button className={styles.buy} onClick={async () => await handleBuyClick()}>{`${t(
+                'Buy'
+              )} ${aioValue} AIO`}</button>
+            </div>
+          </>
+        ) : (
+          <></>
+        )
       ) : (
         <ConnectButton />
       )}

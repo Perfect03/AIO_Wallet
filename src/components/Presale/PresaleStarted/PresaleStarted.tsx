@@ -9,12 +9,18 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import getPresaleContract from '../../../scripts/quoting/presale/getPresaleContract';
 import { BigNumber, ethers } from 'ethers';
 import { fromReadableAmount } from '../../../scripts/quoting/libs/conversion';
+import metamaskProvider from '../../../scripts/rpc/metamaskProvider';
 
 const PresaleStarted = () => {
   const [nativeValue, setNativeValue] = useState<number>();
   const [aioValue, setAioValue] = useState(0);
-  const [supplyLeft, setSupplyLeft] = useState<BigNumber>();
+  const [supplyLeft, setSupplyLeft] = useState<number>();
   const [refAddress, setRefAddress] = useState('');
+  const [finishTime, setFinishTime] = useState<number | undefined>(undefined);
+  const [[diffH, diffM, diffS], setDiff] = useState([0, 0, 0]);
+  const [tick, setTick] = useState(false);
+  const [isTimeout, setIsTimeout] = useState(false);
+  const [timerId, setTimerID] = useState(setInterval(() => {}));
   const { t } = useTranslation();
 
   const isWalletConnected = useSelector(
@@ -30,11 +36,41 @@ const PresaleStarted = () => {
       setRefAddress(params.ref);
 
       const contract = getPresaleContract();
+
       const endTime = await contract.END_TIME();
-      const supplyLeft = (await contract.amountLeft()).div(10 ** 9);
+      setFinishTime(endTime * 1000);
+      const supplyLeft = (await contract.amountLeft()).div(10 ** 9).toNumber() as number;
+      console.log(supplyLeft);
       setSupplyLeft(supplyLeft);
     })();
   }, []);
+
+  useEffect(() => {
+    const diff = finishTime ? (finishTime - new Date().getTime()) / 1000 : 0;
+
+    if (diff < 0) {
+      setIsTimeout(true);
+      return;
+    }
+
+    setDiff([
+      Math.floor((diff / 3600) % 24), // часы
+      Math.floor((diff / 60) % 60),
+      Math.floor(diff % 60),
+    ]);
+  }, [tick, finishTime]);
+
+  useEffect(() => {
+    if (isTimeout) clearInterval(timerId);
+  }, [isTimeout, timerId]);
+
+  useEffect(() => {
+    const timerID = setInterval(() => {
+      setTick(!tick);
+    }, 1000);
+    setTimerID(timerID);
+    return () => clearInterval(timerID);
+  }, [tick]);
 
   function handleSumInput(e: ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
@@ -51,22 +87,27 @@ const PresaleStarted = () => {
   }
 
   async function handleBuyClick() {
-    const contract = getPresaleContract();
+    if (isWalletConnected) {
+      const contract = getPresaleContract().connect(metamaskProvider.getSigner());
 
-    if (nativeValue !== undefined && nativeValue > 0) {
-      if (ethers.utils.isAddress(refAddress)) {
-        try {
-          await contract.buy(refAddress, { value: fromReadableAmount(nativeValue, 18) });
-          toast['success'](t('Successful purchase'));
-        } catch {
-          toast['error'](t('Something went wrong'));
-        }
-      } else {
-        try {
-          await contract.buy({ value: fromReadableAmount(nativeValue, 18) });
-          toast['success'](t('Successful purchase'));
-        } catch {
-          toast['error'](t('Something went wrong'));
+      if (nativeValue !== undefined && nativeValue > 0) {
+        if (ethers.utils.isAddress(refAddress)) {
+          try {
+            await contract['buy(address)'](refAddress, {
+              value: fromReadableAmount(nativeValue, 18),
+            });
+            toast['success'](t('Successful purchase'));
+          } catch (err) {
+            console.log(err);
+            toast['error'](t('Something went wrong'));
+          }
+        } else {
+          try {
+            await contract['buy()']({ value: fromReadableAmount(nativeValue, 18) });
+            toast['success'](t('Successful purchase'));
+          } catch {
+            toast['error'](t('Something went wrong'));
+          }
         }
       }
     }
@@ -89,13 +130,22 @@ const PresaleStarted = () => {
           <span className={styles.value}>0.0000125 $BNB = 1 $AIO</span>
         </li>
         <li>
-          <span>Time to the end: </span>
-          <span className={styles.value}>00:00:00</span>
+          {!isTimeout && (
+            <>
+              <span>Time to the end: </span>
+              <span className={styles.value}>{`${diffH.toString().padStart(2, '0')}:${diffM
+                .toString()
+                .padStart(2, '0')}:${diffS.toString().padStart(2, '0')}`}</span>
+            </>
+          )}
         </li>
       </ul>
       <div className={styles.sum}>
         <div className={styles.strip}>
-          <div className={styles.thereIs} style={{ width: `${(5000000 / 12000000) * 100}%` }}></div>
+          <div
+            className={styles.thereIs}
+            style={{ width: `${supplyLeft ? (1 - supplyLeft / 12000000) * 100 : 0}%` }}
+          ></div>
         </div>
         <div className={styles.numbers}>
           <span>0</span>

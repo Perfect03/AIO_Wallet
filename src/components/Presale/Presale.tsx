@@ -6,18 +6,26 @@ import Logo from '../Logo/Logo';
 import PresaleStarted from './PresaleStarted/PresaleStarted';
 import PresalePlanned from './PresalePlanned/PresalePlanned';
 import useConnectWallet from '../../hooks/useConnectWallet';
+import getPresaleContract from '../../scripts/quoting/presale/getPresaleContract';
 
 const Presale = () => {
   const { t } = useTranslation();
-  const presDate = new Date('Wed, 23 May 2023 00:00:00');
-  const [finishTime] = useState(presDate.getTime());
+  const [finishTime, setFinishTime] = useState<number | undefined>(undefined);
   const [[diffDays, diffH, diffM, diffS], setDiff] = useState([0, 0, 0, 0]);
   const [tick, setTick] = useState(false);
   const [isTimeout, setIsTimeout] = useState(false);
   const [timerId, setTimerID] = useState(setInterval(() => {}));
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     (async () => {
+      const contract = getPresaleContract();
+
+      const presaaleStartTime = (await contract['START_TIME']()).toNumber();
+      setFinishTime(presaaleStartTime * 1000);
+
+      const referral = window.location.search.slice(5);
+
       // load presale start date
       // load ref
 
@@ -30,11 +38,15 @@ const Presale = () => {
   useConnectWallet();
 
   useEffect(() => {
-    const diff = (finishTime - new Date().getTime()) / 1000;
+    const diff = finishTime ? (finishTime - new Date().getTime()) / 1000 : 0;
+
     if (diff < 0) {
       setIsTimeout(true);
-      return;
+      setLoaded(true);
+      return () => clearInterval(timerId);
     }
+
+    setLoaded(true);
     setDiff([
       Math.floor(diff / 86400), // дни
       Math.floor((diff / 3600) % 24),
@@ -65,7 +77,7 @@ const Presale = () => {
             <Logo></Logo>
             <div className={styles.about}>{t('Innovative crypto-project')}</div>
             <div className={styles.presale}>
-              {!isTimeout ? (
+              {isTimeout && finishTime ? (
                 <PresaleStarted></PresaleStarted>
               ) : (
                 <PresalePlanned

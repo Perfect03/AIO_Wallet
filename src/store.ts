@@ -8,7 +8,7 @@ export interface AppState {
   load: boolean;
   wallet: walletPart;
   transactions: WalletTransaction[];
-  isWaleltConnected: boolean;
+  userAddress: string;
 }
 
 export type walletPart = 'assets' | 'transactions';
@@ -29,7 +29,7 @@ const initialState: AppState = {
   load: false,
   wallet: 'assets',
   transactions: [],
-  isWaleltConnected: true,
+  userAddress: '',
 };
 
 const appSlice = createSlice({
@@ -61,8 +61,8 @@ const appSlice = createSlice({
     setTransactions: (state, action: PayloadAction<WalletTransaction[]>) => {
       state.transactions = action.payload;
     },
-    setIsWalletConnected: (state, action: PayloadAction<boolean>) => {
-      state.isWaleltConnected = action.payload;
+    setUserAddress: (state, action: PayloadAction<string>) => {
+      state.userAddress = action.payload;
     },
   },
 });
@@ -75,7 +75,7 @@ export const {
   isLoadingReducer,
   changeWallet,
   setTransactions,
-  setIsWalletConnected,
+  setUserAddress,
 } = appSlice.actions;
 
 // Create the store

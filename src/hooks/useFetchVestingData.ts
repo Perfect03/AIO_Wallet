@@ -11,11 +11,11 @@ export default function useFetchVestingData(): [number, number] {
       const contract = getPresaleContract();
       const account = (await metamaskProvider.send('eth_accounts', []))[0];
 
+      const newLockedAmt = await contract['userVesting(address)'](account);
+      setLockedAmt(newLockedAmt[0].sub(newLockedAmt[1]).div(1e9).toNumber());
+
       const newClaimableAmt = await contract['claimableAmount(address)'](account);
       setClaimableAmt(newClaimableAmt.div(1e9).toNumber());
-
-      const newLockedAmt = await contract['userVesting(address)'](account);
-      setLockedAmt(newLockedAmt[0].div(1e9).toNumber());
 
       const listener = async (user: string) => {
         if (user.toLowerCase() == account.toLowerCase()) {

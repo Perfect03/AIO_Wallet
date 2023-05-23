@@ -1,15 +1,22 @@
 import styles from './Header.module.scss';
 import logo from '../../../assets/logo__header.svg';
-import React, { useContext } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import { useContext, useEffect, useState } from 'react';
+import { ToastContainer } from 'react-toastify';
 import i18n from '../../../i18n';
 import { useTranslation } from 'react-i18next';
-import { Link, animateScroll as scroll } from 'react-scroll';
 import { Context, ContextType } from '../../../languageContext';
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState, setUserAddress } from '../../../store';
+import metamaskProvider from '../../../scripts/rpc/metamaskProvider';
+import useConnectWallet from '../../../hooks/useConnectWallet';
 
 const HeaderWallet = () => {
   const { language, setLanguage } = useContext(Context) as ContextType;
+
+  const dispatch = useDispatch();
+
+  const userAddress = useSelector((state: { assets: AppState }) => state.assets.userAddress);
 
   const handleLenguageChange = (lang: string) => {
     if (lang === 'ru') {
@@ -21,6 +28,16 @@ const HeaderWallet = () => {
     }
   };
 
+  useConnectWallet();
+
+  async function handleConnectWallet() {
+    const provider = metamaskProvider;
+
+    const address = (await provider.send('eth_requestAccounts', []))[0];
+
+    dispatch(setUserAddress(address));
+  }
+
   const { t } = useTranslation();
 
   return (
@@ -30,9 +47,11 @@ const HeaderWallet = () => {
           <img src={logo} alt="AIO" className={styles.logo} />
         </NavLink>
         <div className={styles.right}>
-          <NavLink className={styles.button} to="AIO-Wallet">
-            AIO-Wallet
-          </NavLink>
+          <div className={styles.button} onClick={async () => handleConnectWallet()}>
+            {userAddress
+              ? `${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`
+              : t('Connect wallet')}
+          </div>
           <div className={styles.langs}>
             <span
               className={`${styles.lang} ${language === 'ru' ? styles.active : ''}`}

@@ -12,14 +12,12 @@ export default function RefLink(props: {
   };
 }) {
   const [refLink, setRefLink] = useState('');
-  const isWalletConnected = useSelector(
-    (state: { assets: AppState }) => state.assets.isWaleltConnected
-  );
+  const userAddress = useSelector((state: { assets: AppState }) => state.assets.userAddress);
 
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (isWalletConnected)
+    if (userAddress)
       (async () => {
         const link = window.location;
 

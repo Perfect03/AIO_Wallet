@@ -19,9 +19,7 @@ const Presale = () => {
   const [isTimeout, setIsTimeout] = useState(false);
   const [timerId, setTimerID] = useState(setInterval(() => {}));
   const [loaded, setLoaded] = useState(false);
-  const isWalletConnected = useSelector(
-    (state: { assets: AppState }) => state.assets.isWaleltConnected
-  );
+  const userAddress = useSelector((state: { assets: AppState }) => state.assets.userAddress);
 
   useEffect(() => {
     (async () => {
@@ -74,18 +72,22 @@ const Presale = () => {
             <Logo></Logo>
             <div className={styles.about}>{t('Innovative crypto-project')}</div>
             <div className={styles.presale}>
-              {isTimeout && finishTime ? (
-                <PresaleStarted></PresaleStarted>
-              ) : (
-                <PresalePlanned
-                  diffDays={diffDays}
-                  diffH={diffH}
-                  diffM={diffM}
-                  diffS={diffS}
-                ></PresalePlanned>
+              {loaded && (
+                <>
+                  {isTimeout && finishTime ? (
+                    <PresaleStarted></PresaleStarted>
+                  ) : (
+                    <PresalePlanned
+                      diffDays={diffDays}
+                      diffH={diffH}
+                      diffM={diffM}
+                      diffS={diffS}
+                    ></PresalePlanned>
+                  )}
+                </>
               )}
             </div>
-            {isWalletConnected && isTimeout && <YourAssets></YourAssets>}
+            {userAddress && isTimeout && <YourAssets></YourAssets>}
           </div>
           <div className={styles.ellipse}></div>
         </div>

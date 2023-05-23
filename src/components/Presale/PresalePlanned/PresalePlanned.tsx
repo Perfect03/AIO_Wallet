@@ -14,9 +14,7 @@ interface ITime {
 
 const PresalePlanned = ({ diffDays, diffH, diffM, diffS }: ITime) => {
   const { t } = useTranslation();
-  const isWalletConnected = useSelector(
-    (state: { assets: AppState }) => state.assets.isWaleltConnected
-  );
+  const userAddress = useSelector((state: { assets: AppState }) => state.assets.userAddress);
 
   return (
     <>
@@ -53,7 +51,7 @@ const PresalePlanned = ({ diffDays, diffH, diffM, diffS }: ITime) => {
           <span className={styles.value}>0.0000125 $BNB = 1 $AIO</span>
         </li>
       </ul>
-      {!isWalletConnected ? <ConnectButton /> : <RefLink styles={styles} />}
+      {!userAddress ? <ConnectButton /> : <RefLink styles={styles} />}
     </>
   );
 };

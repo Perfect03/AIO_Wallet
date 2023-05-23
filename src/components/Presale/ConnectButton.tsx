@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import styles from './PresalePlanned/PresalePlanned.module.scss';
 import { useDispatch } from 'react-redux';
 import metamaskProvider from '../../scripts/rpc/metamaskProvider';
-import { setIsWalletConnected } from '../../store';
+import { setUserAddress } from '../../store';
 
 export default function ConnectButton() {
   const { t } = useTranslation();
@@ -10,13 +10,13 @@ export default function ConnectButton() {
   async function handleConnectWallet() {
     const provider = metamaskProvider;
 
-    await provider.send('eth_requestAccounts', []);
+    const address = (await provider.send('eth_requestAccounts', []))[0];
 
-    dispatch(setIsWalletConnected(true));
+    dispatch(setUserAddress(address));
   }
   return (
     <button className={styles.connect} onClick={async () => handleConnectWallet()}>
-      {t('CONNECT WALLET')}
+      {t('Connect wallet')}
     </button>
   );
 }

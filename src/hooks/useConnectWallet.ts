@@ -1,18 +1,20 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import metamaskProvider from '../scripts/rpc/metamaskProvider';
-import { setIsWalletConnected } from '../store';
+import { setUserAddress } from '../store';
 
 export default function useConnectWallet() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
-      const accounts = await metamaskProvider.send('eth_accounts', []);
+      let account = (await metamaskProvider.send('eth_accounts', []))[0];
 
-      if (!accounts.length) {
-        dispatch(setIsWalletConnected(false));
+      if (!account) {
+        account = (await metamaskProvider.send('eth_requestAccounts', []))[0];
       }
+
+      dispatch(setUserAddress(account));
     })();
   }, []);
 }

@@ -11,7 +11,7 @@ const YourAssets = () => {
   const [tokenAddress, setTokenAddress] = useState('');
   function handleCopyClick() {
     navigator.clipboard
-      .writeText(process.env.REACT_APP_PRESALE_CONTRACT_ADDRESS as string)
+      .writeText(tokenAddress)
       .then(() => {
         toast['success'](t('Copy referral link'));
       })

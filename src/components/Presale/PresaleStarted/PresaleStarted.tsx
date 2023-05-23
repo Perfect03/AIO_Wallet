@@ -23,9 +23,7 @@ const PresaleStarted = () => {
   const [timerId, setTimerID] = useState(setInterval(() => {}));
   const { t } = useTranslation();
 
-  const isWalletConnected = useSelector(
-    (state: { assets: AppState }) => state.assets.isWaleltConnected
-  );
+  const userAddress = useSelector((state: { assets: AppState }) => state.assets.userAddress);
 
   useEffect(() => {
     (async () => {
@@ -96,7 +94,7 @@ const PresaleStarted = () => {
   }
 
   async function handleBuyClick() {
-    if (isWalletConnected) {
+    if (userAddress) {
       const contract = getPresaleContract().connect(metamaskProvider.getSigner());
 
       if (nativeValue !== undefined && nativeValue > 0) {
@@ -166,8 +164,8 @@ const PresaleStarted = () => {
           <span>150</span>
         </div>
       </div>
-      {isWalletConnected ? (
-        isTimeout ? (
+      {userAddress ? (
+        !isTimeout ? (
           <>
             <RefLink styles={styles} />
             <span className={styles.amountTitle}>{t('Amount $BNB')}</span>

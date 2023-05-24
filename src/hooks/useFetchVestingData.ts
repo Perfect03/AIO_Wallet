@@ -9,7 +9,7 @@ export default function useFetchVestingData(): [number, number] {
   useEffect(() => {
     (async () => {
       const contract = getPresaleContract();
-      const account = (await metamaskProvider.send('eth_accounts', []))[0];
+      const account = (await metamaskProvider?.send('eth_accounts', []))[0];
 
       const newLockedAmt = await contract['userVesting(address)'](account);
       setLockedAmt(newLockedAmt[0].sub(newLockedAmt[1]).div(1e9).toNumber());
@@ -27,7 +27,7 @@ export default function useFetchVestingData(): [number, number] {
 
       return () => contract.off('Purchase', listener);
     })();
-  });
+  }, []);
 
   return [lockedAmt, claimableAmt];
 }

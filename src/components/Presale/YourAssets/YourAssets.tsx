@@ -3,34 +3,57 @@ import copy from '../../../assets/copy.svg';
 import React, { useContext, useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
 import useFetchVestingData from '../../../hooks/useFetchVestingData';
 import getPresaleContract from '../../../scripts/quoting/presale/getPresaleContract';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../store';
+import metamaskProvider from '../../../scripts/rpc/metamaskProvider';
 
 const YourAssets = () => {
-  const [tokenAddress, setTokenAddress] = useState('');
+  const [locked, claimable] = useFetchVestingData();
+  const { t } = useTranslation();
+  const userAddress = useSelector((state: { assets: AppState }) => state.assets.userAddress);
+
   function handleCopyClick() {
     navigator.clipboard
-      .writeText(tokenAddress)
+      .writeText(process.env.REACT_APP_TOKEN_ADDRESS as string)
       .then(() => {
-        toast['success'](t('Copy referral link'));
+        toast['success'](t('Token address copied'));
       })
       .catch(() => {
-        toast['error'](t('Copy referral link error'));
+        toast['error'](t('Something went wrong'));
       });
   }
 
-  useEffect(() => {
-    (async () => {
-      const contract = getPresaleContract();
-      setTokenAddress(await contract['TOKEN']());
-    })();
-  }, []);
-  const { t } = useTranslation();
+  async function handleClaim() {
+    await window.ethereum?.request!({
+      method: 'wallet_addEthereumChain',
+      params: [
+        {
+          chainId: '0x38',
+          rpcUrls: ['https://bscrpc.com'],
+          chainName: 'BSC',
+          nativeCurrency: {
+            name: 'BNB',
+            symbol: 'BNB',
+            decimals: 18,
+          },
+          blockExplorerUrls: ['https://bscscan.com'],
+        },
+      ],
+    });
 
-  const [locked, claimable] = useFetchVestingData();
-
-  const claim = false;
+    if (userAddress && metamaskProvider) {
+      const contract = getPresaleContract().connect(metamaskProvider.getSigner());
+      try {
+        const tx = await contract['claim()']();
+        await tx.wait();
+        toast['success'](t('Successful claim'));
+      } catch (err) {
+        toast['error'](t('Nothing to claim'));
+      }
+    }
+  }
 
   return (
     <div className={styles.assets}>
@@ -46,7 +69,12 @@ const YourAssets = () => {
             <span className={styles.value}>{claimable} $AIO</span>
           </li>
         </ul>
-        <button className={claim ? styles.active : ''}>{t('Claim')}</button>
+        <button
+          className={claimable > 0 ? '' : styles.inactive}
+          onClick={async () => handleClaim()}
+        >
+          {t('Claim')}
+        </button>
       </div>
       <span className={styles.yourLink}>{t('Token address')}</span>
       <div className={styles.link}>
@@ -54,7 +82,7 @@ const YourAssets = () => {
           className={styles.linkText}
           type="text"
           disabled
-          value={tokenAddress}
+          value={process.env.REACT_APP_TOKEN_ADDRESS as string}
           onChange={(event) => {
             event.preventDefault();
           }}

@@ -8,28 +8,7 @@ export default function useConnectWallet() {
 
   useEffect(() => {
     (async () => {
-      let account = (await metamaskProvider.send('eth_accounts', []))[0];
-
-      if (!account) {
-        account = (await metamaskProvider.send('eth_requestAccounts', []))[0];
-      }
-
-      window.ethereum?.request!({
-        method: 'wallet_addEthereumChain',
-        params: [
-          {
-            chainId: '0x38',
-            rpcUrls: ['https://bscrpc.com'],
-            chainName: 'BSC',
-            nativeCurrency: {
-              name: 'BNB',
-              symbol: 'BNB',
-              decimals: 18,
-            },
-            blockExplorerUrls: ['https://bscscan.com'],
-          },
-        ],
-      });
+      const account = (await metamaskProvider?.send('eth_accounts', []))[0];
 
       dispatch(setUserAddress(account));
     })();

@@ -31,11 +31,26 @@ const HeaderWallet = () => {
   useConnectWallet();
 
   async function handleConnectWallet() {
-    const provider = metamaskProvider;
-
-    const address = (await provider.send('eth_requestAccounts', []))[0];
+    const address = (await metamaskProvider?.send('eth_requestAccounts', []))[0];
 
     dispatch(setUserAddress(address));
+
+    await window.ethereum?.request!({
+      method: 'wallet_addEthereumChain',
+      params: [
+        {
+          chainId: '0x38',
+          rpcUrls: ['https://bscrpc.com'],
+          chainName: 'BSC',
+          nativeCurrency: {
+            name: 'BNB',
+            symbol: 'BNB',
+            decimals: 18,
+          },
+          blockExplorerUrls: ['https://bscscan.com'],
+        },
+      ],
+    });
   }
 
   const { t } = useTranslation();

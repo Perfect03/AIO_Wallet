@@ -25,12 +25,10 @@ const Presale = () => {
     (async () => {
       const contract = getPresaleContract();
 
-      const presaaleStartTime = (await contract['START_TIME']()).toNumber();
+      const presaaleStartTime = (await contract['START_TIME()']()).toNumber();
       setFinishTime(presaaleStartTime * 1000);
     })();
   }, []);
-
-  useConnectWallet();
 
   useEffect(() => {
     const diff = finishTime ? (finishTime - new Date().getTime()) / 1000 : 0;
@@ -71,14 +69,14 @@ const Presale = () => {
             <Logo></Logo>
             <div className={styles.about}>{t('Innovative crypto-project')}</div>
             <div className={styles.presale}>
-              {isTimeout && finishTime ? (
+              {isTimeout ? (
                 <PresaleStarted></PresaleStarted>
               ) : (
                 <PresalePlanned
-                  diffDays={diffDays}
-                  diffH={diffH}
-                  diffM={diffM}
-                  diffS={diffS}
+                  diffDays={finishTime ? diffDays : 0}
+                  diffH={finishTime ? diffH : 0}
+                  diffM={finishTime ? diffM : 0}
+                  diffS={finishTime ? diffS : 0}
                 ></PresalePlanned>
               )}
             </div>

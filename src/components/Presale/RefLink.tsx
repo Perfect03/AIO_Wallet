@@ -21,7 +21,7 @@ export default function RefLink(props: {
       (async () => {
         const link = window.location;
 
-        const address = await metamaskProvider.send('eth_accounts', []);
+        const address = await metamaskProvider?.send('eth_accounts', []);
 
         setRefLink(link.origin + link.pathname + `?ref=${address[0]}`);
       })();

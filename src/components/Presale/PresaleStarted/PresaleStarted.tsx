@@ -35,14 +35,13 @@ const PresaleStarted = () => {
 
       const contract = getPresaleContract();
 
-      const endTime = await contract.END_TIME();
+      const endTime = await contract['endTime()']();
       setFinishTime(endTime * 1000);
-      const supplyLeft = (await contract.amountLeft()).div(10 ** 9).toNumber() as number;
-      setSupplyLeft(supplyLeft);
+      const _supplyLeft = (await contract['amountLeft()']()).div(10 ** 9).toNumber() as number;
+      setSupplyLeft(_supplyLeft);
 
       const listener = async () => {
-        console.log('1');
-        const supplyLeft = (await contract.amountLeft()).div(10 ** 9).toNumber() as number;
+        const supplyLeft = (await contract['amountLeft()']()).div(10 ** 9).toNumber() as number;
         setSupplyLeft(supplyLeft);
       };
 
@@ -83,7 +82,7 @@ const PresaleStarted = () => {
     e.preventDefault();
     if (+e.target.value > 0) {
       setNativeValue(+e.target.value);
-      setAioValue(+(+e.target.value / 0.000000125).toFixed(8));
+      setAioValue(+(+e.target.value / 0.0000125).toFixed(8));
     } else if (+e.target.value === 0) {
       setNativeValue(undefined);
       setAioValue(0);
@@ -94,7 +93,7 @@ const PresaleStarted = () => {
   }
 
   async function handleBuyClick() {
-    window.ethereum?.request!({
+    await window.ethereum?.request!({
       method: 'wallet_addEthereumChain',
       params: [
         {
@@ -111,7 +110,7 @@ const PresaleStarted = () => {
       ],
     });
 
-    if (userAddress) {
+    if (userAddress && metamaskProvider) {
       const contract = getPresaleContract().connect(metamaskProvider.getSigner());
 
       if (nativeValue !== undefined && nativeValue > 0) {
@@ -137,12 +136,12 @@ const PresaleStarted = () => {
           }
         }
       }
-    }
+    } else toast['error'](t('Something went wrong'));
   }
 
   return (
     <>
-      <h1 className={styles.title}>{t('Presale Information')}</h1>
+      <h1 className={styles.title}>{t('Presale information')}</h1>
       <ul className={styles.info}>
         <li>
           <span>{t('Token name: ')}</span>
@@ -177,8 +176,8 @@ const PresaleStarted = () => {
           ></div>
         </div>
         <div className={styles.numbers}>
-          <span>0</span>
-          <span>150</span>
+          <span>0 BNB</span>
+          <span>150 BNB</span>
         </div>
       </div>
       {userAddress ? (

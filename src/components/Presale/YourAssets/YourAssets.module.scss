@@ -1,102 +1,101 @@
 @mixin _540 {
-    @media (max-width: 540px) {
-      @content;
-    }
+  @media (max-width: 540px) {
+    @content;
   }
+}
 
 .assets {
-    padding: 20px 22px;
-    background: #1D1925;
-    border-radius: 15px;
-    width: 470px;
-    margin-top: 26px;
-    margin-bottom: 20px;
-    @include _540 {
-      width: 310px;
-    }
-    .title {
-        font-weight: 500;
-        font-size: 24px;
-        line-height: 28px;
-        text-align: center;
-      }
-      .claim {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 25px;
-        padding-top: 30px;
-        padding-bottom: 22px;
-        .info {
-          padding: 0;
-          li {
-            font-weight: 500;
-            font-size: 15px;
-            line-height: 18px;
-            margin-top: 14px;
-            .value {
-              background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
-              background-clip: text;
-              text-fill-color: transparent;
-            }
-            @include _540 {
-              font-size: 12px;
-              line-height: 14px;
-            }
-          }
-        }
-        button {
-          height: 35px;
-          width: 40%;
-          font-weight: 500;
-          font-size: 15px;
-          line-height: 18px;
-          text-align: center;
-          background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
-          box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
-          border-radius: 4px;
-          margin-top: 7px;
-          &:hover {
-            background: linear-gradient(90deg, #d75596 0%, #3838cd 100%);
-            box-shadow: 0;
-          }
-          &.active {
-            box-shadow: 0px 0px 0px;
-            background: #272332;
-            &:hover {
-              background: #28262f;
-            }
-          }
-        }
-      }
-      .yourLink {
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 14px;
-        color: #7a7b7c;
-        margin-bottom: 12px;
-        margin-top: 7px;
-      }
-      
-      .link {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        margin-top: 7px;
-        .linkText {
-          background: #272332;
-          border-radius: 4px;
-          flex-grow: 1;
-          padding: 0px 12px;
-        }
-        .copy {
-          width: 42px;
-          height: 42px;
-          background: #272332;
-          border-radius: 4px;
-        }
-      }
+  padding: 20px 22px;
+  background: #1d1925;
+  border-radius: 15px;
+  width: 470px;
+  margin-bottom: 20px;
+  @include _540 {
+    width: 310px;
   }
+  .title {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+  }
+  .claim {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+    padding-top: 30px;
+    padding-bottom: 22px;
+    .info {
+      padding: 0;
+      li {
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+        margin-top: 14px;
+        .value {
+          background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          text-fill-color: transparent;
+        }
+        @include _540 {
+          font-size: 12px;
+          line-height: 14px;
+        }
+      }
+    }
+    button {
+      height: 50px;
+      width: 40%;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 18px;
+      text-align: center;
+      background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
+      box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
+      border-radius: 4px;
+      margin-top: 7px;
+      &:hover {
+        background: linear-gradient(90deg, #d75596 0%, #3838cd 100%);
+        box-shadow: 0;
+      }
+      &.inactive {
+        box-shadow: 0px 0px 0px;
+        background: #272332;
+        &:hover {
+          background: #28262f;
+        }
+      }
+    }
+  }
+  .yourLink {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    color: #7a7b7c;
+    margin-bottom: 12px;
+    margin-top: 7px;
+  }
+
+  .link {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 7px;
+    .linkText {
+      background: #272332;
+      border-radius: 4px;
+      flex-grow: 1;
+      padding: 0px 12px;
+    }
+    .copy {
+      width: 42px;
+      height: 42px;
+      background: #272332;
+      border-radius: 4px;
+    }
+  }
+}

@@ -108,14 +108,14 @@
   "Deposits and withdrawals of tokens and BNB": "Deposits and withdrawals of tokens and BNB",
   "Enter address": "Enter address",
   "No transactions found": "No transactions found",
-  "Presale Starts In:": "Presale Starts In:",
+  "Presale starts in:": "Presale starts in:",
   "DAYS": "DAYS",
   "HOURS": "HOURS",
   "MINS": "MINS",
   "SEC": "SEC",
   "Connect wallet": "Connect wallet",
   "Your Referral Link": "Your Referral Link",
-  "Presale Information": "Presale Information",
+  "Presale information": "Presale information",
   "Buy": "Buy",
   "Copy referral link": "Copy referral link",
   "Successful purchase": "Successful purchase",
@@ -127,5 +127,9 @@
   "Token name: ": "Token name: ",
   "Presale supply: ": "Presale supply: ",
   "Presale price: ": "Presale price: ",
-  "Amount $BNB": "Amount $BNB"
+  "Amount $BNB": "Amount $BNB",
+  "Token address copied": "Token address copied",
+  "Successful claim": "Successful claim",
+  "Nothing to claim": "Nothing to claim",
+  "Claim": "Claim"
 }

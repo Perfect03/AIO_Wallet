@@ -18,7 +18,7 @@ const PresalePlanned = ({ diffDays, diffH, diffM, diffS }: ITime) => {
 
   return (
     <>
-      <h1 className={styles.title}>{t('Presale Starts In:')}</h1>
+      <h1 className={styles.title}>{t('Presale starts in:')}</h1>
       <div className={styles.time}>
         <div className={styles.timeOne}>
           <div className={styles.count}>{diffDays}</div>

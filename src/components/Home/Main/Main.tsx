@@ -38,7 +38,7 @@ const Main = ({ stat, setStat }: IProps) => {
             <NavLink className={styles.presale} to="presale">
               Presale
             </NavLink>
-            <button
+            {/* <button
               className={styles.join}
               onClick={(event) => {
                 event.preventDefault();
@@ -46,7 +46,7 @@ const Main = ({ stat, setStat }: IProps) => {
               }}
             >
               <div className={styles.whitepaper__text}>{t('Join')}</div>
-            </button>
+            </button> */}
             <button
               className={styles.whitepaper}
               onClick={(event) => {

@@ -94,6 +94,23 @@ const PresaleStarted = () => {
   }
 
   async function handleBuyClick() {
+    window.ethereum?.request!({
+      method: 'wallet_addEthereumChain',
+      params: [
+        {
+          chainId: '0x38',
+          rpcUrls: ['https://bscrpc.com'],
+          chainName: 'BSC',
+          nativeCurrency: {
+            name: 'BNB',
+            symbol: 'BNB',
+            decimals: 18,
+          },
+          blockExplorerUrls: ['https://bscscan.com'],
+        },
+      ],
+    });
+
     if (userAddress) {
       const contract = getPresaleContract().connect(metamaskProvider.getSigner());
 

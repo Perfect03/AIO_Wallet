@@ -37,7 +37,6 @@ const Presale = () => {
 
     if (diff < 0) {
       setIsTimeout(true);
-      setLoaded(true);
       return () => clearInterval(timerId);
     }
 
@@ -72,19 +71,15 @@ const Presale = () => {
             <Logo></Logo>
             <div className={styles.about}>{t('Innovative crypto-project')}</div>
             <div className={styles.presale}>
-              {loaded && (
-                <>
-                  {isTimeout && finishTime ? (
-                    <PresaleStarted></PresaleStarted>
-                  ) : (
-                    <PresalePlanned
-                      diffDays={diffDays}
-                      diffH={diffH}
-                      diffM={diffM}
-                      diffS={diffS}
-                    ></PresalePlanned>
-                  )}
-                </>
+              {isTimeout && finishTime ? (
+                <PresaleStarted></PresaleStarted>
+              ) : (
+                <PresalePlanned
+                  diffDays={diffDays}
+                  diffH={diffH}
+                  diffM={diffM}
+                  diffS={diffS}
+                ></PresalePlanned>
               )}
             </div>
             {userAddress && isTimeout && <YourAssets></YourAssets>}

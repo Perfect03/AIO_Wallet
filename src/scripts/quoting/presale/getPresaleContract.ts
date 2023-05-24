@@ -1,6 +1,5 @@
 import { ethers } from 'ethers';
 import defaultProvider from '../../rpc/defaultProvider';
-import metamaskProvider from '../../rpc/metamaskProvider';
 import abi from './presaleABI.json';
 
 export default function getPresaleContract() {

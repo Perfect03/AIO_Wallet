@@ -14,6 +14,23 @@ export default function useConnectWallet() {
         account = (await metamaskProvider.send('eth_requestAccounts', []))[0];
       }
 
+      window.ethereum?.request!({
+        method: 'wallet_addEthereumChain',
+        params: [
+          {
+            chainId: '0x38',
+            rpcUrls: ['https://bscrpc.com'],
+            chainName: 'BSC',
+            nativeCurrency: {
+              name: 'BNB',
+              symbol: 'BNB',
+              decimals: 18,
+            },
+            blockExplorerUrls: ['https://bscscan.com'],
+          },
+        ],
+      });
+
       dispatch(setUserAddress(account));
     })();
   }, []);

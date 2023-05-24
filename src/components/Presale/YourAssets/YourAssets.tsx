@@ -30,19 +30,24 @@ const YourAssets = () => {
 
   const [locked, claimable] = useFetchVestingData();
 
+  const claim = false;
+
   return (
     <div className={styles.assets}>
       <h1 className={styles.title}>{t('Your vesting data')}</h1>
-      <ul className={styles.info}>
-        <li>
-          <span>{t('Total amount locked: ')}</span>
-          <span className={styles.value}>{locked} $AIO</span>
-        </li>
-        <li>
-          <span>{t('Claimable: ')}</span>
-          <span className={styles.value}>{claimable} $AIO</span>
-        </li>
-      </ul>
+      <div className={styles.claim}>
+        <ul className={styles.info}>
+          <li>
+            <span>{t('Total amount locked: ')}</span>
+            <span className={styles.value}>{locked} $AIO</span>
+          </li>
+          <li>
+            <span>{t('Claimable: ')}</span>
+            <span className={styles.value}>{claimable} $AIO</span>
+          </li>
+        </ul>
+        <button className={claim ? styles.active : ''}>{t('Claim')}</button>
+      </div>
       <span className={styles.yourLink}>{t('Token address')}</span>
       <div className={styles.link}>
         <input

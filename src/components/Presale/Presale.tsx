@@ -87,7 +87,7 @@ const Presale = () => {
                 </>
               )}
             </div>
-            {userAddress && isTimeout && <YourAssets></YourAssets>}
+            {<YourAssets></YourAssets>}
           </div>
           <div className={styles.ellipse}></div>
         </div>

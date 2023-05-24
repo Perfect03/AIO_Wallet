@@ -91,6 +91,7 @@ const Presale = () => {
           </div>
           <div className={styles.ellipse}></div>
         </div>
+        <div className={styles.footer}></div>
       </main>
     </>
   );

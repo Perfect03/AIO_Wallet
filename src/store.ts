@@ -11,7 +11,7 @@ export interface AppState {
   userAddress: string;
 }
 
-export type walletPart = 'assets' | 'transactions';
+export type walletPart = 'assets' | 'transactions' | 'swap';
 
 // Define our initial state
 const initialState: AppState = {

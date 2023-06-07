@@ -1,6 +1,4 @@
 import styles from './MainWallet.module.scss';
-import deposit from '../../../../assets/deposit.svg';
-import withdraw from '../../../../assets/withdraw.svg';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import WithdrawModal from './Modals/WidthdrawModal';
@@ -12,10 +10,11 @@ import Assets from '../WalletInfo/Assets';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../store';
 import { Triangle } from 'react-loader-spinner';
-import useTotalBalance from '../../../../hooks/useTotalBalance';
 import { useEffect } from 'react';
 import useLoadAssets from '../../../../hooks/useLoadAssets';
 import useLoadTransactions from '../../../../hooks/useLoadTransactions';
+import YourBalance from '../WalletInfo/YourBalance';
+import Swap from '../WalletInfo/Swap/Swap';
 
 const MainWallet = () => {
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);
@@ -23,10 +22,8 @@ const MainWallet = () => {
   const [loaderTimer, setLoaderTimer] = useState<NodeJS.Timeout>();
   const dispatch = useDispatch();
 
-  const assets = useSelector((state: { assets: AppState }) => state.assets.assets);
   const walletWindow = useSelector((state: { assets: AppState }) => state.assets.wallet);
 
-  const [nativeBalance, usdBalance] = useTotalBalance(assets);
   const isLoad = useSelector((state: { assets: AppState }) => state.assets.load);
 
   useLoadAssets();
@@ -61,43 +58,38 @@ const MainWallet = () => {
   return (
     <>
       <main className={styles.mainWalletAuthorised}>
-        <div className={styles.container}>
-          <div className={styles.yourBalance}>
-            <h1 className={styles.title}>{t('Your balance')}</h1>
-            <div className={styles.usd}>{`${usdBalance}`} USD</div>
-            <div className={styles.btc}>{`${nativeBalance}`} BNB</div>
-            <div className={styles.buttons}>
-              <button className={styles.deposit} onClick={() => setDepositModalIsOpen(true)}>
-                <img src={deposit} alt="" />
-                <span>{t('Deposit')}</span>
-              </button>
-              <button className={styles.withdraw} onClick={() => setWithdrawModalIsOpen(true)}>
-                <img src={withdraw} alt="" />
-                <span>{t('Withdraw')}</span>
-              </button>
-            </div>
-          </div>
-          <div className={styles.yourAssets}>
-            <div className={styles.titles}>
-              <h1
-                className={`${styles.title}  ${
-                  walletWindow === 'assets' ? styles.active : styles.inActive
-                }`}
-                onClick={() => dispatch(changeWallet('assets'))}
-              >
-                {t('Your assets')}
-              </h1>
-              <h1
-                className={`${styles.title} ${
-                  walletWindow !== 'assets' ? styles.active : styles.inActive
-                }`}
-                onClick={() => dispatch(changeWallet('transactions'))}
-              >
-                {t('Transactions')}
-              </h1>
-            </div>
-            {walletWindow === 'assets' ? <Assets /> : <Transactions isLoading={isLoading} />}
-          </div>
+        <div className={`${styles.container} ${walletWindow == 'swap' && styles.swap}`}>
+          {walletWindow == 'swap' ? (
+            <Swap></Swap>
+          ) : (
+            <>
+              <YourBalance
+                setWithdraw={setWithdrawModalIsOpen}
+                setDeposit={setDepositModalIsOpen}
+              ></YourBalance>
+              <div className={styles.yourAssets}>
+                <div className={styles.titles}>
+                  <h1
+                    className={`${styles.title}  ${
+                      walletWindow === 'assets' ? styles.active : styles.inActive
+                    }`}
+                    onClick={() => dispatch(changeWallet('assets'))}
+                  >
+                    {t('Your assets')}
+                  </h1>
+                  <h1
+                    className={`${styles.title} ${
+                      walletWindow !== 'assets' ? styles.active : styles.inActive
+                    }`}
+                    onClick={() => dispatch(changeWallet('transactions'))}
+                  >
+                    {t('Transactions')}
+                  </h1>
+                </div>
+                {walletWindow === 'assets' ? <Assets /> : <Transactions isLoading={isLoading} />}
+              </div>
+            </>
+          )}
         </div>
         <DepositModal
           depositModalIsOpen={depositModalIsOpen}

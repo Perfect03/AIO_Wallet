@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import { Link, animateScroll as scroll } from 'react-scroll';
 import Tokenomics from '../Tokenomics/Tokenomics';
 import { Context, ContextType } from '../../../languageContext';
+import Logo from '../../Logo/Logo';
 
 interface IProps {
   stat: boolean;
@@ -31,30 +32,21 @@ const Main = ({ stat, setStat }: IProps) => {
       <section id="section1" className={styles.section__one}>
         <div className={styles.ellipse}></div>
         <div className={styles.content}>
-          <div className={styles.logo}>
-            <div className={styles.line1}>
-              <div className={styles.all}>All</div>
-              <div className={styles.one}>One</div>
-            </div>
-            <div className={styles.line2}>
-              <img src={logo} alt="AIO" />
-              <div className={styles.one}>One</div>
-            </div>
-            <div className={styles.line3}>
-              <div className={styles.in}>In</div>
-            </div>
-          </div>
+          <Logo></Logo>
           <div className={styles.about}>{t('Innovative crypto-project')}</div>
           <div className={styles.buttons}>
-            <button
+            <NavLink className={styles.presale} to="presale">
+              Presale
+            </NavLink>
+            {/* <button
               className={styles.join}
               onClick={(event) => {
                 event.preventDefault();
                 window.open(`https://t.me/AIO_OFFICIAL_${language === 'ru' ? 'CIS' : 'EN'}`);
               }}
             >
-              {t('Join')}
-            </button>
+              <div className={styles.whitepaper__text}>{t('Join')}</div>
+            </button> */}
             <button
               className={styles.whitepaper}
               onClick={(event) => {

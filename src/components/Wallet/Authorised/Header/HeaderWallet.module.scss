@@ -134,11 +134,17 @@
                     &:hover {
                         background: #272332;
                     }
-                    &.active .stop1 {
-                        stop-color: #FB69B2;
+                    &.active {
+                        background: #272332;
+                        .stop1 {
+                            stop-color: #FB69B2;
+                        }
                     }
-                    &.active .stop2 {
-                        stop-color: #4646F6;
+                    &.active {
+                        background: #272332;
+                        .stop2 {
+                            stop-color: #4646F6;
+                        }
                     }
                 }
                 .langs {
@@ -223,6 +229,9 @@
                 display: flex;
                 align-items: center;
                 gap: 8px;
+                .id {
+                    cursor: pointer;
+                }
             }
         }
         @include _500 {

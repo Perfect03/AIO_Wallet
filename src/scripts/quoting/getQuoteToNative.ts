@@ -1,17 +1,19 @@
-import { Token } from '@uniswap/sdk-core';
-import { WBNB_TOKEN } from './libs/constants';
-import { quote } from './libs/quote';
-import { SupportedChainId } from '@uniswap/sdk-core';
+import { Token } from '@pancakeswap/sdk';
+import { ChainId } from '@pancakeswap/sdk';
 import { Asset } from '../../components/Wallet/Authorised/Main/helpers/checkSavedAssets';
+import { WBNB } from './libs/constants';
+import quoteV2 from './libs/quoteV2';
 
 export default async function getQuoteToNative(asset: Asset) {
-  const token = new Token(SupportedChainId.BNB, asset.address, asset.decimals);
+  const tokenIn = new Token(ChainId.BSC, asset.address, asset.decimals, asset.symbol);
 
   const cfg = {
-    amountIn: asset.balance!,
-    in: token,
-    out: WBNB_TOKEN,
+    in: tokenIn,
+    out: WBNB,
   };
 
-  return +(await quote(cfg));
+  if (asset.address === WBNB.address) return asset.balance!;
+  const price = await quoteV2(cfg);
+
+  return +(price * asset.balance!).toFixed(6);
 }

@@ -1,78 +1,120 @@
-import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from '../HeaderWallet.module.scss';
+import { AppState, changeWallet, walletPart } from '../../../../../store';
 
 export default function TransactIcon() {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const walletWindow = useSelector((state: { assets: AppState }) => state.assets.wallet);
+
   return (
-    <NavLink to="/">
-      <button className={styles.leftLink}>
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M10.7516 16.8604V18.8904C10.7516 20.6104 9.15158 22.0004 7.18158 22.0004C5.21158 22.0004 3.60156 20.6104 3.60156 18.8904V16.8604C3.60156 18.5804 5.20158 19.8004 7.18158 19.8004C9.15158 19.8004 10.7516 18.5704 10.7516 16.8604Z"
-            stroke="#7A7B7C"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M10.7501 14.11C10.7501 14.61 10.6101 15.07 10.3701 15.47C9.78006 16.44 8.57004 17.05 7.17004 17.05C5.77004 17.05 4.56003 16.43 3.97003 15.47C3.73003 15.07 3.59009 14.61 3.59009 14.11C3.59009 13.25 3.99007 12.48 4.63007 11.92C5.28007 11.35 6.17003 11.01 7.16003 11.01C8.15003 11.01 9.04006 11.36 9.69006 11.92C10.3501 12.47 10.7501 13.25 10.7501 14.11Z"
-            stroke="#7A7B7C"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M10.7516 14.11V16.86C10.7516 18.58 9.15158 19.8 7.18158 19.8C5.21158 19.8 3.60156 18.57 3.60156 16.86V14.11C3.60156 12.39 5.20158 11 7.18158 11C8.17158 11 9.06161 11.35 9.71161 11.91C10.3516 12.47 10.7516 13.25 10.7516 14.11Z"
-            stroke="#7A7B7C"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M22 10.9699V13.03C22 13.58 21.56 14.0299 21 14.0499H19.0399C17.9599 14.0499 16.97 13.2599 16.88 12.1799C16.82 11.5499 17.0599 10.9599 17.4799 10.5499C17.8499 10.1699 18.36 9.94995 18.92 9.94995H21C21.56 9.96995 22 10.4199 22 10.9699Z"
-            stroke="#7A7B7C"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M2 10.5V8.5C2 5.78 3.64 3.88 6.19 3.56C6.45 3.52 6.72 3.5 7 3.5H16C16.26 3.5 16.51 3.50999 16.75 3.54999C19.33 3.84999 21 5.76 21 8.5V9.95001H18.92C18.36 9.95001 17.85 10.17 17.48 10.55C17.06 10.96 16.82 11.55 16.88 12.18C16.97 13.26 17.96 14.05 19.04 14.05H21V15.5C21 18.5 19 20.5 16 20.5H13.5"
-            stroke="#7A7B7C"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <defs>
-            <linearGradient
-              id="paint0_linear_422_3"
-              x1="2"
-              y1="12.0036"
-              x2="22"
-              y2="12.0036"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop className={styles.stop1} stopColor="rgba(122, 123, 124, 1)" />
-              <stop className={styles.stop2} offset="1" stopColor="rgba(122, 123, 124, 1)" />
-            </linearGradient>
-            <linearGradient
-              id="paint1_linear_422_1"
-              x1="12"
-              y1="16.49"
-              x2="13"
-              y2="16.49"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop className={styles.stop1} stopColor="rgba(122, 123, 124, 1)" />
-              <stop className={styles.stop2} offset="1" stopColor="rgba(122, 123, 124, 1)" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </button>
-    </NavLink>
+    <button
+      className={`${styles.leftLink} ${walletWindow == 'transactions' ? styles.active : ''}`}
+      onClick={() => {
+        dispatch(changeWallet('transactions'));
+      }}
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M20 13.5V3C20 2.44772 19.5523 2 19 2H5C4.44772 2 4 2.44772 4 3V21C4 21.5523 4.44772 22 5 22H10.5"
+          stroke="url(#paint0_linear_713_861)"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8.5 6L15.5 6"
+          stroke="url(#paint1_linear_713_861)"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8.5 10L15.5 10"
+          stroke="url(#paint2_linear_713_861)"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8.5 14H11.5"
+          stroke="url(#paint3_linear_713_861)"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M19.5 22L17.7678 20.2678M17.7678 20.2678C18.2202 19.8154 18.5 19.1904 18.5 18.5C18.5 17.1193 17.3807 16 16 16C14.6193 16 13.5 17.1193 13.5 18.5C13.5 19.8807 14.6193 21 16 21C16.6904 21 17.3154 20.7202 17.7678 20.2678Z"
+          stroke="url(#paint4_linear_713_861)"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <defs>
+          <linearGradient
+            id="paint0_linear_713_861"
+            x1="4"
+            y1="12"
+            x2="20"
+            y2="12"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop className={styles.stop1} stopColor="rgba(122, 123, 124, 1)" />
+            <stop className={styles.stop2} offset="1" stopColor="rgba(122, 123, 124, 1)" />
+          </linearGradient>
+          <linearGradient
+            id="paint1_linear_713_861"
+            x1="8.5"
+            y1="6.5"
+            x2="15.5"
+            y2="6.5"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop className={styles.stop1} stopColor="rgba(122, 123, 124, 1)" />
+            <stop className={styles.stop2} offset="1" stopColor="rgba(122, 123, 124, 1)" />
+          </linearGradient>
+          <linearGradient
+            id="paint2_linear_713_861"
+            x1="8.5"
+            y1="10.5"
+            x2="15.5"
+            y2="10.5"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop className={styles.stop1} stopColor="rgba(122, 123, 124, 1)" />
+            <stop className={styles.stop2} offset="1" stopColor="rgba(122, 123, 124, 1)" />
+          </linearGradient>
+          <linearGradient
+            id="paint3_linear_713_861"
+            x1="8.5"
+            y1="14.5"
+            x2="11.5"
+            y2="14.5"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop className={styles.stop1} stopColor="rgba(122, 123, 124, 1)" />
+            <stop className={styles.stop2} offset="1" stopColor="rgba(122, 123, 124, 1)" />
+          </linearGradient>
+          <linearGradient
+            id="paint4_linear_713_861"
+            x1="13.5"
+            y1="19"
+            x2="19.5"
+            y2="19"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop className={styles.stop1} stopColor="rgba(122, 123, 124, 1)" />
+            <stop className={styles.stop2} offset="1" stopColor="rgba(122, 123, 124, 1)" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </button>
   );
 }

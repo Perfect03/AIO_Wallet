@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Modal from 'react-modal';
 import styles from '../MainWallet.module.scss';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +6,7 @@ import { TWallet } from '../../../../../scripts/getWallet';
 import back from '../../../../../assets/back.svg';
 import copyForModal from '../../../../../assets/copyForModal.svg';
 import QRCode from 'react-qr-code';
+import useResize from '../../../../../hooks/use-resize';
 import { toast } from 'react-toastify';
 
 const depositModalStyles = {
@@ -19,6 +19,7 @@ const depositModalStyles = {
   },
   content: {
     width: '423px',
+    maxWidth: '90vw',
     background: 'rgba(29, 25, 37, 0.92)',
     backdropFilter: 'blur(11px)',
     borderRadius: '6px',
@@ -44,10 +45,12 @@ export default function DepositModal(props: {
       .then(() => {
         toast['info'](t('Copy address'));
       })
-      .catch((err) => {
+      .catch(() => {
         toast['error'](t('Copy address error'));
       });
   }
+
+  const width = useResize();
 
   return (
     <Modal
@@ -72,7 +75,13 @@ export default function DepositModal(props: {
       <div className={styles.field}>
         <div className={styles.fieldTitle}>{t('Address')}</div>
         <div className={styles.addressDeposit}>
-          <div className={styles.addressText}>{wallet.addr}</div>
+          <div className={styles.addressText} title={width < 455 ? wallet.addr : ''}>
+            {width > 454
+              ? wallet.addr
+              : `${wallet.addr.slice(0, Math.round((width - 87) / 20))}…${wallet.addr.slice(
+                  -Math.round((width - 87) / 20)
+                )}`}
+          </div>
           <button className={styles.addressCopy} onClick={handleCopyClick}>
             <img src={copyForModal} alt="" />
           </button>

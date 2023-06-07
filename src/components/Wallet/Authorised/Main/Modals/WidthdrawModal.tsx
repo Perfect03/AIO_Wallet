@@ -6,14 +6,21 @@ import more from '../../../../../assets/more.svg';
 import { useTranslation } from 'react-i18next';
 import { Asset } from '../helpers/checkSavedAssets';
 import { useSelector } from 'react-redux';
-import { AppState, store } from '../../../store';
+import { AppState, store } from '../../../../../store';
 import isEthereumAddress from '../helpers/isEthereumAddress';
 import withdraw from '../../../../../scripts/widthdraw';
 import useLocalStorage from '../../../../../hooks/useLocalStorage';
 import { TWallet } from '../../../../../scripts/getWallet';
+import { toast } from 'react-toastify';
 import getFees from '../../../../../scripts/quoting/getFees';
-import { toReadableAmount } from '../../../../../scripts/quoting/libs/conversion';
+import {
+  fromReadableAmount,
+  toReadableAmount,
+} from '../../../../../scripts/quoting/libs/conversion';
 import { BigNumber } from 'ethers';
+import simulateTransfer from '../../../../../scripts/quoting/simulateTransaction';
+import defaultProvider from '../../../../../scripts/rpc/defaultProvider';
+import estimateGas from '../../../../../scripts/quoting/simulateTransaction';
 
 const withdrawModalStyles = {
   overlay: {
@@ -25,12 +32,17 @@ const withdrawModalStyles = {
   },
   content: {
     width: '423px',
+    maxWidth: '90vw',
     background: 'rgba(29, 25, 37, 0.92)',
     backdropFilter: 'blur(11px)',
     borderRadius: '6px',
     border: 0,
     maxHeight: '100vh', // потом нужно исправлять для каждой отдельной вариации окна
   },
+};
+
+type TransactionError = {
+  reason: string;
 };
 
 export default function WithdrawModal(props: {
@@ -42,9 +54,13 @@ export default function WithdrawModal(props: {
 
   const [isWithdrawalMenuOpen, setIsWithdrawalMenuOpen] = useState(false);
   const [withdrawAddress, setWithdrawAddress] = useState('');
-  const [withdrawSum, setWithdrawSum] = useState<number>(0);
+  const [withdrawSum, setWithdrawSum] = useState<number | undefined>(undefined);
+  const [withdrawAccept, setWithdrawAccept] = useState(false);
   const [withdrawAsset, setWithdrawAsset] = useState<Asset>(assets[0]);
   const [fees, setFees] = useState<BigNumber>(BigNumber.from(0));
+  const [valid, setValid] = useState(false);
+  const [summary, setSummary] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const wallet = useLocalStorage<TWallet>('wallet')[0];
 
@@ -58,19 +74,90 @@ export default function WithdrawModal(props: {
   }, []);
 
   useEffect(() => {
-    console.log(fees);
-  }, [fees]);
+    setWithdrawAccept(false);
+    setSummary('');
+    setValid(false);
+    setWithdrawSum(0);
+  }, [withdrawAsset]);
+
+  useEffect(() => {
+    if (withdrawSum! < 0) setWithdrawSum(0);
+    setWithdrawAccept(false);
+    setSummary(t('Loading...').toString());
+    setValid(false);
+    (async () => {
+      if (withdrawAsset.address && withdrawSum) {
+        try {
+          const gas = await simulateTransfer(withdrawAsset, withdrawAddress, withdrawSum, wallet);
+          if ((await defaultProvider.getBalance(wallet.addr)).lt(fees.mul(gas))) throw 'Gas';
+          setValid(true);
+          setSummary(
+            `${withdrawSum} ${withdrawAsset.symbol} + ${toReadableAmount(fees.mul(gas), 18)} BNB`
+          );
+        } catch {
+          setValid(false);
+          setSummary(t('Insufficient transaction').toString());
+        }
+      } else if (
+        !withdrawAsset.address &&
+        withdrawSum &&
+        BigNumber.from(fromReadableAmount(withdrawSum, 18))
+          .add(fees.mul(21000))
+          .lte(BigNumber.from(fromReadableAmount(withdrawAsset.balance!, 18)))
+      ) {
+        setValid(true);
+        setSummary(`${withdrawSum + +toReadableAmount(fees.mul(21000), 18)} BNB`);
+      } else if (
+        !withdrawAsset.address &&
+        withdrawSum &&
+        BigNumber.from(fromReadableAmount(withdrawSum, 18))
+          .add(fees.mul(21000))
+          .gt(BigNumber.from(fromReadableAmount(withdrawAsset.balance!, 18)))
+      ) {
+        setValid(false);
+        setSummary(t('Insufficient transaction').toString());
+      }
+    })();
+  }, [withdrawSum]);
+
+  useEffect(() => {
+    if (!props.withdrawModalIsOpen) {
+      setWithdrawAddress('');
+      setWithdrawSum(undefined);
+      setWithdrawAccept(false);
+      setWithdrawAsset(assets[0]);
+    }
+  }, [props.withdrawModalIsOpen]);
 
   function handleClose() {
     props.setWithdrawModalIsOpen(false);
     setWithdrawAddress('');
     setWithdrawSum(0);
+    setIsWithdrawalMenuOpen(false);
   }
 
   function handleSubscribe() {
     const bnb = store.getState().assets.assets[0];
     if (bnb.balance !== withdrawAsset.balance) setWithdrawAsset(bnb);
     unsubscribe();
+  }
+
+  function handleSubmitClick() {
+    withdrawAccept ? () => {} : setWithdrawAccept(true);
+  }
+
+  function handleAllClick() {
+    let newSum;
+    if (withdrawAsset.balance && withdrawAsset.address) {
+      newSum = withdrawAsset.balance;
+    } else if (
+      withdrawAsset.balance &&
+      !withdrawAsset.address &&
+      withdrawAsset.balance > +toReadableAmount(fees.mul(21000), 18)
+    ) {
+      newSum = +(withdrawAsset.balance - +toReadableAmount(fees.mul(21000), 18)).toFixed(5);
+    } else newSum = 0;
+    setWithdrawSum(newSum);
   }
 
   return (
@@ -81,14 +168,14 @@ export default function WithdrawModal(props: {
       className={`${styles.modal} ${styles.modalWithdraw}`}
       appElement={document.getElementById('root') || undefined}
     >
-      <form name="withdraw" action="">
+      <div className={styles.modalWindow}>
         <button className={styles.modalBack} onClick={() => props.setWithdrawModalIsOpen(false)}>
           <img src={back} alt="" />
         </button>
         <h1 className={styles.modalTitle}>{t('Withdraw')}</h1>
         <h2 className={styles.modalSubTitle}>{t('Only BEP-20 assets can be withdrawn')}</h2>
         <div className={`${styles.field} ${isWithdrawalMenuOpen ? styles.listOpen : ''}`}>
-          <div className={styles.fieldTitle}>{t('Select assets')}</div>
+          <div className={styles.fieldTitle}>{t('Select asset')}</div>
           <div className={styles.dropdownBlock}>
             <ul>
               <li
@@ -102,8 +189,8 @@ export default function WithdrawModal(props: {
                     className={styles.modalAssetImage}
                     src={withdrawAsset.logoURI}
                     alt={`${withdrawAsset.symbol}`}
-                    width={40}
-                    height={40}
+                    width={32}
+                    height={32}
                   />
                   {withdrawAsset.name}
                 </div>
@@ -111,7 +198,7 @@ export default function WithdrawModal(props: {
               </li>
               {isWithdrawalMenuOpen &&
                 assets
-                  .filter((el) => el != withdrawAsset)
+                  .filter((el) => el !== withdrawAsset)
                   .map((el, index) => (
                     <li
                       className={styles.modalAsset}
@@ -126,8 +213,8 @@ export default function WithdrawModal(props: {
                           className={styles.modalAssetImage}
                           src={el.logoURI}
                           alt={`${el.address} logo`}
-                          width={40}
-                          height={40}
+                          width={32}
+                          height={32}
                         />
                         {el.name}
                       </div>
@@ -154,18 +241,21 @@ export default function WithdrawModal(props: {
           <div className={styles.field}>
             <div className={styles.fieldTitles}>
               <div className={styles.fieldTitle}>{t('Withdrawal amount')}</div>
-              <div
-                className={styles.fieldSubTitle}
-                onClick={() => setWithdrawSum(withdrawAsset?.balance ? +withdrawAsset?.balance : 0)}
-              >
+              <div className={styles.fieldSubTitle} onClick={handleAllClick}>
                 All
               </div>
             </div>
             <input
               className={styles.withdrawAiAmount}
               name="withdrawal"
-              placeholder={`${t('Minimum amount')}: 0.34124331 BTC`}
-              onChange={(e) => setWithdrawSum(+e.target.value)}
+              type="number"
+              placeholder={`${t('Insert amount')}`}
+              onChange={(e) => {
+                const newValue = e.target.value;
+                const sanitizedValue = +newValue.replace(/,/g, '.');
+                if (sanitizedValue === 0) setWithdrawSum(undefined);
+                else setWithdrawSum(sanitizedValue);
+              }}
               value={withdrawSum}
             ></input>
           </div>
@@ -176,10 +266,7 @@ export default function WithdrawModal(props: {
           <div className={styles.infoTitle}>{t('Balance')}</div>
           <div className={styles.info}>{`${withdrawAsset.balance} ${withdrawAsset.symbol}`}</div>
         </div>
-        <div className={styles.modalInfo} style={{ display: 'none' }}>
-          <div className={styles.infoTitle}>{t('Minimum amount')}</div>
-          <div className={styles.info}>0.34124331 BTC</div>
-        </div>
+
         <div className={styles.modalInfo}>
           <div className={styles.infoTitle}>{t('Network comission')}</div>
           <div className={styles.info}>
@@ -187,14 +274,40 @@ export default function WithdrawModal(props: {
             BNB
           </div>
         </div>
-        <div className={styles.sum}>0.34124331 BTC</div>
-        <button
-          className={styles.submit}
-          onClick={() => withdraw(withdrawAsset!, withdrawAddress, withdrawSum!, wallet)}
-        >
-          {t('to withdraw')}
-        </button>
-      </form>
+        {withdrawSum ? <div className={styles.sum}>{summary}</div> : ''}
+        {valid ? (
+          <>
+            <div
+              className={`${styles.submit} ${withdrawAccept ? styles.inActive : ''}`}
+              onClick={handleSubmitClick}
+            >
+              {t('Withdraw')}
+            </div>
+          </>
+        ) : (
+          ''
+        )}
+        {withdrawAccept ? (
+          <div
+            className={`${styles.submit} ${styles.accept}`}
+            onClick={async () => {
+              try {
+                setIsWithdrawalMenuOpen(false);
+                toast['info'](t('Transaction is sent'));
+                props.setWithdrawModalIsOpen(false);
+                await withdraw(withdrawAsset!, withdrawAddress, withdrawSum!, wallet);
+                toast['success'](t('Withdrawal completed'));
+              } catch {
+                toast['error'](t('Withdrawal failed'));
+              }
+            }}
+          >
+            {t('Accept withdraw')}
+          </div>
+        ) : (
+          ''
+        )}
+      </div>
     </Modal>
   );
 }

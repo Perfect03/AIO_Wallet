@@ -16,183 +16,210 @@
   }
 }
 
-.yourAssets {
-  background: rgba(29, 25, 37, 0.75);
-  backdrop-filter: blur(11px);
-  border-radius: 6px;
-  padding: 24px;
-  flex-grow: 1;
+.describe {
+  margin-bottom: 8px;
+  margin-top: 16px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: #7a7b7c;
+}
+.refresh {
+  display: flex;
+  justify-content: end;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: white;
+  transition: color 0.15s ease-in;
+  @include _540 {
+    font-size: 13px;
+    line-height: 14px;
+    max-width: 100px;
+    margin-left: auto;
+    text-align: right;
+  }
+  &:hover {
+    cursor: pointer;
+    color: #7a7b7c;
+  }
+}
+.assets {
+  margin-bottom: 24px;
+  overflow-y: auto;
+  .asset {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 6px;
+    transition: all 0.3s;
+    .coin {
+      background: #272332;
+      border-radius: 12px;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .coinAbout {
+      flex-grow: 1;
+      .firstLine {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 160%;
+        .currency {
+        }
+        .sum {
+          display: flex;
+          align-items: center;
+          button {
+            background: transparent;
+          }
+        }
+        @include _400 {
+          font-size: 14px;
+          line-height: 130%;
+        }
+      }
+      .secondLine {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 160%;
+        color: #7a7b7c;
+        @include _400 {
+          font-size: 12px;
+          line-height: 100%;
+        }
+      }
+    }
+    &:hover {
+      background: #272332;
+      cursor: pointer;
+    }
+  }
+}
+.transactions {
   display: flex;
   flex-direction: column;
+  gap: 10px;
   overflow-y: auto;
-  max-height: 80vh;
-  @include _400 {
-    padding: 24px 14px;
+  padding-right: 10px;
+  .loader {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
   }
-  .title {
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 28px;
-  }
-  .describe {
+  .sign {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    margin-top: 16px;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 18px;
     line-height: 22px;
     color: #7a7b7c;
-    margin-top: 16px;
-    margin-bottom: 27px;
   }
-  .assets {
-    margin-bottom: 24px;
-    overflow-y: auto;
-    padding-right: 10px;
-    .asset {
+  .transaction {
+    display: flex;
+    justify-content: space-between;
+    height: 52px;
+    align-items: center;
+    transition: all 0.3s;
+    padding-right: 8px;
+    cursor: pointer;
+    &:hover {
+      background: #272332;
+    }
+    .left {
       display: flex;
       gap: 12px;
       align-items: center;
-      padding: 6px;
-      transition: all 0.3s;
-      .coin {
-        background: #272332;
-        border-radius: 12px;
+      .icon {
         width: 44px;
         height: 44px;
+        background: #272332;
+        border-radius: 12px;
         display: flex;
-        align-items: center;
         justify-content: center;
-      }
-      .coinAbout {
-        flex-grow: 1;
-        .firstLine {
-          display: flex;
-          justify-content: space-between;
-          font-weight: 500;
-          font-size: 16px;
-          line-height: 160%;
-          .currency {
-          }
-          .sum {
-            display: flex;
-            align-items: center;
-            button {
-              background: transparent;
-            }
-          }
-          @include _400 {
-            font-size: 14px;
-            line-height: 130%;
-          }
-        }
-        .secondLine {
-          display: flex;
-          justify-content: space-between;
-          font-weight: 400;
-          font-size: 14px;
-          line-height: 160%;
-          color: #7a7b7c;
-          @include _400 {
-            font-size: 12px;
-            line-height: 100%;
-          }
-        }
-      }
-      &:hover {
-        background: #272332;
-        cursor: pointer;
-      }
-    }
-  }
-  .transactions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow-y: auto;
-    padding-right: 10px;
-    .transaction {
-      display: flex;
-      justify-content: space-between;
-      height: 52px;
-      align-items: center;
-      transition: all 0.3s;
-      padding-right: 8px;
-      cursor: pointer;
-      &:hover {
-        background: #272332;
-      }
-      .left {
-        display: flex;
-        gap: 12px;
         align-items: center;
-        .icon {
-          width: 44px;
-          height: 44px;
-          background: #272332;
-          border-radius: 12px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        .about {
-          .type {
-            font-weight: 500;
-            font-size: 16px;
-            line-height: 160%;
-            text-transform: capitalize;
-          }
-          .info {
-            display: flex;
-            gap: 6px;
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 160%;
-            .date {
-              color: #7a7b7c;
-            }
-            .ellipse {
-              width: 4px;
-              height: 4px;
-              border-radius: 50%;
-              background: #7a7b7c;
-              margin: auto;
-              @include _540 {
-                display: none;
-              }
-            }
-            .client {
-              color: #7a7b7c;
-              @include _540 {
-                display: none;
-              }
-            }
-          }
-        }
       }
-      .sums {
-        .btc {
+      .about {
+        .type {
           font-weight: 500;
           font-size: 16px;
           line-height: 160%;
+          text-transform: capitalize;
         }
-        .usd {
+        .info {
+          display: flex;
+          gap: 6px;
           font-weight: 400;
           font-size: 14px;
           line-height: 160%;
-          color: #7a7b7c;
-          text-align: right;
+          .date {
+            color: #7a7b7c;
+          }
+          .ellipse {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #7a7b7c;
+            margin: auto;
+            @include _540 {
+              display: none;
+            }
+          }
+          .client {
+            color: #7a7b7c;
+            @include _540 {
+              display: none;
+            }
+          }
         }
       }
     }
-  }
-  .addToken {
-    background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
-    box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
-    border-radius: 4px;
-    padding: 12px 0;
-  }
-  @include _400 {
-    width: calc(100vw - 34px);
+    .sums {
+      .btc {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 160%;
+      }
+      .usd {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 160%;
+        color: #7a7b7c;
+        text-align: right;
+      }
+    }
   }
 }
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+}
+
+.addToken {
+  background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
+  box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
+  border-radius: 4px;
+  padding: 12px 0;
+}
+
 .modal {
   width: 423px;
   .modalBack {

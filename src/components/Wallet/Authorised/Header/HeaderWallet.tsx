@@ -7,7 +7,6 @@ import React, { useContext, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import i18n from '../../../../i18n';
 import { useTranslation } from 'react-i18next';
-import { Link, animateScroll as scroll } from 'react-scroll';
 import { Context, ContextType } from '../../../../languageContext';
 import { NavLink } from 'react-router-dom';
 import HomeIcon from './icons/HomeIcon';
@@ -38,6 +37,17 @@ const HeaderWallet = () => {
     }
   };
   const [burgerStatus, setBurgerStatus] = useState(false);
+
+  function handleCopyClick() {
+    navigator.clipboard
+      .writeText(walletInfo.addr)
+      .then(() => {
+        toast['info'](t('Copy address'));
+      })
+      .catch((err) => {
+        toast['error'](t('Copy address error'));
+      });
+  }
 
   const { t } = useTranslation();
 
@@ -80,7 +90,6 @@ const HeaderWallet = () => {
               <TradesIcon />
             </div>
             <div className={styles.bottom}>
-              <SettingsIcon />
               <ExitIcon />
             </div>
           </nav>
@@ -90,7 +99,7 @@ const HeaderWallet = () => {
             <div className={styles.coin}>
               <img src={coin} alt="AIO" />
             </div>
-            <div className={styles.balance}>$ ------- </div>
+            <div className={styles.balance}>$ ............. </div>
           </div>
           <div className={styles.right}>
             <div className={styles.langs}>
@@ -110,7 +119,7 @@ const HeaderWallet = () => {
             </div>
             <div className={styles.wallet}>
               <img src={wallet} alt="AIO" className={styles.logo} />
-              <span className={styles.id}>
+              <span title={t('Copy') as string} className={styles.id} onClick={handleCopyClick}>
                 {walletInfo.addr.slice(0, 6)}…{walletInfo.addr.slice(-4)}
               </span>
             </div>

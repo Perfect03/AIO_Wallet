@@ -1,11 +1,17 @@
 import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Asset } from './Authorised/Main/helpers/checkSavedAssets';
-import Assets from './Authorised/WalletInfo/Assets';
+import { WalletTransaction } from './hooks/useLoadTransactions';
+import { Asset } from './components/Wallet/Authorised/Main/helpers/checkSavedAssets';
 
 // Define the shape of our state
 export interface AppState {
   assets: Asset[];
+  load: boolean;
+  wallet: walletPart;
+  transactions: WalletTransaction[];
+  userAddress: string;
 }
+
+export type walletPart = 'assets' | 'transactions';
 
 // Define our initial state
 const initialState: AppState = {
@@ -20,6 +26,10 @@ const initialState: AppState = {
         'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_BNB.png',
     },
   ],
+  load: false,
+  wallet: 'assets',
+  transactions: [],
+  userAddress: '',
 };
 
 const appSlice = createSlice({
@@ -42,10 +52,31 @@ const appSlice = createSlice({
     deleteAsset: (state, action: PayloadAction<string>) => {
       state.assets = state.assets.filter((a) => a.address !== action.payload);
     },
+    isLoadingReducer(state, action: PayloadAction<boolean>) {
+      state.load = action.payload;
+    },
+    changeWallet: (state, action: PayloadAction<walletPart>) => {
+      state.wallet = action.payload;
+    },
+    setTransactions: (state, action: PayloadAction<WalletTransaction[]>) => {
+      state.transactions = action.payload;
+    },
+    setUserAddress: (state, action: PayloadAction<string>) => {
+      state.userAddress = action.payload;
+    },
   },
 });
 
-export const { loadAssets, updateAssetBalance, addAsset, deleteAsset } = appSlice.actions;
+export const {
+  loadAssets,
+  updateAssetBalance,
+  addAsset,
+  deleteAsset,
+  isLoadingReducer,
+  changeWallet,
+  setTransactions,
+  setUserAddress,
+} = appSlice.actions;
 
 // Create the store
 export const store = configureStore({

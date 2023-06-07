@@ -23,7 +23,7 @@ export default function SeedInput(props: {
   })[1];
 
   function handleWordInput(index: number, e: ChangeEvent<HTMLInputElement>) {
-    const newSeed = seed;
+    const newSeed = [...seed];
     newSeed[index] = e.target.value.toLowerCase();
     setSeed(newSeed);
   }
@@ -41,7 +41,7 @@ export default function SeedInput(props: {
         pk: wallet.privateKey,
         addr: wallet.address,
       });
-      props.setStep(6);
+      props.setStep(5);
       props.setAnimation('end');
       e.preventDefault();
     } catch {

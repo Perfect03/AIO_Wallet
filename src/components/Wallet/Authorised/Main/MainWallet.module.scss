@@ -16,6 +16,12 @@
   }
 }
 
+@mixin _470 {
+  @media (max-width: 470px) {
+    @content;
+  }
+}
+
 @mixin _400 {
   @media (max-width: 400px) {
     @content;
@@ -25,8 +31,18 @@
 .mainWalletAuthorised {
   background: #0f0c17;
   height: 100vh;
+  position: relative;
   @include _1100 {
     height: auto;
+  }
+  .loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
   }
   .container {
     padding-left: 112px;
@@ -41,6 +57,13 @@
     }
     @include _500 {
       padding-left: 30px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: black;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #292929;
     }
     .yourBalance {
       background: rgba(29, 25, 37, 0.75);
@@ -102,6 +125,40 @@
         }
       }
     }
+    .yourAssets {
+      background: rgba(29, 25, 37, 0.75);
+      backdrop-filter: blur(11px);
+      border-radius: 6px;
+      padding: 24px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      max-height: 80vh;
+      min-height: 271px;
+      @include _400 {
+        padding: 24px 14px;
+        width: calc(100vw - 34px);
+      }
+      .titles {
+        display: flex;
+        justify-content: space-between;
+        .title {
+          font-weight: 500;
+          font-size: 24px;
+          line-height: 28px;
+          cursor: pointer;
+          transition: color 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+          color: #7a7b7c;
+          &:hover {
+            color: white;
+          }
+          &.active {
+            color: white;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -111,9 +168,26 @@
   padding: 24px;
   &.modalWithdraw {
     padding-right: 0;
-    form {
+    .modalWindow {
       margin-right: calc(24px - (399px - 100%));
+      @include _470 {
+        margin-right: calc(24px - (90vw - 24px - 100%));
+      }
     }
+    &::-webkit-scrollbar-thumb {
+      background-color: black;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #292929;
+    }
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: black;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #292929;
   }
   .modalBack {
     background: transparent;
@@ -126,7 +200,7 @@
     }
   }
 
-  form {
+  .modalWindow {
     .modalTitle {
       font-weight: 500;
       font-size: 24px;
@@ -140,10 +214,12 @@
       margin-top: 25px;
       overflow-y: auto;
       max-height: 67vh;
+      transition: all 0.3s;
       .modalAsset {
         display: flex;
         gap: 12px;
         padding: 7px;
+        transition: all 0.3s;
         cursor: pointer;
         &:hover {
           background: #272332;
@@ -205,6 +281,42 @@
         }
       }
     }
+    .custom {
+      height: 52px;
+      box-shadow: 0px 0px 0px;
+      background: #272332;
+      border-radius: 4px;
+      width: 100%;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 21px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 16px;
+      cursor: pointer;
+      &:hover {
+        background: #28262f;
+      }
+    }
+    .addCustom {
+      height: 52px;
+      box-shadow: 0px 0px 0px;
+      background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
+      border-radius: 4px;
+      width: 100%;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 21px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 16px;
+      cursor: pointer;
+      &:hover {
+        background: linear-gradient(90deg, #d75596 0%, #3838cd 100%);
+      }
+    }
   }
 
   .modalTitle {
@@ -236,6 +348,16 @@
     font-weight: 400;
     font-size: 15px;
     line-height: 18px;
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type='number'] {
+      -moz-appearance: textfield;
+    }
     @include _400 {
       margin-top: 25px;
       font-size: 14px;
@@ -326,6 +448,7 @@
       height: 39px;
       padding: 10.5px;
       width: 100%;
+      appearance: unset;
       margin-bottom: 8px;
     }
   }
@@ -352,14 +475,29 @@
     line-height: 28px;
   }
   .submit {
-        height: 52px;
-        background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
-        box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
-        border-radius: 4px;
-        width: 100%;
-        font-weight: 500;
-        font-size: 18px;
-        line-height: 21px;
+    height: 52px;
+    background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
+    box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
+    border-radius: 4px;
+    width: 100%;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+      background: linear-gradient(90deg, #d75596 0%, #3838cd 100%);
+    }
+    &.inActive {
+      box-shadow: 0px 0px 0px;
+      background: #272332;
+      cursor: default;
+    }
+  }
+  .accept {
+    margin-top: 12px;
   }
   .qrBorder {
     position: relative;

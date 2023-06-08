@@ -1,6 +1,7 @@
 import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { WalletTransaction } from './hooks/useLoadTransactions';
 import { Asset } from './components/Wallet/Authorised/Main/helpers/checkSavedAssets';
+import coin from './assets/coin.svg';
 
 // Define the shape of our state
 export interface AppState {
@@ -24,6 +25,14 @@ const initialState: AppState = {
       decimals: 18,
       logoURI:
         'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_BNB.png',
+    },
+    {
+      name: 'AIO Token',
+      symbol: 'AIO',
+      address: '0xe5fA0495966B124DD55B390794683bd5CffF4EFA',
+      chainId: 56,
+      decimals: 9,
+      logoURI: coin,
     },
   ],
   load: false,

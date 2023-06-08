@@ -1,5 +1,4 @@
 import styles from './HeaderWallet.module.scss';
-import logo from '../../../../../assets/logo__header.svg';
 import wallet from '../../../../assets/wallet.svg';
 import logoLeft from '../../../../assets/logo__left.svg';
 import coin from '../../../../assets/coin.svg';

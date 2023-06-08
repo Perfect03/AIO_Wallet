@@ -58,8 +58,27 @@ export default function Assets() {
             {assets.map((el, index) => {
               return (
                 <div className={styles.asset} key={index}>
-                  <div className={styles.coin}>
-                    <img src={el.logoURI} alt="" width={44} height={44} />
+                  <div
+                    className={styles.coin}
+                    style={
+                      el.symbol === 'AIO'
+                        ? {
+                            background: 'linear-gradient(90deg, #fb69b2 0%, #4646f6 100%)',
+                            border: '1.5px solid #ffffff',
+                            borderRadius: '999px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }
+                        : {}
+                    }
+                  >
+                    <img
+                      src={el.logoURI}
+                      alt=""
+                      width={el.symbol === 'AIO' ? 28 : 44}
+                      height={el.symbol === 'AIO' ? 28 : 44}
+                    />
                   </div>
                   <div className={styles.coinAbout}>
                     <div className={styles.firstLine}>

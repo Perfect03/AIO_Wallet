@@ -1,0 +1,113 @@
+.left {
+    width: 375px;
+    display: flex;
+    flex-direction: column;
+    .title {
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 28px;
+      margin-bottom: 24px;
+    }
+    .assets {
+      display: flex;
+      flex-direction: column;
+      &.reversed {
+        flex-direction: column-reverse;
+      }
+      .fromTo {
+        align-self: center;
+        padding: 6px;
+        background: #272332;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 16px;
+        cursor: pointer;
+        .from {
+          opacity: 0;
+          transition: all 0.3s ease-in;
+        }
+        &:hover {
+          .from {
+            opacity: 1;
+          }
+        }
+      }
+      .asset {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        .line {
+            display: flex;
+            justify-content: space-between;
+            ul {
+                margin: 0;
+                padding: 0;
+                height: 32px;
+                margin-top: 8px;
+                max-height: 50%;
+                display: flex;
+                flex-direction: column;
+                .modalAsset {
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  height: 32px;
+                  position: relative;
+                  z-index: 5;
+                  cursor: pointer;
+                  &.colored {
+                    background: #272332;
+                  }
+                  .assetInfo {
+                    display: flex;
+                    align-items: center;
+                    text-transform: uppercase;
+                    gap: 8px;
+                    font-weight: 500;
+                    font-size: 15px;
+                    line-height: 160%;
+                    .logo {
+                      width: 32px;
+                      height: 32px;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      background: #272332;
+                      border-radius: 8px;
+                    }
+                  }
+                  .assetMore {
+                    margin-right: 16px;
+                  }
+                }
+              }
+              .balance {
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 14px;
+                color: #7A7B7C;
+                align-self:flex-end;
+              }
+        }
+        .sum {
+            background: #272332;
+            border-radius: 4px;
+            height: 39px;
+            padding: 10.5px;
+            width: 100%;
+          }
+      }
+    }
+    .go {
+      background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
+      box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
+      border-radius: 4px;
+      padding: 15.5px 0;
+      margin-top: 64px;
+      &:hover {
+          background: linear-gradient(90deg, #d75596 0%, #3838cd 100%);
+        }
+    }
+  }

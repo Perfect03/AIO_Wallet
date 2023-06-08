@@ -1,0 +1,30 @@
+.percents {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 3px;
+    .percent {
+        background: #0F0C17;
+        border-radius: 8px;
+        padding: 3px 4px;
+        cursor: pointer;
+        &.active {
+            background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+        }
+        &.inActive {
+            .text {
+                background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+            }
+        }
+        .text {
+            font-weight: 400;
+        font-size: 12px;
+        line-height: 14px;
+        text-align: center;
+        }
+    }
+  }

@@ -45,6 +45,7 @@ const YourAssets = () => {
 
     if (userAddress && metamaskProvider) {
       const contract = getPresaleContract().connect(metamaskProvider.getSigner());
+      console.log(contract);
       try {
         const tx = await contract['claim()']();
         await tx.wait();

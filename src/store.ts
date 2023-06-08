@@ -18,6 +18,14 @@ export type walletPart = 'assets' | 'transactions';
 const initialState: AppState = {
   assets: [
     {
+      name: 'AIO Token',
+      symbol: 'AIO',
+      address: '0xe5fA0495966B124DD55B390794683bd5CffF4EFA',
+      chainId: 56,
+      decimals: 9,
+      logoURI: coin,
+    },
+    {
       name: 'BNB Token',
       symbol: 'BNB',
       address: '',
@@ -25,14 +33,6 @@ const initialState: AppState = {
       decimals: 18,
       logoURI:
         'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_BNB.png',
-    },
-    {
-      name: 'AIO Token',
-      symbol: 'AIO',
-      address: '0xe5fA0495966B124DD55B390794683bd5CffF4EFA',
-      chainId: 56,
-      decimals: 9,
-      logoURI: coin,
     },
   ],
   load: false,

@@ -9,7 +9,6 @@ import Transactions from '../WalletInfo/Transactions';
 import Assets from '../WalletInfo/Assets';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../store';
-import { Triangle } from 'react-loader-spinner';
 import { useEffect } from 'react';
 import useLoadAssets from '../../../../hooks/useLoadAssets';
 import useLoadTransactions from '../../../../hooks/useLoadTransactions';

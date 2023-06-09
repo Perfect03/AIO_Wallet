@@ -16,3 +16,5 @@ export const BUSD = new Token(
   18,
   'BUSD'
 );
+
+export const V3_SWAP_ROUTER_ADDRESS = '0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45';

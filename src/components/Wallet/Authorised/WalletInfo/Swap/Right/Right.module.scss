@@ -102,22 +102,25 @@
           }
       }
     }
-    .speeds {
-      margin-top: 9px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      .speed {
-          background: #272332;
-          border-radius: 8px;
-          font-weight: 500;
-          font-size: 13px;
-          line-height: 160%;
-          padding: 3px 8px;
-          cursor: pointer;
-          &.active {
-              background: linear-gradient(90deg, #FB69B2 0%, #4646F6 100%);
-          }
+    .receiver {
+      position: relative;
+      .receiverInput {
+        background: #272332;
+        border-radius: 4px;
+        height: 36px;
+        padding: 10.5px;
+        width: 100%;
+        margin-top: 8px;
+        transition: all 0.2s ease-in;
+        &.default {
+          color: #7A7B7C
+        }
+      }
+      .cross {
+        cursor: pointer;
+        position: absolute;
+        left: 92%;
+        top: 13.5px;
       }
     }
   }

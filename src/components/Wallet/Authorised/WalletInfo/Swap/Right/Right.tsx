@@ -1,17 +1,27 @@
 import styles from './Right.module.scss';
 import info from '../../../../../../assets/info.svg';
+import cross from '../../../../../../assets/cross.svg';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import Chart from './Chart/Chart';
+import isEthereumAddress from '../../../Main/helpers/isEthereumAddress';
+import useLocalStorage from '../../../../../../hooks/useLocalStorage';
+import { TWallet } from '../../../../../../scripts/getWallet';
 
 export default function Right() {
   const { t } = useTranslation();
+
+  const walletInfo = useLocalStorage<TWallet>('wallet', {
+    pk: '',
+    addr: '',
+  })[0];
 
   const percents = [0.1, 0.5, 1.0];
   const [slippage, setSlippage] = useState(0);
   const [slippageInputValue, setSlippageInputValue] = useState('');
 
-  const [speed, setSpeed] = useState(2);
+  const [receiverAddress, setReceiverAddress] = useState(walletInfo.addr);
+  const [defaultAddress, setDefaultAddress] = useState(true);
 
   function onSlippageInputChange(target: EventTarget & HTMLInputElement) {
     console.log(target.value);
@@ -58,44 +68,33 @@ export default function Right() {
         </div>
       </div>
       <div className={styles.subtitle}>
-        <div className={styles.text}>{t('Transaction Speed (GWEI)')}</div>
+        <div className={styles.text}>{t('Receiver')}</div>
         <div className={styles.info} data-title="456789">
           <img src={info} alt="info" />
         </div>
       </div>
-      <div className={styles.speeds}>
-        <div
-          className={`${styles.speed} ${speed == 2 && styles.active}`}
+      <div className={styles.receiver}>
+        <input
+          className={`${styles.receiverInput} ${defaultAddress && styles.default}`}
+          value={receiverAddress}
+          onChange={(e) => setReceiverAddress(e.target.value)}
           onClick={() => {
-            setSpeed(2);
+            if (defaultAddress) {
+              setDefaultAddress(false);
+            }
           }}
-        >
-          {t('Default')}
-        </div>
-        <div
-          className={`${styles.speed} ${speed == 3 && styles.active}`}
-          onClick={() => {
-            setSpeed(3);
-          }}
-        >
-          {t('Standart')} (3)
-        </div>
-        <div
-          className={`${styles.speed} ${speed == 4 && styles.active}`}
-          onClick={() => {
-            setSpeed(4);
-          }}
-        >
-          {t('Fast')} (4)
-        </div>
-        <div
-          className={`${styles.speed} ${speed == 5 && styles.active}`}
-          onClick={() => {
-            setSpeed(5);
-          }}
-        >
-          {t('Instant')} (5)
-        </div>
+        />
+        {!defaultAddress && (
+          <span
+            className={styles.cross}
+            onClick={() => {
+              setReceiverAddress('');
+              setDefaultAddress(false);
+            }}
+          >
+            <img src={cross} alt="" />
+          </span>
+        )}
       </div>
     </div>
   );

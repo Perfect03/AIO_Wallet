@@ -1,27 +1,19 @@
 import styles from './Left.module.scss';
-import btc from '../../../../../../assets/bitcoin_small.svg';
+import { useSelector } from 'react-redux';
 import more from '../../../../../../assets/more.svg';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import Share from './Share/Share';
 import AddCustomModal from '../../../Main/Modals/AddCustomModal';
-
-interface IAssetTemp {
-  logo: string;
-  name: string;
-}
+import { AppState } from '../../../../../../store';
+import { Asset } from '../../../Main/helpers/checkSavedAssets';
 
 export default function Left() {
   const { t } = useTranslation();
 
-  const assets = [
-    { logo: btc, name: 'bitcoin1' },
-    { logo: btc, name: 'bitcoin2' },
-    { logo: btc, name: 'bitcoin3' },
-    { logo: btc, name: 'bitcoin4' },
-  ];
-  const [fromAsset, setFromAsset] = useState<IAssetTemp>(assets[0]);
-  const [toAsset, setToAsset] = useState<IAssetTemp>(assets[3]);
+  const assets = useSelector((state: { assets: AppState }) => state.assets.assets);
+  const [fromAsset, setFromAsset] = useState<Asset>(assets[0]);
+  const [toAsset, setToAsset] = useState<Asset>(assets[assets.length - 1]);
   const [isFromMenuOpen, setIsFromMenuOpen] = useState(false);
   const [isToMenuOpen, setIsToMenuOpen] = useState(false);
   const [reversed, setReversed] = useState(false);
@@ -32,26 +24,56 @@ export default function Left() {
         <h1 className={styles.title}>{t('Swap')}</h1>
         <div className={`${styles.assets} ${reversed && styles.reversed}`}>
           <div className={styles.asset}>
-            <div className={styles.line}>
-              <div
-                className={`${styles.modalAsset} ${isFromMenuOpen && styles.colored}`}
-                onClick={() => {
-                  setIsFromMenuOpen(!isFromMenuOpen);
-                }}
-              >
-                <div className={styles.assetInfo}>
-                  <div className={styles.logo}>
-                    <img
-                      className={styles.modalAssetImage}
-                      src={fromAsset.logo}
-                      //alt={`${fromAsset.symbol}`}
-                      //width={32}
-                      height={18}
-                    />
-                  </div>
-                  {fromAsset.name}
-                </div>
-                <img className={styles.assetMore} src={more} alt="" />
+            <div className={styles.lineFrom}>
+              <div className={`${styles.dropdownBlock} ${isFromMenuOpen && styles.opened}`}>
+                <ul>
+                  <li
+                    className={`${styles.modalAsset} ${isFromMenuOpen && styles.colored}`}
+                    onClick={() => {
+                      setIsFromMenuOpen(!isFromMenuOpen);
+                    }}
+                  >
+                    <div className={styles.assetInfo}>
+                      <div className={styles.logo}>
+                        <img
+                          className={styles.modalAssetImage}
+                          src={fromAsset.logoURI}
+                          alt={`${fromAsset.symbol}`}
+                          width={18}
+                          height={18}
+                        />
+                      </div>
+                      {fromAsset.name}
+                    </div>
+                    <img className={styles.assetMore} src={more} alt="" />
+                  </li>
+                  {isFromMenuOpen &&
+                    assets
+                      .filter((el) => JSON.stringify(el) !== JSON.stringify(fromAsset))
+                      .map((el, index) => (
+                        <li
+                          className={`${styles.modalAsset} ${isFromMenuOpen && styles.colored}`}
+                          key={index}
+                          onClick={() => {
+                            setIsFromMenuOpen(!isFromMenuOpen);
+                            setFromAsset(el);
+                          }}
+                        >
+                          <div className={styles.assetInfo}>
+                            <div className={styles.logo}>
+                              <img
+                                className={styles.modalAssetImage}
+                                src={el.logoURI}
+                                alt={`${el.symbol}`}
+                                width={18}
+                                height={18}
+                              />
+                            </div>
+                            {el.name}
+                          </div>
+                        </li>
+                      ))}
+                </ul>
               </div>
               {!reversed && <div className={styles.balance}>{t('Balance')}: 0.0000</div>}
             </div>
@@ -101,7 +123,7 @@ export default function Left() {
             </svg>
           </div>
           <div className={styles.asset}>
-            <div className={styles.line}>
+            <div className={styles.lineTo}>
               <div
                 className={`${styles.modalAsset} ${isToMenuOpen && styles.colored}`}
                 onClick={() => {
@@ -112,9 +134,9 @@ export default function Left() {
                   <div className={styles.logo}>
                     <img
                       className={styles.modalAssetImage}
-                      src={fromAsset.logo}
-                      //alt={`${fromAsset.symbol}`}
-                      //width={32}
+                      src={toAsset.logoURI}
+                      alt={`${toAsset.symbol}`}
+                      width={18}
                       height={18}
                     />
                   </div>

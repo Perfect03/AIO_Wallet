@@ -45,43 +45,45 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
-        .line {
-            display: flex;
-            justify-content: space-between;
-                .modalAsset {
-                  display: flex;
-                  align-items: center;
-                  gap: 6px;
-                  height: 32px;
-                  position: relative;
-                  z-index: 5;
-                  border-radius: 4px;
-                  cursor: pointer;
-                  &.colored {
-                    background: #272332;
-                  }
-                  .assetInfo {
-                    display: flex;
-                    align-items: center;
-                    text-transform: uppercase;
-                    gap: 8px;
-                    font-weight: 500;
-                    font-size: 15px;
-                    line-height: 160%;
-                    .logo {
-                      width: 32px;
-                      height: 32px;
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                      background: #272332;
-                      border-radius: 8px;
-                    }
-                  }
-                  .assetMore {
-                    margin-right: 16px;
-                  }
+        .lineFrom {
+            display: inline-flex;
+            justify-content: end;
+            position: relative;
+            height: 32px;
+            .dropdownBlock {
+              width: 178px;
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              transition: all 0.2s cubic-bezier(0.895, 0.03, 0.685, 0.22);
+              li:first-child {
+                display: flex;
               }
+              li {
+                display: none;
+              }
+              &.opened {
+                li {
+                  display: flex;
+                }
+              }
+              ul {
+                  margin: 0;
+                  padding: 0;
+                  max-height: 128px;
+                  display: block;
+                  overflow: hidden auto;
+                  list-style: none;
+                  width: 100%;
+              }
+              &:hover {
+                background: #272332;
+              }
+              ::-webkit-scrollbar-thumb:hover {
+                background-color: black;
+              }
+            }
               .balance {
                 font-weight: 500;
                 font-size: 12px;
@@ -89,6 +91,42 @@
                 color: #7A7B7C;
                 align-self:flex-end;
               }
+        }
+        .lineTo {
+          display: inline-flex;
+          justify-content: space-between;
+          .modalAsset {
+            width: 178px;
+            transition: all 0.2s cubic-bezier(0.895, 0.03, 0.685, 0.22);
+            &:hover {
+              background: #272332;
+            }
+          }
+        }
+        .modalAsset {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          height: 32px;
+          position: relative;
+          z-index: 5;
+          cursor: pointer;
+          &.colored {
+            background: #272332;
+          }
+          .assetInfo {
+            display: flex;
+            align-items: center;
+            max-width: 140px;
+            .logo {
+              margin-left: 10px;
+              margin-right: 6px;
+            }
+          }
+          .assetMore {
+            position: absolute;
+            left: 148px;
+          }
         }
         .sum {
             background: #272332;

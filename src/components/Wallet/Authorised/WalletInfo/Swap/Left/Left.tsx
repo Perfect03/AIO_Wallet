@@ -24,56 +24,26 @@ export default function Left() {
         <h1 className={styles.title}>{t('Swap')}</h1>
         <div className={`${styles.assets} ${reversed && styles.reversed}`}>
           <div className={styles.asset}>
-            <div className={styles.lineFrom}>
-              <div className={`${styles.dropdownBlock} ${isFromMenuOpen && styles.opened}`}>
-                <ul>
-                  <li
-                    className={`${styles.modalAsset} ${isFromMenuOpen && styles.colored}`}
-                    onClick={() => {
-                      setIsFromMenuOpen(!isFromMenuOpen);
-                    }}
-                  >
-                    <div className={styles.assetInfo}>
-                      <div className={styles.logo}>
-                        <img
-                          className={styles.modalAssetImage}
-                          src={fromAsset.logoURI}
-                          alt={`${fromAsset.symbol}`}
-                          width={18}
-                          height={18}
-                        />
-                      </div>
-                      {fromAsset.name}
-                    </div>
-                    <img className={styles.assetMore} src={more} alt="" />
-                  </li>
-                  {isFromMenuOpen &&
-                    assets
-                      .filter((el) => JSON.stringify(el) !== JSON.stringify(fromAsset))
-                      .map((el, index) => (
-                        <li
-                          className={`${styles.modalAsset} ${isFromMenuOpen && styles.colored}`}
-                          key={index}
-                          onClick={() => {
-                            setIsFromMenuOpen(!isFromMenuOpen);
-                            setFromAsset(el);
-                          }}
-                        >
-                          <div className={styles.assetInfo}>
-                            <div className={styles.logo}>
-                              <img
-                                className={styles.modalAssetImage}
-                                src={el.logoURI}
-                                alt={`${el.symbol}`}
-                                width={18}
-                                height={18}
-                              />
-                            </div>
-                            {el.name}
-                          </div>
-                        </li>
-                      ))}
-                </ul>
+            <div className={styles.line}>
+              <div
+                className={`${styles.modalAsset} ${isFromMenuOpen && styles.colored}`}
+                onClick={() => {
+                  setIsToMenuOpen(!isFromMenuOpen);
+                }}
+              >
+                <div className={styles.assetInfo}>
+                  <div className={styles.logo}>
+                    <img
+                      className={styles.modalAssetImage}
+                      src={fromAsset.logoURI}
+                      alt={`${fromAsset.symbol}`}
+                      width={18}
+                      height={18}
+                    />
+                  </div>
+                  {fromAsset.name}
+                </div>
+                <img className={styles.assetMore} src={more} alt="" />
               </div>
               {!reversed && <div className={styles.balance}>{t('Balance')}: 0.0000</div>}
             </div>
@@ -123,7 +93,7 @@ export default function Left() {
             </svg>
           </div>
           <div className={styles.asset}>
-            <div className={styles.lineTo}>
+            <div className={styles.line}>
               <div
                 className={`${styles.modalAsset} ${isToMenuOpen && styles.colored}`}
                 onClick={() => {

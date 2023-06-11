@@ -9,6 +9,8 @@ export interface AppState {
   wallet: walletPart;
   transactions: WalletTransaction[];
   userAddress: string;
+  swapFromAsset: Asset;
+  swapToAsset: Asset;
 }
 
 export type walletPart = 'assets' | 'transactions' | 'swap';
@@ -30,6 +32,24 @@ const initialState: AppState = {
   wallet: 'assets',
   transactions: [],
   userAddress: '',
+  swapFromAsset: {
+    name: 'BNB Token',
+    symbol: 'BNB',
+    address: '',
+    chainId: 56,
+    decimals: 18,
+    logoURI:
+      'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_BNB.png',
+  },
+  swapToAsset: {
+    name: 'BNB Token',
+    symbol: 'BNB',
+    address: '',
+    chainId: 56,
+    decimals: 18,
+    logoURI:
+      'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_BNB.png',
+  },
 };
 
 const appSlice = createSlice({
@@ -64,6 +84,12 @@ const appSlice = createSlice({
     setUserAddress: (state, action: PayloadAction<string>) => {
       state.userAddress = action.payload;
     },
+    setSwapFromAsset: (state, action: PayloadAction<Asset>) => {
+      state.swapFromAsset = action.payload;
+    },
+    setSwapToAsset: (state, action: PayloadAction<Asset>) => {
+      state.swapToAsset = action.payload;
+    },
   },
 });
 
@@ -76,6 +102,8 @@ export const {
   changeWallet,
   setTransactions,
   setUserAddress,
+  setSwapFromAsset,
+  setSwapToAsset,
 } = appSlice.actions;
 
 // Create the store

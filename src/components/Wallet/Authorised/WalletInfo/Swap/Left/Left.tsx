@@ -11,11 +11,14 @@ import { Asset } from '../../../Main/helpers/checkSavedAssets';
 export default function Left() {
   const { t } = useTranslation();
 
-  const assets = useSelector((state: { assets: AppState }) => state.assets.assets);
-  const [fromAsset, setFromAsset] = useState<Asset>(assets[0]);
-  const [toAsset, setToAsset] = useState<Asset>(assets[assets.length - 1]);
-  const [isFromMenuOpen, setIsFromMenuOpen] = useState(false);
-  const [isToMenuOpen, setIsToMenuOpen] = useState(false);
+  const [fromAsset, setFromAsset] = useState<Asset>(
+    useSelector((state: { assets: AppState }) => state.assets.swapFromAsset)
+  );
+  const [toAsset, setToAsset] = useState<Asset>(
+    useSelector((state: { assets: AppState }) => state.assets.swapToAsset)
+  );
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [swap, setSwap] = useState('');
   const [reversed, setReversed] = useState(false);
 
   return (
@@ -26,9 +29,10 @@ export default function Left() {
           <div className={styles.asset}>
             <div className={styles.line}>
               <div
-                className={`${styles.modalAsset} ${isFromMenuOpen && styles.colored}`}
+                className={`${styles.modalAsset} ${isMenuOpen && styles.colored}`}
                 onClick={() => {
-                  setIsToMenuOpen(!isFromMenuOpen);
+                  setIsMenuOpen(!isMenuOpen);
+                  setSwap('from');
                 }}
               >
                 <div className={styles.assetInfo}>
@@ -95,9 +99,10 @@ export default function Left() {
           <div className={styles.asset}>
             <div className={styles.line}>
               <div
-                className={`${styles.modalAsset} ${isToMenuOpen && styles.colored}`}
+                className={`${styles.modalAsset} ${isMenuOpen && styles.colored}`}
                 onClick={() => {
-                  setIsToMenuOpen(!isToMenuOpen);
+                  setIsMenuOpen(!isMenuOpen);
+                  setSwap('to');
                 }}
               >
                 <div className={styles.assetInfo}>
@@ -125,7 +130,11 @@ export default function Left() {
           {t('Swap')}
         </button>
       </div>
-      <AddCustomModal assetsModalIsOpen={isToMenuOpen} setAssetsModalIsOpen={setIsToMenuOpen} />
+      <AddCustomModal
+        assetsModalIsOpen={isMenuOpen}
+        setAssetsModalIsOpen={setIsMenuOpen}
+        swap={swap}
+      />
     </>
   );
 }

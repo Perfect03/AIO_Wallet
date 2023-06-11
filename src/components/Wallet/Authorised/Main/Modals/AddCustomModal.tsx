@@ -8,8 +8,14 @@ import Modal from 'react-modal';
 import { useEffect, useState } from 'react';
 import { createFilterToken } from '../helpers/filtering';
 import isEthereumAddress from '../helpers/isEthereumAddress';
-import { addAsset, updateAssetBalance } from '../../../../../store';
-import { useDispatch } from 'react-redux';
+import {
+  addAsset,
+  updateAssetBalance,
+  setSwapFromAsset,
+  setSwapToAsset,
+  AppState,
+} from '../../../../../store';
+import { useDispatch, useSelector } from 'react-redux';
 import addNewAsset from '../helpers/addNewAsset';
 import back from '../../../../../assets/back.svg';
 import getTokenBalance from '../../../../../scripts/quoting/getTokenBalance';
@@ -38,6 +44,7 @@ const assetsModalStyles = {
 export default function AddCustomModal(props: {
   assetsModalIsOpen: boolean;
   setAssetsModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  swap?: string;
 }) {
   const { t } = useTranslation();
 
@@ -52,21 +59,31 @@ export default function AddCustomModal(props: {
     pk: '',
     addr: '',
   })[0];
+  const ass = useSelector((state: { assets: AppState }) => state.assets.swapFromAsset);
 
   async function handleAddCustomClick(newAddress: string) {
-    if (savedAssets.includes(newAddress)) {
-      toast['error'](t('This asset already exists'));
-    } else {
+    if (props.swap) {
       const newAsset = addNewAsset(newAddress)!;
-      setSavedAssets([...savedAssets, newAddress]);
-      dispatch(addAsset(newAsset));
+      if (props.swap == 'from') dispatch(setSwapFromAsset(newAsset));
+      if (props.swap == 'to') dispatch(setSwapToAsset(newAsset));
+      console.log(newAsset, props.swap);
+      console.log(ass);
       props.setAssetsModalIsOpen(false);
-      dispatch(
-        updateAssetBalance({
-          address: newAsset?.address,
-          balance: await getTokenBalance(newAsset, walletData.addr),
-        })
-      );
+    } else {
+      if (savedAssets.includes(newAddress)) {
+        toast['error'](t('This asset already exists'));
+      } else {
+        const newAsset = addNewAsset(newAddress)!;
+        setSavedAssets([...savedAssets, newAddress]);
+        dispatch(addAsset(newAsset));
+        props.setAssetsModalIsOpen(false);
+        dispatch(
+          updateAssetBalance({
+            address: newAsset?.address,
+            balance: await getTokenBalance(newAsset, walletData.addr),
+          })
+        );
+      }
     }
   }
 

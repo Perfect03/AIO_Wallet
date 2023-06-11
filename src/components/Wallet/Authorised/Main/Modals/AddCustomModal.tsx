@@ -59,15 +59,11 @@ export default function AddCustomModal(props: {
     pk: '',
     addr: '',
   })[0];
-  const ass = useSelector((state: { assets: AppState }) => state.assets.swapFromAsset);
-
   async function handleAddCustomClick(newAddress: string) {
     if (props.swap) {
       const newAsset = addNewAsset(newAddress)!;
       if (props.swap == 'from') dispatch(setSwapFromAsset(newAsset));
       if (props.swap == 'to') dispatch(setSwapToAsset(newAsset));
-      console.log(newAsset, props.swap);
-      console.log(ass);
       props.setAssetsModalIsOpen(false);
     } else {
       if (savedAssets.includes(newAddress)) {

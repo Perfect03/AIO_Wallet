@@ -1,5 +1,5 @@
 import styles from './WalletInfo.module.scss';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import useLocalStorage from '../../../../hooks/useLocalStorage';
 import { TWallet } from '../../../../scripts/getWallet';

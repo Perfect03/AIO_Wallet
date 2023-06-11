@@ -2,7 +2,7 @@ import styles from './Left.module.scss';
 import { useSelector } from 'react-redux';
 import more from '../../../../../../assets/more.svg';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Share from './Share/Share';
 import AddCustomModal from '../../../Main/Modals/AddCustomModal';
 import { AppState } from '../../../../../../store';
@@ -20,6 +20,18 @@ export default function Left() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [swap, setSwap] = useState('');
   const [reversed, setReversed] = useState(false);
+
+  const stateFromAsset = useSelector((state: { assets: AppState }) => state.assets.swapFromAsset);
+
+  const stateToAsset = useSelector((state: { assets: AppState }) => state.assets.swapToAsset);
+
+  useEffect(() => {
+    setFromAsset(stateFromAsset);
+  }, [stateFromAsset]);
+
+  useEffect(() => {
+    setToAsset(stateToAsset);
+  }, [stateToAsset]);
 
   return (
     <>

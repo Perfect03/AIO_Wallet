@@ -131,6 +131,7 @@
         font-weight: 500;
         width: 150px;
         text-align: center;
+        cursor: pointer;
         &:hover {
           background: linear-gradient(90deg, #d75596 0%, #3838cd 100%);
           box-shadow: 0;
@@ -502,6 +503,39 @@
     }
     @include _900 {
       flex-direction: column;
+    }
+  }
+}
+
+.section__six {
+  h1 {
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 43px;
+    margin-bottom: 32px;
+    text-align: center;
+    @include _750 {
+      font-size: 28px;
+      line-height: 33px;
+    }
+  }
+  .block {
+    padding: 0 44px 50px 44px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 70px;
+    @include __750 {
+      padding: 0 18px 50px 18px;
+      gap: 45px;
+    }
+    .partner {
+      width: 27vw;
+      cursor: pointer;
+      @include __750 {
+        width: 36vw;
+      }
     }
   }
 }

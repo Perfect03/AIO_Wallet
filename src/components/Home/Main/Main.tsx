@@ -1,5 +1,9 @@
 import styles from './Main.module.scss';
-import logo from '../../../assets/logo__main.svg';
+import zealy from '../../../assets/partners/zealy.png';
+import pinkSale from '../../../assets/partners/pinkSale.png';
+import linke from '../../../assets/partners/linke.png';
+import galxe from '../../../assets/partners/galxe.png';
+import DEXView from '../../../assets/partners/DEXView.png';
 import logoTokenomics from '../../../assets/logo__tokenomics.svg';
 import arrow from '../../../assets/arrow__down.svg';
 import React, { useContext, useEffect } from 'react';
@@ -35,9 +39,17 @@ const Main = ({ stat, setStat }: IProps) => {
           <Logo></Logo>
           <div className={styles.about}>{t('Innovative crypto-project')}</div>
           <div className={styles.buttons}>
-            <NavLink className={styles.presale} to="presale">
+            <div
+              className={styles.presale}
+              onClick={(event) => {
+                event.preventDefault();
+                window.open(
+                  'https://www.pinksale.finance/launchpad/0xb88E663A55381CD29b10bA82E2574Fccdc2C7a01?chain=BSC'
+                );
+              }}
+            >
               Presale
-            </NavLink>
+            </div>
             {/* <button
               className={styles.join}
               onClick={(event) => {
@@ -322,6 +334,58 @@ const Main = ({ stat, setStat }: IProps) => {
           <div className={styles.diagram}>
             <Tokenomics></Tokenomics>
           </div>
+        </div>
+      </section>
+      <section id="section6" className={styles.section__six}>
+        <h1>{t('Partners')}</h1>
+        <div className={styles.block}>
+          <img
+            className={styles.partner}
+            onClick={(event) => {
+              event.preventDefault();
+              window.open('https://zealy.io/c/aio/');
+            }}
+            src={zealy}
+            alt="Zealy"
+          />
+          <img
+            className={styles.partner}
+            onClick={(event) => {
+              event.preventDefault();
+              window.open(
+                'https://www.pinksale.finance/launchpad/0xb88E663A55381CD29b10bA82E2574Fccdc2C7a01?chain=BSC'
+              );
+            }}
+            src={pinkSale}
+            alt="PinkSale"
+          />
+          <img
+            className={styles.partner}
+            onClick={(event) => {
+              event.preventDefault();
+              window.open('https://galxe.com/aioecosystem/campaigns');
+            }}
+            src={galxe}
+            alt="Galxe"
+          />
+          <img
+            className={styles.partner}
+            onClick={(event) => {
+              event.preventDefault();
+              window.open('https://link3.to/aio_ecosystem');
+            }}
+            src={linke}
+            alt="Linke"
+          />
+          <img
+            className={styles.partner}
+            onClick={(event) => {
+              event.preventDefault();
+              window.open('https://www.dexview.com/bsc/0xe5fA0495966B124DD55B390794683bd5CffF4EFA');
+            }}
+            src={DEXView}
+            alt="DEXView"
+          />
         </div>
       </section>
       <Link to="section2" smooth={true}>

@@ -29,7 +29,7 @@ const initialState: AppState = {
     },
   ],
   load: false,
-  wallet: 'assets',
+  wallet: (localStorage.getItem('AIO-Wallet') as walletPart) || 'assets',
   transactions: [],
   userAddress: '',
   swapFromAsset: {

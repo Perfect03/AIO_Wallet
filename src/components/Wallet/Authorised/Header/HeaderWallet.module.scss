@@ -126,6 +126,9 @@
                     border-radius: 12px;
                     transition: .3s ease;
                     background: transparent;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                     svg {
                         stop {
                             transition: .3s ease;

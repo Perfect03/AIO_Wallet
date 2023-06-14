@@ -1,8 +1,12 @@
 import { LineChart, Line } from 'recharts';
+import useResize from '../../../../../../../hooks/use-resize';
 
 export default function Chart() {
+  const width = useResize();
+  const height = 210;
+
   return (
-    <LineChart width={375} height={210}>
+    <LineChart width={width > 540 ? 375 : 252} height={width > 540 ? 210 : 165}>
       <Line
         dataKey="value"
         stroke="#B35BCE"

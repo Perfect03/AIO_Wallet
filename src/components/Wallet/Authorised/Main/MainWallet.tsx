@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 import useLoadAssets from '../../../../hooks/useLoadAssets';
 import useLoadTransactions from '../../../../hooks/useLoadTransactions';
 import YourBalance from '../WalletInfo/YourBalance';
-import Swap from '../WalletInfo/Swap/Swap';
+import Swap from '../WalletInfo/Swap/MainSwap';
 
 const MainWallet = () => {
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);

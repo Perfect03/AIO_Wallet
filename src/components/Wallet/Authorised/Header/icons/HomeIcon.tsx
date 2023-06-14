@@ -11,6 +11,11 @@ export default function HomeIcon() {
     <button
       className={`${styles.leftLink} ${walletWindow == 'assets' ? styles.active : ''}`}
       onClick={() => {
+        const path = window.location.href;
+        if (path.includes('swap')) {
+          localStorage.setItem('AIO-Wallet', 'assets');
+          window.location.href = window.location.href.replace('swap', '');
+        }
         dispatch(changeWallet('assets'));
       }}
     >

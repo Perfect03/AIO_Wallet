@@ -1,4 +1,4 @@
-import styles from './Swap.module.scss';
+import styles from './MainSwap.module.scss';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../../store';
@@ -11,14 +11,18 @@ interface IAssetTemp {
   name: string;
 }
 
-export default function Swap() {
+export default function MainSwap() {
   const { t } = useTranslation();
   const transactions = useSelector((state: { assets: AppState }) => state.assets.transactions);
 
   return (
-    <div className={styles.swap}>
-      <Left></Left>
-      <Right></Right>
-    </div>
+    <main className={styles.mainWalletAuthorised}>
+      <div className={styles.container}>
+        <div className={styles.swap}>
+          <Left></Left>
+          <Right></Right>
+        </div>
+      </div>
+    </main>
   );
 }

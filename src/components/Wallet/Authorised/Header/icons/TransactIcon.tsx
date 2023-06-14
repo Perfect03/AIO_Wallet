@@ -12,6 +12,11 @@ export default function TransactIcon() {
     <button
       className={`${styles.leftLink} ${walletWindow == 'transactions' ? styles.active : ''}`}
       onClick={() => {
+        const path = window.location.href;
+        if (path.includes('swap')) {
+          localStorage.setItem('AIO-Wallet', 'transactions');
+          window.location.href = path.replace('swap', '');
+        }
         dispatch(changeWallet('transactions'));
       }}
     >

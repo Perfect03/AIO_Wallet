@@ -321,15 +321,9 @@ const Main = ({ stat, setStat }: IProps) => {
                 <span className={styles.value}>Binance Smart Chain (BSC)</span>
               </li>
             </ul>
-            <button
-              className={styles.join}
-              onClick={(event) => {
-                event.preventDefault();
-                window.open(`https://t.me/AIO_OFFICIAL_${language === 'ru' ? 'CIS' : 'EN'}`);
-              }}
-            >
-              {t('Join')}
-            </button>
+            <NavLink className={styles.presale1} to="presale">
+              Presale #1
+            </NavLink>
           </div>
           <div className={styles.diagram}>
             <Tokenomics></Tokenomics>

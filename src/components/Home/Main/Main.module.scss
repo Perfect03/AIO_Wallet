@@ -527,16 +527,25 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 70px;
+    gap: 10vw;
     @include __750 {
       padding: 0 18px 50px 18px;
-      gap: 45px;
+      gap: 5vw;
+    }
+    @include _580 {
+      gap: 9vw;
     }
     .partner {
-      width: 27vw;
+      width: 17vw;
       cursor: pointer;
       @include __750 {
-        width: 36vw;
+        width: 22vw;
+      }
+      @include _580 {
+        width: 29vw;
+      }
+      @include _420 {
+        width: 35vw;
       }
     }
   }

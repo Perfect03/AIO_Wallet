@@ -77,11 +77,17 @@ export default function Right() {
         <input
           className={`${styles.receiverInput} ${defaultAddress && styles.default}`}
           value={receiverAddress}
-          onChange={(e) => setReceiverAddress(e.target.value)}
-          onClick={() => {
-            if (defaultAddress) {
-              setDefaultAddress(false);
-            }
+          onChange={(e) => {
+            setReceiverAddress(e.target.value);
+            setDefaultAddress(false);
+          }}
+          onMouseOut={() => {
+            setTimeout(() => {
+              setDefaultAddress(true);
+            }, 3800);
+          }}
+          onMouseMove={() => {
+            setDefaultAddress(false);
           }}
         />
         {!defaultAddress && (

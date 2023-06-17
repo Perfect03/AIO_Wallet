@@ -10,18 +10,12 @@ export default function SwapIcon() {
   const walletWindow = useSelector((state: { assets: AppState }) => state.assets.wallet);
 
   return (
-    <button
+    <NavLink
       className={`${styles.leftLink} ${walletWindow == 'swap' ? styles.active : ''}`}
       onClick={() => {
-        const link = window.location.href;
-        if (!link.includes('swap')) {
-          console.log(link);
-          console.log(window.location);
-          console.log(window.location.href);
-          if (link[link.length - 1] !== '/') window.location.href += '/swap';
-          else window.location.href += 'swap';
-        }
+        dispatch(changeWallet('swap'));
       }}
+      to={`${window.location.href.includes('swap') ? '' : 'swap'}`}
     >
       <svg
         width="24"
@@ -109,6 +103,6 @@ export default function SwapIcon() {
           </linearGradient>
         </defs>
       </svg>
-    </button>
+    </NavLink>
   );
 }

@@ -39,26 +39,9 @@ const Main = ({ stat, setStat }: IProps) => {
           <Logo></Logo>
           <div className={styles.about}>{t('Innovative crypto-project')}</div>
           <div className={styles.buttons}>
-            <div
-              className={styles.presale}
-              onClick={(event) => {
-                event.preventDefault();
-                window.open(
-                  'https://www.pinksale.finance/launchpad/0xb88E663A55381CD29b10bA82E2574Fccdc2C7a01?chain=BSC'
-                );
-              }}
-            >
-              Presale
-            </div>
-            {/* <button
-              className={styles.join}
-              onClick={(event) => {
-                event.preventDefault();
-                window.open(`https://t.me/AIO_OFFICIAL_${language === 'ru' ? 'CIS' : 'EN'}`);
-              }}
-            >
-              <div className={styles.whitepaper__text}>{t('Join')}</div>
-            </button> */}
+            <NavLink className={styles.presale} to="presale">
+              {t('Migration')}
+            </NavLink>
             <button
               className={styles.whitepaper}
               onClick={(event) => {
@@ -306,7 +289,7 @@ const Main = ({ stat, setStat }: IProps) => {
             <ul>
               <li>
                 <span>Token name: </span>
-                <span className={styles.value}>AIO</span>
+                <span className={styles.value}>AIO-Ecosystem</span>
               </li>
               <li>
                 <span>Token ticker: </span>

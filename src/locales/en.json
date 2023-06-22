@@ -121,7 +121,7 @@
   "Successful purchase": "Successful purchase",
   "Something went wrong": "Something went wrong",
   "Token address": "Token address",
-  "Your vesting data": "Your vesting data",
+  "Presale #1 vesting data": "Presale #1 vesting data",
   "Total amount locked: ": "Total amount locked: ",
   "Claimable: ": "Claimable: ",
   "Token name: ": "Token name: ",
@@ -131,5 +131,10 @@
   "Token address copied": "Token address copied",
   "Successful claim": "Successful claim",
   "Nothing to claim": "Nothing to claim",
-  "Claim": "Claim"
+  "Claim": "Claim",
+  "Successful approve": "Successful approve",
+  "Error": "Error",
+  "Successful migration": "Successful migration",
+  "Insufficient balance": "Insufficient balance",
+  "Migration": "Migration"
 }

@@ -167,7 +167,7 @@ const YourAssets = () => {
           </button>
           {'→'}
           <button className={styles.active} onClick={async () => handleMigrateClick()}>
-            {t('Exchange')}
+            {t('Migrate')}
           </button>
         </div>
         <span className={styles.yourLink}>{t('Token address')}</span>

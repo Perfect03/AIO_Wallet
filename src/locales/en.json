@@ -136,5 +136,7 @@
   "Error": "Error",
   "Successful migration": "Successful migration",
   "Insufficient balance": "Insufficient balance",
-  "Migration": "Migration"
+  "Migration": "Migration",
+  "Migrating tokens": "Migrating tokens",
+  "Approve": "Approve"
 }

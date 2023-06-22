@@ -135,5 +135,7 @@
   "Successful approve": "Успешно",
   "Error": "Ошибка",
   "Insufficient balance": "Отсутствуют токены",
-  "Migration": "Миграция"
+  "Migration": "Миграция",
+  "Migrating tokens": "Миграция токенов",
+  "Approve": "Approve"
 }

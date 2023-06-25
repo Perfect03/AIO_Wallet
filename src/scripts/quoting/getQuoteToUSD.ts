@@ -4,7 +4,6 @@ import { BUSD, WBNB } from './libs/constants';
 import quoteV2 from './libs/quoteV2';
 
 export default function getNativeToUSD(asset: Asset) {
-  const tokenIn = new Token(ChainId.BSC, asset.address, asset.decimals, asset.symbol);
   let quote = 0;
 
   quoteV2({

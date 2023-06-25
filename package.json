@@ -14,8 +14,7 @@
     "@types/node": "^16.18.16",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
-    "@uniswap/sdk-core": "^3.2.3",
-    "@uniswap/smart-order-router": "^3.12.2",
+    "@uniswap/sdk-core": "^3.2.6",
     "@uniswap/v3-sdk": "^3.9.0",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
@@ -23,6 +22,7 @@
     "dotenv": "^16.0.3",
     "ethers": "^5.7.2",
     "ethjs-provider-signer": "^0.1.4",
+    "pancakeswap-bsc-smart-order-router": "^1.1.0",
     "patch-package": "^7.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -54,8 +54,7 @@
     "start:server:dev": "nodemon index.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint . --fix --ext .ts,.tsx --ignore-path .gitignore .",
-    "postinstall": "patch-package"
+    "lint": "eslint . --fix --ext .ts,.tsx --ignore-path .gitignore ."
   },
   "eslintConfig": {
     "extends": [

@@ -33,22 +33,22 @@ const initialState: AppState = {
   transactions: [],
   userAddress: '',
   swapFromAsset: {
-    name: 'BNB Token',
-    symbol: 'BNB',
-    address: '',
+    name: 'WBNB Token',
+    symbol: 'WBNB',
+    address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
     chainId: 56,
     decimals: 18,
     logoURI:
-      'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_BNB.png',
+      'https://tokens.pancakeswap.finance/images/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c.png',
   },
   swapToAsset: {
-    name: 'BNB Token',
-    symbol: 'BNB',
-    address: '',
+    name: 'Binance Pegged BUSD',
+    symbol: 'BUSD',
+    address: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
     chainId: 56,
     decimals: 18,
     logoURI:
-      'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_BNB.png',
+      'https://tokens.pancakeswap.finance/images/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56.png',
   },
 };
 

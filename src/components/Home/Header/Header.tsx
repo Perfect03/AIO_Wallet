@@ -72,6 +72,11 @@ const Header = ({ stat, setStat }: IProps) => {
               {t('Distribution')}
             </Link>
           </li>
+          <li>
+            <Link to="section6" smooth={true} offset={-85}>
+              {t('Partners')}
+            </Link>
+          </li>
         </ul>
         <div className={styles.right}>
           <NavLink className={styles.button} to="AIO-Wallet">

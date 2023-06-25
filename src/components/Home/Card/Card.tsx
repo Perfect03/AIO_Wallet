@@ -17,7 +17,7 @@ const Card = () => {
     slidesToScroll: 1,
     initialSlide: 0,
   };
-  const [phase, setPhase] = useState(1); // УКАЗАНИЕ ТЕКУЩЕЙ ФАЗЫ, НУМЕРАЦИЯ С НУЛЯ
+  const [phase, setPhase] = useState(2); // УКАЗАНИЕ ТЕКУЩЕЙ ФАЗЫ, НУМЕРАЦИЯ С НУЛЯ
   return (
     <div className={styles.card__container}>
       <Slider {...settings}>

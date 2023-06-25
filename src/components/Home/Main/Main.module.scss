@@ -123,23 +123,10 @@
       display: flex;
       margin: 0 auto;
       gap: 18px;
-      .presale {
-        padding: 16px 28px;
-        background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
-        box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
-        border-radius: 4px;
-        font-weight: 500;
-        width: 150px;
-        text-align: center;
-        cursor: pointer;
-        &:hover {
-          background: linear-gradient(90deg, #d75596 0%, #3838cd 100%);
-          box-shadow: 0;
-        }
-      }
-      .join,
+      .presale,
       .whitepaper {
-        padding: 12px 28px;
+        padding: 12px 0;
+        width: 130px;
         font-weight: 500;
         font-size: 15px;
         line-height: 18px;
@@ -148,20 +135,35 @@
         border: 1px solid transparent;
         border-radius: 4px;
         display: inline-block;
-        .join__text,
-        .whitepaper__text {
+        .button__text {
           margin: auto;
           background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
           background-clip: text;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
+          text-align: center;
         }
-        &:hover .whitepaper__text {
+        &:hover .button__text {
           background: white;
           background-clip: text;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
+      }
+    }
+    .buy {
+      padding: 16px 0;
+      width: 278px;
+      margin: 0 auto;
+      background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
+      box-shadow: 0px 0px 28px rgba(159, 88, 213, 0.44);
+      border-radius: 4px;
+      font-weight: 500;
+      text-align: center;
+      cursor: pointer;
+      &:hover {
+        background: linear-gradient(90deg, #d75596 0%, #3838cd 100%);
+        box-shadow: 0;
       }
     }
   }
@@ -451,7 +453,7 @@
       backdrop-filter: blur(11px);
       border-radius: 6px;
       display: inline-block;
-      img {
+      .logo {
         margin: -10px -9px;
       }
       ul {
@@ -469,6 +471,14 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-fill-color: transparent;
+            &.contract {
+              cursor: pointer;
+            }
+          }
+          .copy {
+            position: absolute;
+            right: 12px;
+            cursor: pointer;
           }
         }
       }

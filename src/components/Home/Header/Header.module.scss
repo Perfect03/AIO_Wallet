@@ -10,20 +10,20 @@
     }
 }
 
+@mixin _1210 {
+    @media (max-width: 1210px){
+        @content;
+    }
+}
+
 @mixin _1130 {
     @media (max-width: 1130px){
         @content;
     }
 }
 
-@mixin _1000 {
-    @media (max-width: 1000px){
-        @content;
-    }
-}
-
-@mixin _950 {
-    @media (max-width: 950px){
+@mixin _1070 {
+    @media (max-width: 1070px){
         @content;
     }
 }
@@ -80,7 +80,7 @@
                 padding-inline-start:0;
             }
             
-            @include _950 {
+            @include _1070 {
                 display: none;
             }
         }
@@ -101,7 +101,7 @@
                     background: linear-gradient(90deg, #D75596 0%, #3838CD 100%);
                     box-shadow: 0;
                 }
-                @include _1130 {
+                @include _1210 {
                     display: none;
                 }
             }
@@ -120,11 +120,11 @@
                     }
                 }
                 .between {
-                    @include _1000 {
+                    @include _1070 {
                         display: none;
                     }
                 }
-                @include _1000 {
+                @include _1070 {
                     display: flex;
                     flex-direction: column;
                     gap: 15px;
@@ -149,7 +149,7 @@
                         border: 1px solid white;
                         border-radius: 2px;
                         display: none;
-                        @include _950 {
+                        @include _1070 {
                             display: block;
                         }
                     }
@@ -161,7 +161,7 @@
                         border: 1px solid white;
                         border-radius: 2px;
                         display: none;
-                        @include _950 {
+                        @include _1070 {
                             display: flex;
                         }
                     }
@@ -173,7 +173,7 @@
                         border: 1px solid white;
                         border-radius: 2px;
                         display: none;
-                        @include _950 {
+                        @include _1070 {
                             display: flex;
                         }
                     }
@@ -193,7 +193,7 @@
                     }
                 }  
                 
-                @include _950 {
+                @include _1070 {
                     display: flex;
                 }
             }

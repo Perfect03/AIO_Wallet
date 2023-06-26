@@ -58,7 +58,6 @@ const HeaderWallet = () => {
     (async () => {
       try {
         const newPrice = await getTokenPrice(store.getState().assets.assets[0]);
-        console.log(newPrice);
         setPrice(newPrice ? newPrice : undefined);
       } catch (err) {
         console.log(err);

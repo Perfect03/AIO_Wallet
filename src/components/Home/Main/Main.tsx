@@ -329,9 +329,9 @@ const Main = ({ stat, setStat }: IProps) => {
                 <span className={styles.value}>Binance Smart Chain (BSC)</span>
               </li>
               <li className={styles.flex}>
-                <span>CA: </span>
+                <span>Address: </span>
                 <span className={`${styles.value} ${styles.contract}`} onClick={handleCopyClick}>
-                  {CA.slice(0, 13)}…{CA.slice(-11)}
+                  {CA.slice(0, 10)}…{CA.slice(-11)}
                 </span>
                 <img className={styles.copy} src={copy} alt="" onClick={handleCopyClick} />
               </li>

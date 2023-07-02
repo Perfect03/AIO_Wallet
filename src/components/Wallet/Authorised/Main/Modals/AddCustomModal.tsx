@@ -1,4 +1,5 @@
 import styles from '../MainWallet.module.scss';
+import extSwap from '../../../../../scripts/quoting/token-lists/pancakeswap-extended-swap.json';
 import ext from '../../../../../scripts/quoting/token-lists/pancakeswap-extended.json';
 import { useTranslation } from 'react-i18next';
 import useLocalStorage from '../../../../../hooks/useLocalStorage';
@@ -14,6 +15,7 @@ import {
   setSwapFromAsset,
   setSwapToAsset,
   AppState,
+  store,
 } from '../../../../../store';
 import { useDispatch, useSelector } from 'react-redux';
 import addNewAsset from '../helpers/addNewAsset';
@@ -59,9 +61,22 @@ export default function AddCustomModal(props: {
     pk: '',
     addr: '',
   })[0];
+
   async function handleAddCustomClick(newAddress: string) {
     if (props.swap) {
-      const newAsset = addNewAsset(newAddress)!;
+      let newAsset;
+      if (newAddress) newAsset = addNewAsset(newAddress)!;
+      else
+        newAsset = {
+          name: 'BNB Token',
+          symbol: 'BNB',
+          address: '0',
+          chainId: 56,
+          decimals: 18,
+          logoURI:
+            'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_BNB.png',
+        };
+
       if (props.swap == 'from') dispatch(setSwapFromAsset(newAsset));
       if (props.swap == 'to') dispatch(setSwapToAsset(newAsset));
       props.setAssetsModalIsOpen(false);
@@ -123,16 +138,37 @@ export default function AddCustomModal(props: {
         //setTimeout(() => setIsValidCustomToken(true), 3000);
         toast['error'](t('Error! This address is not a token'));
       }
-    } else {
-      toast['info'](t('Error! This address is not a token'));
-    }
+    } else if (props.swap) {
+      try {
+        const token = getTokenContract(searchValue);
+        const name = await token.name();
+        const symbol = await token.symbol();
+        const decimals = await token.decimals();
+
+        const asset = {
+          name,
+          symbol,
+          address: searchValue,
+          chainId: 56,
+          decimals,
+          logoURI: custom,
+        };
+
+        if (props.swap == 'from') dispatch(setSwapFromAsset(asset));
+        if (props.swap == 'to') dispatch(setSwapToAsset(asset));
+      } catch {
+        toast['error'](t('Error! This address is not a token'));
+      }
+    } else toast['info'](t('Error! This address is not a token'));
+
     setIsCustom(false);
     setSearchValue('');
   }
 
   useEffect(() => {
-    setTokenList(ext);
-  }, []);
+    if (props.swap) setTokenList(extSwap);
+    else setTokenList(ext);
+  }, [props.assetsModalIsOpen]);
 
   useEffect(() => {
     const newTokenList = ext.filter(

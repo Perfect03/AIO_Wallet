@@ -6,32 +6,21 @@ import { TransactionState } from './routing';
 export default async function sendTransaction(
   transaction: ethers.providers.TransactionRequest,
   walletData: TWallet
-): Promise<TransactionState> {
+) {
   const wallet = new ethers.Wallet(walletData.pk, defaultProvider);
 
   if (transaction.value) {
     transaction.value = BigNumber.from(transaction.value);
   }
 
-  const txRes = await wallet.sendTransaction(transaction);
-  let receipt = null;
+  try {
+    const gas = await wallet.estimateGas(transaction);
 
-  while (receipt === null) {
-    try {
-      receipt = await defaultProvider.getTransactionReceipt(txRes.hash);
+    const txRes = await wallet.sendTransaction({ ...transaction, gasLimit: gas });
 
-      if (receipt === null) {
-        continue;
-      }
-    } catch (e) {
-      console.log(`Receipt error:`, e);
-      break;
-    }
-  }
-
-  if (receipt) {
-    return TransactionState.Sent;
-  } else {
-    return TransactionState.Failed;
+    await txRes.wait();
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 }

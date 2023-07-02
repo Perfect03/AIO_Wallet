@@ -2,32 +2,243 @@ import styles from './Left.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import more from '../../../../../../assets/more.svg';
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
-import Share from './Share/Share';
+import { ChangeEvent, useEffect, useState } from 'react';
 import AddCustomModal from '../../../Main/Modals/AddCustomModal';
-import { AppState, setSwapFromAsset, setSwapToAsset } from '../../../../../../store';
-import { Asset } from '../../../Main/helpers/checkSavedAssets';
+import { AppState, setSwapFromAsset, setSwapToAsset, store } from '../../../../../../store';
 import ReverseIcon from './ReverseIcon';
-import { generateRoute } from '../../../../../../scripts/quoting/swap/routing';
+import { executeRoute, generateRoute } from '../../../../../../scripts/quoting/swap/routing';
 import { TWallet } from '../../../../../../scripts/getWallet';
 import useLocalStorage from '../../../../../../hooks/useLocalStorage';
-import { Percent } from '@pancakeswap/sdk';
+import { SwapRoute } from 'pancakeswap-bsc-smart-order-router';
+import getTokenBalance from '../../../../../../scripts/quoting/getTokenBalance';
+import getNativeBalance from '../../../../../../scripts/quoting/getNativeBalance';
+import { toast } from 'react-toastify';
+import { fromReadableAmount } from '../../../../../../scripts/quoting/libs/conversion';
 
 export default function Left() {
-  const { t } = useTranslation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [swap, setSwap] = useState('swap');
+  const [trade, setTrade] = useState<SwapRoute | null>(null);
+  const [amountIn, setAmountIn] = useState('');
+  const [amountOut, setAmountOut] = useState('');
+  const [quote, setQuote] = useState<string | undefined>();
+  const [exactOutput, setExactOutput] = useState(false);
+  const [tokenInBalance, setTokenInBalance] = useState(0);
+  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
+
+  const [loading, setLoading] = useState(false);
+  const [validSwap, setValidSwap] = useState(true);
 
   const assetIn = useSelector((state: { assets: AppState }) => state.assets.swapFromAsset);
   const assetOut = useSelector((state: { assets: AppState }) => state.assets.swapToAsset);
+  const slippage = useSelector((state: { assets: AppState }) => state.assets.swapSlippage);
+  const recipient = useSelector((state: { assets: AppState }) => state.assets.swapRecipient);
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [swap, setSwap] = useState('');
+  const dispatch = useDispatch();
 
   const walletData = useLocalStorage<TWallet>('wallet', {
     pk: '',
     addr: '',
   })[0];
 
-  const dispatch = useDispatch();
+  const { t } = useTranslation();
+
+  const percents = [25, 50, 75, 100];
+
+  useEffect(() => {
+    const listner = async () => {
+      if (
+        assetIn.address !== store.getState().assets.swapFromAsset.address ||
+        assetOut.address !== store.getState().assets.swapToAsset.address
+      ) {
+        clearTimeout(timer!);
+        try {
+          setQuote(undefined);
+          setTrade(null);
+          setLoading(true);
+          if (+store.getState().assets.swapFromAsset.address) {
+            const newTokenBalance = await getTokenBalance(
+              store.getState().assets.swapFromAsset,
+              walletData.addr
+            );
+            setTokenInBalance(newTokenBalance);
+          } else setTokenInBalance(await getNativeBalance(walletData.addr));
+
+          const newTrade = await generateRoute(
+            {
+              in: store.getState().assets.swapFromAsset,
+              amount: exactOutput ? +amountOut! : +amountIn!,
+              out: store.getState().assets.swapToAsset,
+              exactOutput: exactOutput,
+              recipient,
+              slippageBips: slippage,
+            },
+            walletData
+          );
+
+          if (
+            newTrade?.trade.inputAmount.greaterThan(
+              fromReadableAmount(tokenInBalance, assetIn.decimals).toString()
+            )
+          )
+            throw 'not valid trade';
+
+          setValidSwap(true);
+
+          if (exactOutput) setAmountIn(newTrade!.quoteGasAdjusted.toFixed(6)!);
+          else setAmountOut(newTrade!.quoteGasAdjusted.toFixed(6)!);
+
+          setQuote(
+            newTrade?.trade.outputAmount
+              .divide(+(exactOutput ? amountOut : amountIn)! * 10 ** assetOut.decimals)
+              .multiply(10 ** assetIn.decimals)
+              .toFixed(6)
+          );
+          setTrade(newTrade);
+        } catch (err) {
+          setValidSwap(false);
+          console.error(err);
+        }
+
+        setLoading(false);
+      }
+    };
+
+    const unsubscribe = store.subscribe(listner);
+
+    return () => {
+      unsubscribe();
+      clearTimeout(timer!);
+    };
+  }, []);
+
+  async function handleAmountInChange(e: string) {
+    clearTimeout(timer!);
+
+    setAmountIn(e);
+
+    const listener = async () => {
+      setLoading(true);
+      setExactOutput(false);
+      setQuote(undefined);
+      setTrade(null);
+
+      try {
+        const newTrade = await generateRoute(
+          {
+            in: assetIn,
+            amount: +e,
+            out: assetOut,
+            exactOutput: false,
+            recipient,
+            slippageBips: slippage,
+          },
+          walletData
+        );
+
+        if (
+          newTrade?.trade.inputAmount.greaterThan(
+            fromReadableAmount(tokenInBalance, assetIn.decimals).toString()
+          )
+        )
+          throw 'not valid trade';
+
+        setValidSwap(true);
+
+        if (!newTrade?.quoteGasAdjusted.toFixed(6).startsWith('-')) {
+          setAmountOut(newTrade!.quoteGasAdjusted.toFixed(6)!);
+          setQuote(
+            newTrade?.trade.outputAmount
+              .divide(+e * 10 ** assetIn.decimals)
+              .multiply(10 ** assetIn.decimals)
+              .toFixed(6)
+          );
+          setTrade(newTrade);
+        } else {
+          setAmountOut('Not valid swap');
+          setQuote(undefined);
+        }
+      } catch (err) {
+        console.log(err);
+        setValidSwap(false);
+      }
+
+      setLoading(false);
+    };
+
+    const newTimer = setTimeout(listener, 700);
+
+    setTimer(newTimer);
+  }
+
+  async function handleAmountOutChange(e: ChangeEvent<HTMLInputElement>) {
+    clearTimeout(timer!);
+    setAmountOut(e.target.value);
+    const listener = async () => {
+      setLoading(true);
+      setExactOutput(true);
+      setTrade(null);
+      setQuote(undefined);
+
+      try {
+        const newTrade = await generateRoute(
+          {
+            in: assetIn,
+            amount: +e.target.value,
+            out: assetOut,
+            exactOutput: true,
+            recipient,
+            slippageBips: slippage,
+          },
+          walletData
+        );
+
+        if (
+          newTrade?.trade.inputAmount.greaterThan(
+            fromReadableAmount(tokenInBalance, assetIn.decimals).toString()
+          )
+        )
+          throw 'not valid trade';
+
+        setValidSwap(true);
+
+        setAmountIn(newTrade!.quoteGasAdjusted.toFixed(6)!);
+
+        if (!newTrade?.quoteGasAdjusted.toFixed(6).startsWith('-')) {
+          setQuote(
+            newTrade?.trade.inputAmount
+              .divide(+e.target.value * 10 ** assetOut.decimals)
+              .multiply(10 ** assetIn.decimals)
+              .toFixed(6)
+          );
+          setTrade(newTrade);
+        } else {
+          setAmountIn('Not valid swap');
+          setQuote(undefined);
+        }
+      } catch {
+        setValidSwap(false);
+      }
+
+      setLoading(false);
+    };
+
+    const newTimer = setTimeout(listener, 700);
+
+    setTimer(newTimer);
+  }
+
+  async function handleSwapClick() {
+    if (trade) {
+      try {
+        toast['info']('Transaction sent');
+        await executeRoute(trade, walletData, slippage);
+        toast['success']('Transaction confirmed');
+      } catch {
+        toast['error']('Transaction canceled');
+      }
+    }
+  }
 
   return (
     <>
@@ -57,24 +268,33 @@ export default function Left() {
                 </div>
                 <img className={styles.assetMore} src={more} alt="" />
               </div>
-              <div className={styles.balance}>{t('Balance')}: 0.0000</div>
+              {/* здесь skeleton loader когда стейт loading === true */}
+              <div className={styles.balance}>
+                {t('Balance')}: {tokenInBalance}
+              </div>
             </div>
             <input
               className={styles.sum}
-              onChange={async (e) => {
-                const trade = await generateRoute({
-                  in: assetIn,
-                  amount: +e.target.value,
-                  out: assetOut,
-                  exactOutput: false,
-                  recipient: walletData.addr,
-                  slippageBips: 50,
-                });
-
-                console.log(trade);
-              }}
+              value={amountIn}
+              onChange={async (e) => await handleAmountInChange(e.target.value)}
             />
-            <Share></Share>
+            <div className={styles.percents}>
+              {percents.map((el) => (
+                <div
+                  className={`${styles.percent} ${styles.inActive}`}
+                  key={el}
+                  onClick={async () => {
+                    const value = tokenInBalance
+                      ? `${((tokenInBalance * el) / 100).toFixed(assetIn.decimals)}`
+                      : '0';
+                    setAmountIn(value);
+                    await handleAmountInChange(value);
+                  }}
+                >
+                  <div className={styles.text}>{el < 100 ? `${el}%` : 'Max'}</div>
+                </div>
+              ))}
+            </div>
           </div>
           <div
             className={styles.fromTo}
@@ -109,11 +329,29 @@ export default function Left() {
                 <img className={styles.assetMore} src={more} alt="" />
               </div>
             </div>
-            <input className={styles.sum} onChange={(e) => {}} />
+            <input
+              className={styles.sum}
+              value={amountOut}
+              onChange={async (e) => await handleAmountOutChange(e)}
+            />
           </div>
         </div>
-        <span className={styles.price}>1 AIO = 0.000001 BNB</span>
-        <button className={styles.go} onClick={() => {}}>
+        {/* сделать эти span-ы горизонтально + какой то skeleton loader когда loading === true*/}
+        <span className={styles.price}>
+          {quote &&
+            `1 ${exactOutput ? assetOut.symbol : assetIn.symbol} = ${quote} ${
+              !exactOutput ? assetOut.symbol : assetIn.symbol
+            }`}
+        </span>
+        <span className={styles.price}>
+          {trade && `Gas: ~${trade.estimatedGasUsedUSD.toFixed(4)}$`}
+        </span>
+        {/* здесь стили для выкл кнопки */}
+        <button
+          disabled={!validSwap}
+          className={styles.go}
+          onClick={async () => await handleSwapClick()}
+        >
           {t('Swap')}
         </button>
       </div>

@@ -1,6 +1,7 @@
 import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { WalletTransaction } from './hooks/useLoadTransactions';
 import { Asset } from './components/Wallet/Authorised/Main/helpers/checkSavedAssets';
+import { TWallet } from './scripts/getWallet';
 
 // Define the shape of our state
 export interface AppState {
@@ -11,6 +12,8 @@ export interface AppState {
   userAddress: string;
   swapFromAsset: Asset;
   swapToAsset: Asset;
+  swapSlippage: number;
+  swapRecipient: string;
 }
 
 export type walletPart = 'assets' | 'transactions' | 'swap';
@@ -50,6 +53,8 @@ const initialState: AppState = {
     logoURI:
       'https://tokens.pancakeswap.finance/images/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56.png',
   },
+  swapSlippage: 50,
+  swapRecipient: (JSON.parse(localStorage.getItem('wallet')!) as TWallet).addr,
 };
 
 const appSlice = createSlice({
@@ -90,6 +95,12 @@ const appSlice = createSlice({
     setSwapToAsset: (state, action: PayloadAction<Asset>) => {
       state.swapToAsset = action.payload;
     },
+    setSlippage: (state, action: PayloadAction<number>) => {
+      state.swapSlippage = action.payload;
+    },
+    setRecipient: (state, action: PayloadAction<string>) => {
+      state.swapRecipient = action.payload;
+    },
   },
 });
 
@@ -104,6 +115,8 @@ export const {
   setUserAddress,
   setSwapFromAsset,
   setSwapToAsset,
+  setSlippage,
+  setRecipient,
 } = appSlice.actions;
 
 // Create the store

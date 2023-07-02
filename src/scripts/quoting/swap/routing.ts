@@ -1,27 +1,19 @@
 import { fromReadableAmount } from '../libs/conversion';
 import defaultProvider from '../../rpc/defaultProvider';
-import {
-  BestTradeOptions,
-  CurrencyAmount,
-  Fetcher,
-  Route,
-  Token,
-  Trade,
-  TradeOptions,
-  TradeType,
-} from '@pancakeswap/sdk';
 import { Asset } from '../../../components/Wallet/Authorised/Main/helpers/checkSavedAssets';
 import {
   AlphaRouter,
+  nativeOnChain,
   SwapOptionsSwapRouter02,
   SwapRoute,
   SwapType,
 } from 'pancakeswap-bsc-smart-order-router';
-import { ChainId, Percent } from '@uniswap/sdk-core';
-import { CurrencyAmount as CCurrencyAmount } from '@uniswap/sdk-core';
+import { ChainId, Currency, Percent, Token } from '@uniswap/sdk-core';
+import { CurrencyAmount } from '@uniswap/sdk-core';
 import { TWallet } from '../../getWallet';
-import { V3_SWAP_ROUTER_ADDRESS } from '../libs/constants';
 import sendTransaction from './transact';
+import getTokenContract from '../token-lists/getTokenContract';
+import { BigNumber, Wallet } from 'ethers';
 
 export enum TransactionState {
   Failed = 'Failed',
@@ -40,76 +32,101 @@ export type RouteConfig = {
   slippageBips: number;
 };
 
-export async function generateRoute(cfg: RouteConfig) {
-  const tokenIn = new Token(ChainId.BNB, cfg.in.address, cfg.in.decimals, cfg.in.symbol);
-  const tokenOut = new Token(ChainId.BNB, cfg.out.address, cfg.out.decimals, cfg.out.symbol);
+export async function generateRoute(cfg: RouteConfig, wallet: TWallet) {
+  if (cfg.in && cfg.out && cfg.amount) {
+    let tokenIn, tokenOut: Currency;
 
-  const router = new AlphaRouter({
-    chainId: 56,
-    provider: defaultProvider,
-  });
+    if (!+cfg.in.address) {
+      tokenIn = nativeOnChain(56);
+      tokenOut = new Token(ChainId.BNB, cfg.out.address, cfg.out.decimals, cfg.out.symbol);
+    } else if (!+cfg.out.address) {
+      tokenIn = new Token(ChainId.BNB, cfg.in.address, cfg.in.decimals, cfg.in.symbol);
+      tokenOut = nativeOnChain(56);
+    } else {
+      tokenIn = new Token(ChainId.BNB, cfg.in.address, cfg.in.decimals, cfg.in.symbol);
+      tokenOut = new Token(ChainId.BNB, cfg.out.address, cfg.out.decimals, cfg.out.symbol);
+    }
 
-  const options: SwapOptionsSwapRouter02 = {
-    recipient: cfg.recipient,
-    slippageTolerance: new Percent(5, 100),
-    deadline: Math.floor(Date.now() / 1000 + 1800),
-    type: SwapType.SWAP_ROUTER_02,
-  };
+    const router = new AlphaRouter({
+      chainId: 56,
+      provider: defaultProvider,
+    });
 
-  const route = await router.route(
-    CCurrencyAmount.fromRawAmount(
-      cfg.exactOutput ? tokenOut : tokenIn,
-      fromReadableAmount(
-        cfg.amount,
-        cfg.exactOutput ? tokenOut.decimals : tokenIn.decimals
-      ).toString()
-    ),
-    tokenOut,
-    TradeType.EXACT_INPUT,
-    options
-  );
+    const options: SwapOptionsSwapRouter02 = {
+      recipient: cfg.recipient,
+      slippageTolerance: new Percent(cfg.slippageBips, 10000),
+      deadline: Math.floor(Date.now() / 1000 + 1800),
+      type: SwapType.SWAP_ROUTER_02,
+    };
 
-  console.log(route?.quoteGasAdjusted.toFixed());
+    try {
+      console.log('asd');
+      const route = await router.route(
+        CurrencyAmount.fromRawAmount(
+          cfg.exactOutput ? tokenOut : tokenIn,
+          fromReadableAmount(
+            cfg.amount,
+            cfg.exactOutput ? tokenOut.decimals : tokenIn.decimals
+          ).toString()
+        ),
+        cfg.exactOutput ? tokenIn : tokenOut,
+        +cfg.exactOutput,
+        options
+      );
 
-  return route;
+      console.log(route);
+
+      return route;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  } else return null;
 }
 
-export async function executeRoute(route: SwapRoute, wallet: TWallet): Promise<TransactionState> {
-  const res = await sendTransaction(
+export async function executeRoute(route: SwapRoute, wallet: TWallet, slippage: number) {
+  if (!route.route[0].tokenPath[0].isNative)
+    await getTokenTransferApproval(
+      route.route[0].tokenPath[0],
+      wallet,
+      route.trade.maximumAmountIn(new Percent(slippage, 10000))
+    );
+
+  await sendTransaction(
     {
-      data: route.methodParameters?.calldata,
-      to: V3_SWAP_ROUTER_ADDRESS,
-      value: route?.methodParameters?.value,
       from: wallet.addr,
+      data: route.methodParameters?.calldata,
+      to: route.methodParameters?.to,
+      value: route.methodParameters?.value,
     },
     wallet
   );
-
-  return res;
 }
 
-// export async function getTokenTransferApproval(
-//   token: Token,
-//   walletInfo: TWallet,
-//   amount: number
-// ): Promise<TransactionState> {
-//   try {
-//     const tokenContract = getTokenContract(token.address);
+export async function getTokenTransferApproval(
+  token: Token,
+  walletInfo: TWallet,
+  amount: CurrencyAmount<Currency>
+) {
+  try {
+    const tokenContract = getTokenContract(token.address);
 
-//     const transaction = await tokenContract.populateTransaction.approve(
-//       V3_SWAP_ROUTER_ADDRESS,
-//       fromReadableAmount(amount, token.decimals).toString()
-//     );
+    const signer = new Wallet(walletInfo.pk, defaultProvider);
 
-//     return sendTransaction(
-//       {
-//         ...transaction,
-//         from: walletInfo.addr,
-//       },
-//       walletInfo
-//     );
-//   } catch (e) {
-//     console.error(e);
-//     return TransactionState.Failed;
-//   }
-// }
+    console.log(
+      amount.multiply(BigNumber.from(10).pow(amount.currency.decimals).toString()).toExact()
+    );
+
+    const transaction = await tokenContract
+      .connect(signer)
+      .approve(
+        '0x13f4EA83D0bd40E75C8222255bc855a974568Dd4',
+        amount.multiply(BigNumber.from(10).pow(amount.currency.decimals).toString()).toExact()
+      );
+
+    await transaction.wait();
+  } catch (e) {
+    console.error(e);
+    throw 'Approval failure';
+  }
+}

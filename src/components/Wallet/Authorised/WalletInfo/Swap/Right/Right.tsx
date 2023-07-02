@@ -7,6 +7,8 @@ import Chart from './Chart/Chart';
 import isEthereumAddress from '../../../Main/helpers/isEthereumAddress';
 import useLocalStorage from '../../../../../../hooks/useLocalStorage';
 import { TWallet } from '../../../../../../scripts/getWallet';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState, setRecipient, setSlippage } from '../../../../../../store';
 
 export default function Right() {
   const { t } = useTranslation();
@@ -16,20 +18,19 @@ export default function Right() {
     addr: '',
   })[0];
 
-  const percents = [0.1, 0.5, 1.0];
-  const [slippage, setSlippage] = useState(0);
+  const percents = [10, 50, 100];
   const [slippageInputValue, setSlippageInputValue] = useState('');
-
   const [receiverAddress, setReceiverAddress] = useState(walletInfo.addr);
   const [defaultAddress, setDefaultAddress] = useState(true);
+  const slippage = useSelector((state: { assets: AppState }) => state.assets.swapSlippage);
+  const recipient = useSelector((state: { assets: AppState }) => state.assets.swapRecipient);
+
+  const dispatch = useDispatch();
 
   function onSlippageInputChange(target: EventTarget & HTMLInputElement) {
-    console.log(target.value);
-    //const regex = /[0-100]|\./;
-    if (Number(target.value) >= 0 && Number(target.value) <= 100 && target.value.length < 5) {
-      console.log(3);
+    if (Number(target.value) >= 0 && Number(target.value) <= 50 && target.value.length < 5) {
       setSlippageInputValue(target.value);
-      setSlippage(Number(target.value));
+      dispatch(setSlippage(+target.value * 100));
     }
   }
 
@@ -51,9 +52,9 @@ export default function Right() {
           <div
             className={`${styles.percent} ${slippage == el ? styles.active : styles.inActive}`}
             key={el}
-            onClick={() => setSlippage(el)}
+            onClick={() => dispatch(setSlippage(el))}
           >
-            <div className={styles.text}>{el}%</div>
+            <div className={styles.text}>{el / 100}%</div>
           </div>
         ))}
         <div className={`${styles.percent} ${styles.inActive}`}>
@@ -76,9 +77,9 @@ export default function Right() {
       <div className={styles.receiver}>
         <input
           className={`${styles.receiverInput} ${defaultAddress && styles.default}`}
-          value={receiverAddress}
+          value={recipient}
           onChange={(e) => {
-            setReceiverAddress(e.target.value);
+            dispatch(setRecipient(e.target.value));
             setDefaultAddress(false);
           }}
           onMouseOut={() => {
@@ -94,7 +95,7 @@ export default function Right() {
           <span
             className={styles.cross}
             onClick={() => {
-              setReceiverAddress('');
+              dispatch(setRecipient(''));
               setDefaultAddress(false);
             }}
           >

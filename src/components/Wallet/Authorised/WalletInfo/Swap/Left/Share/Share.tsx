@@ -11,9 +11,7 @@ export default function Share() {
         <div
           className={`${styles.percent} ${percent == el ? styles.active : styles.inActive}`}
           key={el}
-          onClick={() => {
-            setPercent(el);
-          }}
+          onClick={() => setPercent(el)}
         >
           <div className={styles.text}>{el < 100 ? `${el}%` : 'Max'}</div>
         </div>

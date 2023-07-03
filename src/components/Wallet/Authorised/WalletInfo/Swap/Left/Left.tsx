@@ -14,6 +14,8 @@ import getTokenBalance from '../../../../../../scripts/quoting/getTokenBalance';
 import getNativeBalance from '../../../../../../scripts/quoting/getNativeBalance';
 import { toast } from 'react-toastify';
 import { fromReadableAmount } from '../../../../../../scripts/quoting/libs/conversion';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export default function Left() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -244,7 +246,7 @@ export default function Left() {
     <>
       <div className={styles.left}>
         <h1 className={styles.title}>{t('Swap')}</h1>
-        <div className={`${styles.assets}`}>
+        <div className={styles.assets}>
           <div className={styles.asset}>
             <div className={styles.line}>
               <div
@@ -268,9 +270,14 @@ export default function Left() {
                 </div>
                 <img className={styles.assetMore} src={more} alt="" />
               </div>
-              {/* здесь skeleton loader когда стейт loading === true */}
               <div className={styles.balance}>
-                {t('Balance')}: {tokenInBalance}
+                {loading ? (
+                  <Skeleton width={70} baseColor="#272332" highlightColor="#353535" />
+                ) : (
+                  <>
+                    {t('Balance')}: {tokenInBalance}
+                  </>
+                )}
               </div>
             </div>
             <input
@@ -336,20 +343,28 @@ export default function Left() {
             />
           </div>
         </div>
-        {/* сделать эти span-ы горизонтально + какой то skeleton loader когда loading === true*/}
-        <span className={styles.price}>
-          {quote &&
-            `1 ${exactOutput ? assetOut.symbol : assetIn.symbol} = ${quote} ${
-              !exactOutput ? assetOut.symbol : assetIn.symbol
-            }`}
-        </span>
-        <span className={styles.price}>
-          {trade && `Gas: ~${trade.estimatedGasUsedUSD.toFixed(4)}$`}
-        </span>
-        {/* здесь стили для выкл кнопки */}
+        <div className={styles.rates}>
+          <span className={styles.price}>
+            {loading ? (
+              <Skeleton width={175} baseColor="#272332" highlightColor="#353535" />
+            ) : (
+              quote &&
+              `1 ${exactOutput ? assetOut.symbol : assetIn.symbol} = ${quote?.slice(0, 10)} ${
+                !exactOutput ? assetOut.symbol : assetIn.symbol
+              }`
+            )}
+          </span>
+          <span className={styles.price}>
+            {loading ? (
+              <Skeleton width={110} baseColor="#272332" highlightColor="#353535" />
+            ) : (
+              trade && `Gas: ~${trade?.estimatedGasUsedUSD.toFixed(4)}$`.slice(0, 15)
+            )}
+          </span>
+        </div>
         <button
           disabled={!validSwap}
-          className={styles.go}
+          className={`${styles.go} ${!validSwap && styles.disabled}`}
           onClick={async () => await handleSwapClick()}
         >
           {t('Swap')}

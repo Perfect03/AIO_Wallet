@@ -83,6 +83,7 @@
         .modalAsset {
           width: 178px;
           transition: all 0.2s cubic-bezier(0.895, 0.03, 0.685, 0.22);
+          border-radius: 5px;
           &:hover {
             background: #272332;
           }
@@ -130,14 +131,18 @@
       }
     }
   }
-  .price {
+  .rates {
     display: flex;
-    justify-content: end;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 160%;
-    margin-top: 18px;
-    margin-bottom: 24px;
+    justify-content: space-between;
+    height: 68px;
+    align-items: center;
+    .price {
+      display: flex;
+      justify-content: end;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 160%;
+    }
   }
   .go {
     background: linear-gradient(90deg, #fb69b2 0%, #4646f6 100%);
@@ -146,6 +151,13 @@
     padding: 15.5px 0;
     &:hover {
       background: linear-gradient(90deg, #d75596 0%, #3838cd 100%);
+    }
+    &.disabled {
+      background: #272332;
+      box-shadow: 0px 0px 0px;
+      &:hover {
+        background: #28262f;
+      }
     }
   }
 }

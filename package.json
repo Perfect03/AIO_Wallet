@@ -28,6 +28,7 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^12.2.0",
     "react-loader-spinner": "^5.3.4",
+    "react-loading-skeleton": "^3.3.1",
     "react-modal": "^3.16.1",
     "react-native-svg": "^13.9.0",
     "react-qr-code": "^2.0.11",

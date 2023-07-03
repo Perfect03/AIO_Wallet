@@ -121,7 +121,7 @@
   "Successful purchase": "Успешно",
   "Something went wrong": "Что-то пошло не так",
   "Token address": "Адрес токена",
-  "Your vesting data": "Ваша вестинговая информация",
+  "Presale #1 vesting data": "Вестинг пресейла №1",
   "Total amount locked: ": "Всего к получению: ",
   "Claimable: ": "Доступно к выводу: ",
   "Token name: ": "Название токена: ",
@@ -132,5 +132,11 @@
   "Successful claim": "Успешный вывод",
   "Nothing to claim": "Вывод недоступен",
   "Claim": "Вывести",
+  "Successful approve": "Успешно",
+  "Error": "Ошибка",
+  "Insufficient balance": "Отсутствуют токены",
+  "Migration": "Миграция",
+  "Migrating tokens": "Миграция токенов",
+  "Approve": "Approve",
   "Partners": "Партнёры"
 }

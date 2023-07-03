@@ -5,6 +5,7 @@ import linke from '../../../assets/partners/linke.png';
 import galxe from '../../../assets/partners/galxe.png';
 import DEXView from '../../../assets/partners/DEXView.png';
 import logoTokenomics from '../../../assets/logo__tokenomics.svg';
+import copy from '../../../assets/copy.svg';
 import arrow from '../../../assets/arrow__down.svg';
 import React, { useContext, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -27,6 +28,19 @@ interface IProps {
 const Main = ({ stat, setStat }: IProps) => {
   const { t } = useTranslation();
   const { language } = useContext(Context) as ContextType;
+  const CA = '0x3B6E1F5FdE7f5aFce2F2571d761bD9A3743dEe41';
+
+  function handleCopyClick() {
+    navigator.clipboard
+      .writeText(CA)
+      .then(() => {
+        toast['info'](t('Copy address'));
+      })
+      .catch((err) => {
+        toast['error'](t('Copy address error'));
+      });
+  }
+
   return (
     <main
       onClick={() => {
@@ -39,26 +53,9 @@ const Main = ({ stat, setStat }: IProps) => {
           <Logo></Logo>
           <div className={styles.about}>{t('Innovative crypto-project')}</div>
           <div className={styles.buttons}>
-            <div
-              className={styles.presale}
-              onClick={(event) => {
-                event.preventDefault();
-                window.open(
-                  'https://www.pinksale.finance/launchpad/0xb88E663A55381CD29b10bA82E2574Fccdc2C7a01?chain=BSC'
-                );
-              }}
-            >
-              Presale
-            </div>
-            {/* <button
-              className={styles.join}
-              onClick={(event) => {
-                event.preventDefault();
-                window.open(`https://t.me/AIO_OFFICIAL_${language === 'ru' ? 'CIS' : 'EN'}`);
-              }}
-            >
-              <div className={styles.whitepaper__text}>{t('Join')}</div>
-            </button> */}
+            <NavLink className={styles.presale} to="presale">
+              <div className={styles.button__text}>{t('Migration')}</div>
+            </NavLink>
             <button
               className={styles.whitepaper}
               onClick={(event) => {
@@ -66,9 +63,20 @@ const Main = ({ stat, setStat }: IProps) => {
                 window.open(`https://${language === 'ru' ? 'cis' : 'en'}.aio-docs.xyz/`);
               }}
             >
-              <div className={styles.whitepaper__text}>Whitepaper</div>
+              <div className={styles.button__text}>Whitepaper</div>
             </button>
           </div>
+          <button
+            className={styles.buy}
+            onClick={(event) => {
+              event.preventDefault();
+              window.open(
+                'https://pancakeswap.finance/swap?chain=bsc&outputCurrency=0x3B6E1F5FdE7f5aFce2F2571d761bD9A3743dEe41&inputCurrency=BNB'
+              );
+            }}
+          >
+            {t('Buy')}
+          </button>
         </div>
         <div className={styles.ellipse}></div>
       </section>
@@ -302,11 +310,11 @@ const Main = ({ stat, setStat }: IProps) => {
         <h1>{t('Tok&Dist')}</h1>
         <div className={styles.block}>
           <div className={styles.statistics}>
-            <img src={logoTokenomics} alt="AIO" />
+            <img className={styles.logo} src={logoTokenomics} alt="AIO" />
             <ul>
               <li>
                 <span>Token name: </span>
-                <span className={styles.value}>AIO</span>
+                <span className={styles.value}>AIO-Ecosystem</span>
               </li>
               <li>
                 <span>Token ticker: </span>
@@ -320,10 +328,14 @@ const Main = ({ stat, setStat }: IProps) => {
                 <span>Blockchain: </span>
                 <span className={styles.value}>Binance Smart Chain (BSC)</span>
               </li>
+              <li className={styles.flex}>
+                <span>Address: </span>
+                <span className={`${styles.value} ${styles.contract}`} onClick={handleCopyClick}>
+                  {CA.slice(0, 10)}…{CA.slice(-11)}
+                </span>
+                <img className={styles.copy} src={copy} alt="" onClick={handleCopyClick} />
+              </li>
             </ul>
-            <NavLink className={styles.presale1} to="presale">
-              Presale #1
-            </NavLink>
           </div>
           <div className={styles.diagram}>
             <Tokenomics></Tokenomics>
@@ -375,7 +387,7 @@ const Main = ({ stat, setStat }: IProps) => {
             className={styles.partner}
             onClick={(event) => {
               event.preventDefault();
-              window.open('https://www.dexview.com/bsc/0xe5fA0495966B124DD55B390794683bd5CffF4EFA');
+              window.open('https://www.dexview.com/bsc/0x3B6E1F5FdE7f5aFce2F2571d761bD9A3743dEe41');
             }}
             src={DEXView}
             alt="DEXView"

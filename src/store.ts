@@ -2,6 +2,8 @@ import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { WalletTransaction } from './hooks/useLoadTransactions';
 import { Asset } from './components/Wallet/Authorised/Main/helpers/checkSavedAssets';
 import { TWallet } from './scripts/getWallet';
+import coin from './assets/coin.svg';
+import brn from './assets/partners/BRN Icon.png';
 
 // Define the shape of our state
 export interface AppState {
@@ -22,6 +24,14 @@ export type walletPart = 'assets' | 'transactions' | 'swap';
 const initialState: AppState = {
   assets: [
     {
+      name: 'AIO Token',
+      symbol: 'AIO',
+      address: process.env.REACT_APP_NEW_TOKEN_ADDRESS as string,
+      chainId: 56,
+      decimals: 9,
+      logoURI: coin,
+    },
+    {
       name: 'BNB Token',
       symbol: 'BNB',
       address: '',
@@ -29,6 +39,14 @@ const initialState: AppState = {
       decimals: 18,
       logoURI:
         'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_BNB.png',
+    },
+    {
+      name: 'BRN Metaverse',
+      symbol: 'BRN',
+      address: '0x926ecC7687fCFB296E97a2b4501F41A6f5F8C214',
+      chainId: 56,
+      decimals: 18,
+      logoURI: brn,
     },
   ],
   load: false,

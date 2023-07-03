@@ -101,6 +101,18 @@ const Navbar = ({ status, setStatus }: IProps) => {
               {t('Distribution')}
             </Link>
           </li>
+          <li>
+            <Link
+              to="section6"
+              smooth={true}
+              offset={-85}
+              onClick={() => {
+                setStatus(false);
+              }}
+            >
+              {t('Partners')}
+            </Link>
+          </li>
         </ul>
         <NavLink className={styles.button} to="AIO-Wallet">
           AIO-Wallet

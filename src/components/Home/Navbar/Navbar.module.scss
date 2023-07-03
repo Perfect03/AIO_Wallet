@@ -1,5 +1,5 @@
-@mixin _950 {
-    @media (min-width: 951px){
+@mixin _1070 {
+    @media (min-width: 1071px){
         @content;
     }
 }
@@ -43,6 +43,7 @@
         }
         li {
             margin-bottom: 36px;
+            cursor: pointer;
         }
         .button {
             padding: 12px 28px;
@@ -68,7 +69,7 @@
     &.active {
         transform: translateX(0);
     }
-    @include _950 {
+    @include _1070 {
         display: none;
     }
 }

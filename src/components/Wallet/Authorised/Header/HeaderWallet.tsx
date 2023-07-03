@@ -1,9 +1,8 @@
 import styles from './HeaderWallet.module.scss';
-import logo from '../../../../../assets/logo__header.svg';
 import wallet from '../../../../assets/wallet.svg';
 import logoLeft from '../../../../assets/logo__left.svg';
 import coin from '../../../../assets/coin.svg';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import i18n from '../../../../i18n';
 import { useTranslation } from 'react-i18next';
@@ -18,8 +17,14 @@ import SettingsIcon from './icons/SettingsIcon';
 import ExitIcon from './icons/ExitIcon';
 import useLocalStorage from '../../../../hooks/useLocalStorage';
 import { TWallet } from '../../../../scripts/getWallet';
+import getTokenBalance from '../../../../scripts/quoting/getTokenBalance';
+import getTokenContract from '../../../../scripts/quoting/token-lists/getTokenContract';
+import getQuoteToNative from '../../../../scripts/quoting/getQuoteToNative';
+import { store } from '../../../../store';
+import getTokenPrice from '../../../../scripts/quoting/getTokenPrice';
 
 const HeaderWallet = () => {
+  const [price, setPrice] = useState<number | undefined>();
   const { language, setLanguage } = useContext(Context) as ContextType;
 
   const walletInfo = useLocalStorage<TWallet>('wallet', {
@@ -48,6 +53,17 @@ const HeaderWallet = () => {
         toast['error'](t('Copy address error'));
       });
   }
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const newPrice = await getTokenPrice(store.getState().assets.assets[0]);
+        setPrice(newPrice ? newPrice : undefined);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
 
   const { t } = useTranslation();
 
@@ -99,7 +115,7 @@ const HeaderWallet = () => {
             <div className={styles.coin}>
               <img src={coin} alt="AIO" />
             </div>
-            <div className={styles.balance}>$ ............. </div>
+            <div className={styles.balance}>$ {price} </div>
           </div>
           <div className={styles.right}>
             <div className={styles.langs}>

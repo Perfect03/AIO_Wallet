@@ -271,13 +271,7 @@ export default function Left() {
                 <img className={styles.assetMore} src={more} alt="" />
               </div>
               <div className={styles.balance}>
-                {loading ? (
-                  <Skeleton width={70} baseColor="#272332" highlightColor="#353535" />
-                ) : (
-                  <>
-                    {t('Balance')}: {tokenInBalance}
-                  </>
-                )}
+                {t('Balance')}: {tokenInBalance}
               </div>
             </div>
             <input
@@ -344,6 +338,7 @@ export default function Left() {
           </div>
         </div>
         <div className={styles.rates}>
+          {!validSwap && !loading && <span className={styles.price}> Invalid swap</span>}
           <span className={styles.price}>
             {loading ? (
               <Skeleton width={175} baseColor="#272332" highlightColor="#353535" />

@@ -59,6 +59,8 @@ export async function generateRoute(cfg: RouteConfig, wallet: TWallet) {
       type: SwapType.SWAP_ROUTER_02,
     };
 
+    console.log(options);
+
     try {
       console.log('asd');
       const route = await router.route(
@@ -73,8 +75,6 @@ export async function generateRoute(cfg: RouteConfig, wallet: TWallet) {
         +cfg.exactOutput,
         options
       );
-
-      console.log(route);
 
       return route;
     } catch (err) {

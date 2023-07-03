@@ -16,7 +16,7 @@ export default async function sendTransaction(
   try {
     const gas = await wallet.estimateGas(transaction);
 
-    const txRes = await wallet.sendTransaction({ ...transaction, gasLimit: gas });
+    const txRes = await wallet.sendTransaction({ ...transaction, gasLimit: gas.mul(12).div(10) });
 
     await txRes.wait();
   } catch (error) {

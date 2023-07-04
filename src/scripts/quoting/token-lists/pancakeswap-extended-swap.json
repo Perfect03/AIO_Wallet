@@ -8,20 +8,20 @@
     "logoURI": "https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_BNB.png"
   },
   {
+    "name": "AIO Ecosystem",
+    "symbol": "AIO",
+    "address": "0x3B6E1F5FdE7f5aFce2F2571d761bD9A3743dEe41",
+    "chainId": 56,
+    "decimals": 9,
+    "logoURI": "/coin.svg"
+  },
+  {
     "name": "WBNB Token",
     "symbol": "WBNB",
     "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
     "chainId": 56,
     "decimals": 18,
     "logoURI": "https://tokens.pancakeswap.finance/images/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c.png"
-  },
-  {
-    "name": "PancakeSwap Token",
-    "symbol": "CAKE",
-    "address": "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82",
-    "chainId": 56,
-    "decimals": 18,
-    "logoURI": "https://tokens.pancakeswap.finance/images/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82.png"
   },
   {
     "name": "Binance Pegged BUSD",

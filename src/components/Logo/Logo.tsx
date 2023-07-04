@@ -1,6 +1,5 @@
 import styles from './Logo.module.scss';
 import logo from '../../assets/logo__main.svg';
-import React, { useContext, useEffect } from 'react';
 
 const Logo = () => {
   return (

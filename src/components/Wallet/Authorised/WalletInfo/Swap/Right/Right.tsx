@@ -4,23 +4,14 @@ import cross from '../../../../../../assets/cross.svg';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import Chart from './Chart/Chart';
-import isEthereumAddress from '../../../Main/helpers/isEthereumAddress';
-import useLocalStorage from '../../../../../../hooks/useLocalStorage';
-import { TWallet } from '../../../../../../scripts/getWallet';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState, setRecipient, setSlippage } from '../../../../../../store';
 
 export default function Right() {
   const { t } = useTranslation();
 
-  const walletInfo = useLocalStorage<TWallet>('wallet', {
-    pk: '',
-    addr: '',
-  })[0];
-
   const percents = [10, 50, 100];
   const [slippageInputValue, setSlippageInputValue] = useState('');
-  const [receiverAddress, setReceiverAddress] = useState(walletInfo.addr);
   const [defaultAddress, setDefaultAddress] = useState(true);
   const slippage = useSelector((state: { assets: AppState }) => state.assets.swapSlippage);
   const recipient = useSelector((state: { assets: AppState }) => state.assets.swapRecipient);

@@ -14,10 +14,8 @@ import {
   updateAssetBalance,
   setSwapFromAsset,
   setSwapToAsset,
-  AppState,
-  store,
 } from '../../../../../store';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import addNewAsset from '../helpers/addNewAsset';
 import back from '../../../../../assets/back.svg';
 import getTokenBalance from '../../../../../scripts/quoting/getTokenBalance';

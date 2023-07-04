@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import { Link, animateScroll as scroll } from 'react-scroll';
+import { Link } from 'react-scroll';
 import styles from './Navbar.module.scss';
 
 interface IProps {
@@ -10,20 +10,6 @@ interface IProps {
 }
 
 const Navbar = ({ status, setStatus }: IProps) => {
-  const [burger_class, setBurgerClass] = useState('unclicked');
-  const [menu_class, setMenuClass] = useState('hidden');
-  const [isMenuClicked, setMenuCllicked] = useState(false);
-
-  const updateMenu = () => {
-    if (!isMenuClicked) {
-      setBurgerClass('clicked');
-      setMenuClass('visible');
-    } else {
-      setBurgerClass('unclicked');
-      setMenuClass('hidden');
-    }
-    setMenuCllicked(isMenuClicked);
-  };
   const { t } = useTranslation();
 
   return (

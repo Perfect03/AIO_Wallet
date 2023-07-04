@@ -24,9 +24,9 @@ export type walletPart = 'assets' | 'transactions' | 'swap';
 const initialState: AppState = {
   assets: [
     {
-      name: 'AIO Token',
+      name: 'AIO-Ecosystem',
       symbol: 'AIO',
-      address: process.env.REACT_APP_NEW_TOKEN_ADDRESS as string,
+      address: '0x3B6E1F5FdE7f5aFce2F2571d761bD9A3743dEe41',
       chainId: 56,
       decimals: 9,
       logoURI: coin,
@@ -72,7 +72,9 @@ const initialState: AppState = {
       'https://tokens.pancakeswap.finance/images/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56.png',
   },
   swapSlippage: 50,
-  swapRecipient: (JSON.parse(localStorage.getItem('wallet')!) as TWallet).addr,
+  swapRecipient: localStorage.getItem('wallet')
+    ? JSON.parse(localStorage.getItem('wallet')!).addr
+    : '',
 };
 
 const appSlice = createSlice({

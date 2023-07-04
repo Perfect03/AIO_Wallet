@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Link, NavLink } from 'react-router-dom';
 import logo from '../../../assets/logo__header.svg';
-import { toast } from 'react-toastify';
 import styles from './Footer.module.scss';
 
 const Footer = () => {

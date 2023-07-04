@@ -3,14 +3,11 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import { useTranslation } from 'react-i18next';
-import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import useLocalStorage from '../../../hooks/useLocalStorage';
 import { NavLink } from 'react-router-dom';
 
 const Developments = () => {
   const { t } = useTranslation();
-  const [language, setLanguage] = useLocalStorage('language', 'en');
 
   const settings = {
     className: styles.active,

@@ -7,7 +7,7 @@ import DEXView from '../../../assets/partners/DEXView.png';
 import logoTokenomics from '../../../assets/logo__tokenomics.svg';
 import copy from '../../../assets/copy.svg';
 import arrow from '../../../assets/arrow__down.svg';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import Card from '../Card/Card';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +15,7 @@ import Developments from '../Developments/Developments';
 import Navbar from '../Navbar/Navbar';
 
 import { toast } from 'react-toastify';
-import { Link, animateScroll as scroll } from 'react-scroll';
+import { Link } from 'react-scroll';
 import Tokenomics from '../Tokenomics/Tokenomics';
 import { Context, ContextType } from '../../../languageContext';
 import Logo from '../../Logo/Logo';

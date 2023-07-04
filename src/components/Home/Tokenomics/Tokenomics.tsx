@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import styles from './Tokenomics.module.scss';
 import { PieChart, Pie, ResponsiveContainer, Cell } from 'recharts';
 

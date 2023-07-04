@@ -3,7 +3,6 @@ import useResize from '../../../../../../../hooks/use-resize';
 
 export default function Chart() {
   const width = useResize();
-  const height = 210;
 
   return (
     <LineChart width={width > 540 ? 375 : 252} height={width > 540 ? 210 : 165}>

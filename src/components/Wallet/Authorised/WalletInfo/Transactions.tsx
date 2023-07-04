@@ -3,7 +3,6 @@ import deposit from '../../../../assets/deposit.svg';
 import withdraw from '../../../../assets/withdraw.svg';
 import { useTranslation } from 'react-i18next';
 import useResize from '../../../../hooks/use-resize';
-import useLoadTransactions from '../../../../hooks/useLoadTransactions';
 import { Triangle } from 'react-loader-spinner';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store';

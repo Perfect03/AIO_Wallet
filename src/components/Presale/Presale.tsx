@@ -1,13 +1,8 @@
 import styles from './Presale.module.scss';
 import Header from './Header/Header';
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Logo from '../Logo/Logo';
 import { useSelector } from 'react-redux';
-import PresaleStarted from './PresaleStarted/PresaleStarted';
-import PresalePlanned from './PresalePlanned/PresalePlanned';
-import useConnectWallet from '../../hooks/useConnectWallet';
-import getPresaleContract from '../../scripts/quoting/presale/getPresaleContract';
 import { AppState } from '../../store';
 import YourAssets from './YourAssets/YourAssets';
 import ConnectButton from './ConnectButton';

@@ -20,7 +20,6 @@ import {
 import { BigNumber } from 'ethers';
 import simulateTransfer from '../../../../../scripts/quoting/simulateTransaction';
 import defaultProvider from '../../../../../scripts/rpc/defaultProvider';
-import estimateGas from '../../../../../scripts/quoting/simulateTransaction';
 
 const withdrawModalStyles = {
   overlay: {
@@ -41,10 +40,6 @@ const withdrawModalStyles = {
   },
 };
 
-type TransactionError = {
-  reason: string;
-};
-
 export default function WithdrawModal(props: {
   withdrawModalIsOpen: boolean;
   setWithdrawModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -60,7 +55,6 @@ export default function WithdrawModal(props: {
   const [fees, setFees] = useState<BigNumber>(BigNumber.from(0));
   const [valid, setValid] = useState(false);
   const [summary, setSummary] = useState('');
-  const [loading, setLoading] = useState(false);
 
   const wallet = useLocalStorage<TWallet>('wallet')[0];
 

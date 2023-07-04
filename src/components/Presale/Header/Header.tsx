@@ -1,6 +1,6 @@
 import styles from './Header.module.scss';
 import logo from '../../../assets/logo__header.svg';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { ToastContainer } from 'react-toastify';
 import i18n from '../../../i18n';
 import { useTranslation } from 'react-i18next';
